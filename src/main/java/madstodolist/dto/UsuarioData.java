@@ -10,7 +10,6 @@ public class UsuarioData {
     private String email;
     private String nombre;
     private String password;
-    private Date fechaNacimiento;
 
     // Getters y setters
 
@@ -41,14 +40,6 @@ public class UsuarioData {
     public void setPassword(String password) { this.password = password; }
 
     public String getPassword() { return password; }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
 
     // Sobreescribimos equals y hashCode para que dos usuarios sean iguales
     // si tienen el mismo ID (ignoramos el resto de atributos)
