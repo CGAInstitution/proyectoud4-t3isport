@@ -102,4 +102,10 @@ public class Usuario {
         this.tipouser = tipouser;
     }
 
+    public Usuario() {
+    }
+
+    public Usuario(String email) {
+        this.email = email;
+    }
 }
