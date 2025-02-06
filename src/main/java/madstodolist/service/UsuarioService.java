@@ -1,5 +1,6 @@
 package madstodolist.service;
 
+import madstodolist.dto.UsuarioData;
 import madstodolist.model.Usuario;
 import madstodolist.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
