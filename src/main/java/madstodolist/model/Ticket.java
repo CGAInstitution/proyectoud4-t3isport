@@ -29,6 +29,18 @@ public class Ticket {
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
+    @Column(name = "horaContacto", nullable = false)
+    private String horaContacto;
+
+    @Column(name = "tema", nullable = false)
+    private String tema;
+
+    @Column(name = "asunto", nullable = false)
+    private String asunto;
+
+    @Column(name = "archivo")
+    private String archivo;
+
     @Column(name = "estado", nullable = false)
     private Boolean estado = false;
 
@@ -76,4 +88,38 @@ public class Ticket {
         this.fechaCreacion = fechaCreacion;
     }
 
+    public String getHoraContacto() {
+        return horaContacto;
+    }
+
+    public void setHoraContacto(String horaContacto) {
+        this.horaContacto = horaContacto;
+    }
+
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+
+    public String getAsunto() {
+        return asunto;
+    }
+
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
+    }
+
+    public String getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(String archivo) {
+        this.archivo = archivo;
+    }
+
+    public Ticket() {
+    }
 }
