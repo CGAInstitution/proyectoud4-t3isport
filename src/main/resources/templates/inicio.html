@@ -5,36 +5,49 @@
 
 <body>
 <div th:replace="__header :: body"></div>
+
 <div class="container-fluid">
-  <div class="row justify-content-between mb-3">
-    <div class="col-auto text-center w-100">
-      <h2>DESCUBRE TU POTENCIAL</h2>
-    </div>
-    <div class="col-auto text-end">
-      <button type="submit" class="btn btn-primary btn-sm">Login</button>
+
+  <div class="col-auto d-flex justify-content-end">
+    <form action="/login" method="get" class="me-3">
+      <button type="submit" class="btn btn-primary btn-sm" style="margin-right: 15px;">Login</button>
+    </form>
+    <form action="/registro" method="get">
       <button type="submit" class="btn btn-primary btn-sm">Registro</button>
+    </form>
+  </div>
+
+
+  <!-- Video de presentación con tamaño reducido -->
+  <div class="row mt-2">
+    <div class="col text-center">
+      <video autoplay loop muted playsinline class="w-50 rounded shadow" style="max-width: 720px;">
+        <source src="/video/videoportada.mp4" type="video/mp4">
+        Tu navegador no soporta el video.
+      </video>
     </div>
   </div>
 
-  <div class="row mt-5">
+  <!-- Planes de entrenamiento -->
+  <div class="row mt-4">
     <div class="col-md-4">
       <div class="panel panel-default">
-        <div class="p-4 bg-light rounded shadow" style="text-align: center">
+        <div class="p-4 bg-light rounded shadow text-center">
           <p>Plan Gratuito</p>
           <p>Plan básico: 0€/mes</p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="panel panel-default" style="text-align: center">
+      <div class="panel panel-default text-center">
         <div class="p-4 bg-light rounded shadow">
           <p>Plan Premium</p>
-          <p>Plan inciación: 10,99€/mes</p>
+          <p>Plan iniciación: 10,99€/mes</p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="panel panel-default" style="text-align: center">
+      <div class="panel panel-default text-center">
         <div class="p-4 bg-light rounded shadow">
           <p>Plan Gold</p>
           <p>Plan avanzado: 20,99€/mes</p>
@@ -43,6 +56,7 @@
     </div>
   </div>
 
+  <!-- Mensaje de error -->
   <div id="mensaje" class="rounded"
        style="z-index: 4; position: absolute; transition: top 0.5s; top: -150%; right: 0; color: black; padding: 10px;"
        th:if="${error != null}">
@@ -55,7 +69,7 @@
 </div>
 
 <div th:replace="__footer :: body"></div>
-<div th:replace="fragments::javascript"/>
+<div th:replace="fragments::javascript"></div>
 
 </body>
 </html>

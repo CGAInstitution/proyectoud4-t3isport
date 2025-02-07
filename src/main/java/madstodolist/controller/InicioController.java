@@ -25,4 +25,16 @@ public class InicioController {
         return "inicio";
     }
 
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        model.addAttribute("loginData", new LoginData());
+        return "formLogin";
+    }
+
+    @GetMapping("/registro")
+    public String registroForm(Model model) {
+        model.addAttribute("registroData", new RegistroData());
+        return "formRegistro";
+    }
+
 }
