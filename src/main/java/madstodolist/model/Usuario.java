@@ -10,36 +10,33 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
-    @NotNull
-    private String email;
+
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "apellidos", nullable = false)
+    private String apellidos;
+
+    @Column(name = "bio")
+    private String bio;
+
+    @Lob
+    @Column(name = "foto", nullable = false)
+    private String foto;
+
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "fecha_nacimiento")
-    @Temporal(TemporalType.DATE)
-    private Date fechaNacimiento;
 
-    // La relación es lazy por defecto,
-    // es necesario acceder a la lista de tareas para que se carguen
-    @OneToMany(mappedBy = "usuario")
-    Set<Tarea> tareas = new HashSet<>();
-
-    // Constructor vacío necesario para JPA/Hibernate.
-    // No debe usarse desde la aplicación.
-    public Usuario() {}
-
-    // Constructor público con los atributos obligatorios. En este caso el correo electrónico.
-    public Usuario(String email) {
-        this.email = email;
-    }
-
-    // Getters y setters atributos básicos
+    @Lob
+    @Column(name = "tipouser", nullable = false)
+    private String tipouser;
 
     public Long getId() {
         return id;
@@ -47,14 +44,6 @@ public class Usuario implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getNombre() {
@@ -65,6 +54,38 @@ public class Usuario implements Serializable {
         this.nombre = nombre;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -73,47 +94,18 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
+    public String getTipouser() {
+        return tipouser;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setTipouser(String tipouser) {
+        this.tipouser = tipouser;
     }
 
-    // Getters y setters de la relación
-
-    public Set<Tarea> getTareas() {
-        return tareas;
+    public Usuario() {
     }
 
-    // Método helper para añadir una tarea a la lista y establecer la relación inversa
-    public void addTarea(Tarea tarea) {
-        // Si la tarea ya está en la lista, no la añadimos
-        if (tareas.contains(tarea)) return;
-        // Añadimos la tarea a la lista
-        tareas.add(tarea);
-        // Establecemos la relación inversa del usuario en la tarea
-        if (tarea.getUsuario() != this) {
-            tarea.setUsuario(this);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
-        if (id != null && usuario.id != null)
-            // Si tenemos los ID, comparamos por ID
-            return Objects.equals(id, usuario.id);
-        // si no comparamos por campos obligatorios
-        return email.equals(usuario.email);
-    }
-
-    @Override
-    public int hashCode() {
-        // Generamos un hash basado en los campos obligatorios
-        return Objects.hash(email);
+    public Usuario(String email) {
+        this.email = email;
     }
 }
