@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Inicio')"></head>
+
+<body>
+<div th:replace="__header :: body">
+</div>
+<div class="container-fluid">
+  <div class="row justify-content-center mb-3">
+    <div class="col-auto">
+      <h2 class="text-center">DESCUBRE TU POTENCIAL</h2>
+    </div>
+  </div>
+
+  <div class="row justify-content-center ">
+    <div class="col-md-6" style="max-width: 400px">
+      <div class="p-4 bg-light rounded shadow">
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary btn-sm">Login</button>
+          <a class="btn btn-link btn-sm" href="/registro">Ir a registro</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--    <div class="row mt-3 justify-content-center">-->
+  <!--        <div class="col-md-6">-->
+  <!--            <div class="alert alert-danger text-center" th:if="${error != null}" th:text="${error}"></div>-->
+  <!--        </div>-->
+  <!--    </div>-->
+
+  <div id="mensaje" class="rounded"
+       style="z-index: 4; position: absolute; transition: top 0.5s; top: -150%; right: 0; color: black; padding: 10px;"
+       th:if="${error != null}">
+    <div class="alert alert-danger text-center" th:text="${error}"></div>
+  </div>
+
+  <script type="text/javascript">
+
+  </script>
+</div>
+
+<div th:replace="__footer :: body"></div>
+
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>

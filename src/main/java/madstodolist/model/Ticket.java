@@ -32,9 +32,8 @@ public class Ticket {
     @Column(name = "estado", nullable = false)
     private Boolean estado = false;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fecha_creacion")
-    private Instant fechaCreacion;
+    private Date fechaCreacion;
 
     public Long getId() {
         return id;
@@ -68,12 +67,22 @@ public class Ticket {
         this.estado = estado;
     }
 
-    public Instant getFechaCreacion() {
+    public Date getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(Instant fechaCreacion) {
+    public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 
+    public Ticket() {
+    }
+
+    public Ticket(Usuario usuario, Long id, Date fechaCreacion, Boolean estado, String descripcion) {
+        this.usuario = usuario;
+        this.id = id;
+        this.fechaCreacion = fechaCreacion;
+        this.estado = estado;
+        this.descripcion = descripcion;
+    }
 }

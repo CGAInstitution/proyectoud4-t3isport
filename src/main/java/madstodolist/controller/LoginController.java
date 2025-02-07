@@ -25,10 +25,10 @@ public class LoginController {
     @Autowired
     ManagerUserSession managerUserSession;
 
-    @GetMapping("/")
-    public String home(Model model) {
-        return "redirect:/login";
-    }
+//    @GetMapping("/")
+//    public String home(Model model) {
+//        return "redirect:/login";
+//    }
 
     @GetMapping("/login")
     public String loginForm(Model model) {
