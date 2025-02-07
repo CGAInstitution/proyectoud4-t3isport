@@ -2,3 +2,53 @@
     color: black !important;
     font-weight: bold;
 }
+
+/* Cambiar color de fondo y texto para cada botón */
+.btn-plan-basico {
+    background-color: #555151; /* Azul */
+    color: white;
+    text-align: start;
+}
+
+#headingOne {
+    background-color: #555151;
+    color: white;
+}
+
+.btn-plan-premium {
+    background-color: #efb337; /* Verde */
+    color: #1e1e1e;
+    text-align: start;
+}
+
+#headingTwo {
+    background-color: #efb337; /* Verde */
+    color: #1e1e1e;
+}
+
+.btn-plan-gold {
+    background-color: #1c1c1c; /* Rojo */
+    color: #fff400;
+    text-align: start;
+}
+
+#headingThree {
+    background-color: #1c1c1c; /* Rojo */
+    color: #fff400;
+}
+
+/* Efecto al pasar el ratón por encima */
+.btn-plan-basico:hover {
+    background-color: #343435;
+    color: white;
+}
+
+.btn-plan-premium:hover {
+    background-color: #c58522;
+    color: #1e1e1e;
+}
+
+.btn-plan-gold:hover {
+    background-color: #494343; /* Rojo */
+    color: #fff400;
+}
