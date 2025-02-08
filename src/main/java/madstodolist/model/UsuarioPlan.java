@@ -31,11 +31,9 @@ public class UsuarioPlan {
     @JoinColumn(name = "plan_id", nullable = false)
     private PlanesEntrenamiento plan;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fecha_inicio")
     private Instant fechaInicio;
 
-    @ColumnDefault("'en progreso'")
     @Lob
     @Column(name = "estado")
     private String estado;
