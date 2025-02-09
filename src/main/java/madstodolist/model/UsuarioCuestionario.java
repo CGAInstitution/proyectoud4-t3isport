@@ -31,7 +31,6 @@ public class UsuarioCuestionario {
     @JoinColumn(name = "cuestionario_id", nullable = false)
     private Cuestionario cuestionario;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fecha_completado")
     private Instant fechaCompletado;
 

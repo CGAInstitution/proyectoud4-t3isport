@@ -26,16 +26,16 @@ public class LoginController {
     @Autowired
     ManagerUserSession managerUserSession;
 
-    @GetMapping("/")
-    public String home(Model model) {
-        return "redirect:/login";
-    }
+//    @GetMapping("/")
+//    public String home(Model model) {
+//        return "redirect:/login";
+//    }
 
-    @GetMapping("/login")
-    public String loginForm(Model model) {
-        model.addAttribute("loginData", new LoginData());
-        return "formLogin";
-    }
+//  @GetMapping("/login")
+//  public String loginForm(Model model) {
+//      model.addAttribute("loginData", new LoginData());
+//      return "formLogin";
+//  }
 
     @GetMapping("/index")
     public String index(Model model) {
@@ -64,7 +64,8 @@ public class LoginController {
             // Almacena el userId en la sesión
             session.setAttribute("userId", usuario.getId());
 
-            return "redirect:/index/usuarios/" + usuario.getId();
+            return "redirect:/usuarios/" + usuario.getId() + "/userhub";
+
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");
             return "formLogin";
@@ -75,11 +76,11 @@ public class LoginController {
         return "formLogin";
     }
 
-    @GetMapping("/registro")
-    public String registroForm(Model model) {
-        model.addAttribute("registroData", new RegistroData());
-        return "formRegistro";
-    }
+//   @GetMapping("/registro")
+//   public String registroForm(Model model) {
+//       model.addAttribute("registroData", new RegistroData());
+//       return "formRegistro";
+//   }
 
     @PostMapping("/registro")
     public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
