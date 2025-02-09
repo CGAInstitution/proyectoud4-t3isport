@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')"></head>
+
+<body>
+<div th:replace="__header :: body"></div>
+<div th:replace="__ticket :: body"></div>
+<h1>Bienvenido, usuario con ID: <span th:text="${userId}"></span></h1>
+<div>
+    <button id="btnNewTicket">
+        +
+    </button>
+</div>
+
+<div th:replace="__footer :: body"></div>
+
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>

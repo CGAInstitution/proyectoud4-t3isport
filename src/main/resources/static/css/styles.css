@@ -3,6 +3,13 @@
     font-weight: bold;
 }
 
+
+input:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #e9ecef;
+}
+
 /* Cambiar color de fondo y texto para cada botón */
 .btn-plan-basico {
     background-color: #555151; /* Azul */
@@ -140,4 +147,5 @@ footer {
 .card-body {
     padding: 15px;
 }
+
 

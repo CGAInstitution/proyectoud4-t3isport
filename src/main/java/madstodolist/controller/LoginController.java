@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
@@ -36,18 +37,35 @@ public class LoginController {
 //      return "formLogin";
 //  }
 
+    @GetMapping("/index")
+    public String index(Model model) {
+        return "index";
+    }
+
+    @GetMapping("/index/usuarios/{id}")
+    public String index(@PathVariable Long id, Model model, HttpSession session) {
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        System.out.println("LoginController sessionUserId: " + sessionUserId);
+        if (sessionUserId == null || !sessionUserId.equals(id)) {
+            return "redirect:/login";
+        }
+        model.addAttribute("userId", id);
+        return "index";
+    }
+
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
-
         // Llamada al servicio para comprobar si el login es correcto
         UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
 
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
 
-            managerUserSession.logearUsuario(usuario.getId());
+            // Almacena el userId en la sesión
+            session.setAttribute("userId", usuario.getId());
 
             return "redirect:/usuarios/" + usuario.getId() + "/userhub";
+
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");
             return "formLogin";
@@ -64,8 +82,8 @@ public class LoginController {
 //       return "formRegistro";
 //   }
 
-   @PostMapping("/registro")
-   public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
+    @PostMapping("/registro")
+    public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             return "formRegistro";
@@ -84,11 +102,11 @@ public class LoginController {
 
         usuarioService.registrar(usuario);
         return "redirect:/login";
-   }
+    }
 
-   @GetMapping("/logout")
-   public String logout(HttpSession session) {
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
         managerUserSession.logout();
         return "redirect:/login";
-   }
+    }
 }
