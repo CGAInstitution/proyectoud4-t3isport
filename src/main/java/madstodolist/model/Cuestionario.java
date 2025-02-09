@@ -3,10 +3,8 @@ package madstodolist.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+
 
 @Entity
 @Table(name = "cuestionario")
@@ -17,6 +15,9 @@ public class Cuestionario {
 
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
+
+    @OneToMany(mappedBy = "cuestionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pregunta> preguntas = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -34,4 +35,13 @@ public class Cuestionario {
         this.nombre = nombre;
     }
 
+    public List<Pregunta> getPreguntas() {
+        return preguntas;
+    }
+
+    public void setPreguntas(List<Pregunta> preguntas) {
+        this.preguntas = preguntas;
+    }
 }
+
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Cuestionario')"></head>
+
+<body>
+<div th:replace="__header :: body"></div>
+
+<div class="container mt-5">
+  <h2 class="text-center">Cuestionario</h2>
+
+  <!-- Formulario de respuestas -->
+  <form id="CuestionarioController" method="post" action="/guardar*--cuestionario">
+
+    <!-- Pregunta -->
+    <div class="card p-3 text-center">
+      <h4 id="preguntaTexto" th:text="${preguntas[0].texto}">Aquí aparecerá la pregunta</h4>
+    </div>
+
+    <!-- Opciones de respuesta -->
+    <div class="mt-3" id="opciones">
+      <div class="form-check" th:each="respuesta, iterStat : ${preguntas[0].respuestas}">
+        <input class="form-check-input" type="radio" th:id="'opcion-' + ${iterStat.index}"
+               name="respuesta" th:value="${respuesta}" />
+        <label class="form-check-label" th:for="'opcion-' + ${iterStat.index}" th:text="${respuesta}"></label>
+      </div>
+    </div>
+
+    <!-- Botones de navegación -->
+    <div class="d-flex justify-content-between mt-4">
+      <button type="button" id="btnAnterior" class="btn btn-secondary" disabled>Anterior</button>
+      <button type="button" id="btnSiguiente" class="btn btn-primary">Siguiente</button>
+    </div>
+
+    <!-- Botón para enviar el cuestionario -->
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-success" id="btnFinalizar" disabled>Finalizar Cuestionario</button>
+    </div>
+
+  </form>
+</div>
+
+<!-- Script para manejar la navegación de preguntas -->
+<script type="text/javascript">
+  let currentIndex = 0;
+  const cuestionarioId = /*[[${cuestionario.id}]]*/ 1;
+  const preguntas = /*[[${preguntas}]]*/ [];
+  let respuestasUsuario = {};  // Objeto para almacenar respuestas
+
+  function cargarPregunta(index) {
+    if (index < 0 || index >= preguntas.length) return;
+
+    // Guardar la respuesta antes de cambiar de pregunta
+    let seleccionada = document.querySelector('input[name="respuesta"]:checked');
+    if (seleccionada) {
+      respuestasUsuario[preguntas[currentIndex].id] = seleccionada.value;
+    }
+
+    // Actualizar pregunta y respuestas
+    document.getElementById("preguntaTexto").innerText = preguntas[index].texto;
+    const opcionesDiv = document.getElementById("opciones");
+    opcionesDiv.innerHTML = "";
+
+    preguntas[index].respuestas.forEach((respuesta, i) => {
+      let isChecked = respuestasUsuario[preguntas[index].id] === respuesta;
+      opcionesDiv.innerHTML += `
+              <div class="form-check">
+                  <input class="form-check-input" type="radio" name="respuesta" id="opcion-${i}" value="${respuesta}" ${isChecked ? "checked" : ""}>
+                  <label class="form-check-label" for="opcion-${i}">${respuesta}</label>
+              </div>
+          `;
+    });
+
+    // Habilitar/Deshabilitar botones de navegación
+    document.getElementById("btnAnterior").disabled = index === 0;
+    document.getElementById("btnSiguiente").disabled = index === preguntas.length - 1;
+    document.getElementById("btnFinalizar").disabled = index !== preguntas.length - 1;  // Habilitar botón Finalizar en la última pregunta
+
+    currentIndex = index;
+  }
+
+  document.getElementById("btnSiguiente").addEventListener("click", () => {
+    cargarPregunta(currentIndex + 1);
+  });
+
+  document.getElementById("btnAnterior").addEventListener("click", () => {
+    cargarPregunta(currentIndex - 1);
+  });
+
+  // Cargar la primera pregunta al inicio
+  cargarPregunta(0);
+</script>
+
+<div th:replace="__footer :: body"></div>
+<div th:replace="fragments::javascript"></div>
+
+</body>
+</html>

@@ -64,9 +64,8 @@ public class LoginController {
 //       return "formRegistro";
 //   }
 
-   @PostMapping("/registro")
-   public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
-
+    @PostMapping("/registro")
+    public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "formRegistro";
         }
@@ -83,10 +82,13 @@ public class LoginController {
         usuario.setNombre(registroData.getNombre());
 
         usuarioService.registrar(usuario);
-        return "redirect:/login";
-   }
 
-   @GetMapping("/logout")
+        // Redirigir al cuestionario
+        return "redirect:/cuestionario/" + usuario.getId();
+    }
+
+
+    @GetMapping("/logout")
    public String logout(HttpSession session) {
         managerUserSession.logout();
         return "redirect:/login";
