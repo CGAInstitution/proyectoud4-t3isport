@@ -12,12 +12,12 @@
             <h5 class="mb-0">New Ticket</h5>
         </div>
         <div class="card-body">
-            <form method="post" th:action="@{/tickets/{userId}(userId=${userId})}" onsubmit="return submitForm(event)">
+            <form id="ticketForm">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Hora de Contacto</label>
-                            <select class="form-select form-control">
+                            <select id="horaContacto" class="form-select form-control">
                                 <option selected>10:00 - 12:00</option>
                                 <option>12:00 - 14:00</option>
                                 <option>16:00 - 18:00</option>
@@ -28,7 +28,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Tema</label>
-                            <select class="form-select form-control">
+                            <select id="tema" class="form-select form-control">
                                 <option selected>Pagos</option>
                                 <option>Soporte</option>
                                 <option>Información</option>
@@ -41,49 +41,24 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Asunto</label>
-                    <input type="text" class="form-control" placeholder="Enter Subject">
+                    <input id="asunto" type="text" class="form-control" placeholder="Ingrese el asunto">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Descripción</label>
-                    <textarea class="form-control" rows="4" placeholder="Type your text here..."></textarea>
+                    <textarea id="descripcion" class="form-control" rows="4" placeholder="Escriba aquí..."></textarea>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Adjuntar Archivos</label>
-                    <input type="file" class="form-control" style="padding: 3px 0 0 3px">
+                <div class="mb-3" style="">
+                    <label class="form-label">Adjuntar Archivos <span
+                            class="text-muted">(Campo deshabilitado)</span>
+                    </label>
+                    <input id="archivo" type="file" class="form-control" disabled>
                 </div>
+                <span id="userId" th:text="${userId}" style="display: none;"></span>
                 <div class="text-end">
                     <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
                     <button type="submit" class="btn btn-primary" id="btnEnviarTicket">Enviar</button>
                 </div>
             </form>
-
-<!--            HAY QUE ACTUALIZAR ESTA FUNCION-->
-            <script>
-                function submitForm(event) {
-                    event.preventDefault();
-                    const form = event.target;
-                    const formData = new FormData(form);
-
-                    const url = window.location.href;
-                    const userId = url.substring(url.lastIndexOf('/') + 1);
-
-                    fetch(`/tickets/${userId}`, {
-                        method: 'POST',
-                        body: formData
-                    }).then(response => {
-                        if (response.ok) {
-                            window.location.href = document.referrer;
-                        } else {
-                            alert('Error submitting the form');
-                        }
-                    }).catch(error => {
-                        console.error('Error:', error);
-                        alert('Error submitting the form');
-                    });
-
-                    return false;
-                }
-            </script>
         </div>
     </div>
 </div>

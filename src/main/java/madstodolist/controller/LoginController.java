@@ -43,21 +43,26 @@ public class LoginController {
     }
 
     @GetMapping("/index/usuarios/{id}")
-    public String index(@PathVariable Long id, Model model) {
+    public String index(@PathVariable Long id, Model model, HttpSession session) {
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        System.out.println("LoginController sessionUserId: " + sessionUserId);
+        if (sessionUserId == null || !sessionUserId.equals(id)) {
+            return "redirect:/login";
+        }
         model.addAttribute("userId", id);
         return "index";
     }
 
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
-
         // Llamada al servicio para comprobar si el login es correcto
         UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
 
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
 
-            managerUserSession.logearUsuario(usuario.getId());
+            // Almacena el userId en la sesión
+            session.setAttribute("userId", usuario.getId());
 
             return "redirect:/index/usuarios/" + usuario.getId();
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {

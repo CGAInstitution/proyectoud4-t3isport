@@ -15,18 +15,50 @@ window.onload = function () {
     }
 
     if (btnNewTicket) {
-        btnNewTicket.addEventListener('click', function() {
+        btnNewTicket.addEventListener('click', function () {
             ticketUsuario.style.top = '15%';
         });
     }
 
     if (btnEnviarTicket) {
-        btnEnviarTicket.addEventListener('click', function() {
+        btnEnviarTicket.addEventListener('click', function () {
             ticketUsuario.style.transition = 'top 0.5s';
             ticketUsuario.style.top = '-150%';
         });
     }
 
-    // Cerrar el mensaje
+    document.getElementById("ticketForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append("horaContacto", document.getElementById("horaContacto").value);
+        formData.append("tema", document.getElementById("tema").value);
+        formData.append("asunto", document.getElementById("asunto").value);
+        formData.append("descripcion", document.getElementById("descripcion").value);
+        formData.append("archivo", document.getElementById("archivo").files[0]);
+
+        const userIdElement = document.getElementById("userId");
+        if (!userIdElement) {
+            alert("Error: No se pudo obtener el ID del usuario.");
+            return;
+        }
+        const userId = userIdElement.innerText.trim();
+
+
+        fetch(`/tickets/${userId}`, {
+            method: "POST",
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                alert("Ticket enviado con éxito.");
+                window.location.reload();
+            } else {
+                alert("Error al enviar el ticket.");
+            }
+        }).catch(error => {
+            console.error("Error:", error);
+            alert("Hubo un problema con el envío del ticket.");
+        });
+    });
 
 };

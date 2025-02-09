@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import org.springframework.web.multipart.MultipartFile;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,6 +18,7 @@ import java.time.Instant;
 @Table(name = "tickets")
 public class Ticket {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -37,9 +39,6 @@ public class Ticket {
 
     @Column(name = "asunto", nullable = false)
     private String asunto;
-
-    @Column(name = "archivo")
-    private String archivo;
 
     @Column(name = "estado", nullable = false)
     private Boolean estado = false;
@@ -112,14 +111,21 @@ public class Ticket {
         this.asunto = asunto;
     }
 
-    public String getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(String archivo) {
-        this.archivo = archivo;
-    }
-
     public Ticket() {
+        this.fechaCreacion = Instant.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", usuario=" + usuario +
+                ", descripcion='" + descripcion + '\'' +
+                ", horaContacto='" + horaContacto + '\'' +
+                ", tema='" + tema + '\'' +
+                ", asunto='" + asunto + '\'' +
+                ", estado=" + estado +
+                ", fechaCreacion=" + fechaCreacion +
+                '}';
     }
 }

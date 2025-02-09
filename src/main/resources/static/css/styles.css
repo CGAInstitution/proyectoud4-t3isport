@@ -2,3 +2,9 @@
     color: black !important;
     font-weight: bold;
 }
+
+input:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #e9ecef;
+}
