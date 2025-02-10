@@ -129,23 +129,16 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+    margin-top: 10px;
 }
 
 /* Contenedor del accordion, con scroll solo dentro de este */
 .accordion-container {
     flex: 1; /* Hace que el accordion ocupe el espacio disponible entre el header y el footer */
     overflow-y: auto; /* Habilita el scroll solo para el accordion */
-    margin-bottom: 70px;
+    margin-bottom: 100px;
 }
 
-/* Asegura que las cards tengan suficiente espacio */
-.card {
-    margin-bottom: 10px; /* Espaciado entre cards */
-}
 
-/* Asegura que cada card pueda crecer sin limitación de altura */
-.card-body {
-    padding: 15px;
-}
 
 
