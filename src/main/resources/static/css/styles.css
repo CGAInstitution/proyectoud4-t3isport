@@ -1,3 +1,10 @@
+body {
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
 .github-link:hover {
     color: black !important;
     font-weight: bold;
@@ -126,7 +133,7 @@ footer {
     padding: 10px;
     text-align: center;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    position: fixed;
+    position: absolute;
     bottom: 0;
     width: 100%;
     margin-top: 10px;

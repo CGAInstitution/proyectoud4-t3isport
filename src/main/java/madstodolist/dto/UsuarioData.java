@@ -1,6 +1,5 @@
 package madstodolist.dto;
 
-import java.util.Date;
 import java.util.Objects;
 
 // Data Transfer Object para la clase Usuario
@@ -38,16 +37,35 @@ public class UsuarioData {
         this.nombre = nombre;
     }
 
-    public void setPassword(String password) { this.password = password; }
+    public String getPassword() {
+        return password;
+    }
 
-    public String getPassword() { return password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public String getTipouser() {return tipouser;}
+    public String getTipouser() {
+        return tipouser;
+    }
 
-    public void setTipouser(String tipouser) {this.tipouser = tipouser;}
+    public void setTipouser(String tipouser) {
+        this.tipouser = tipouser;
+    }
 
     // Sobreescribimos equals y hashCode para que dos usuarios sean iguales
     // si tienen el mismo ID (ignoramos el resto de atributos)
+
+    public UsuarioData() {
+    }
+
+    public UsuarioData(Long id, String email, String nombre, String password, String tipouser) {
+        this.id = id;
+        this.email = email;
+        this.nombre = nombre;
+        this.password = password;
+        this.tipouser = tipouser;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,5 +78,16 @@ public class UsuarioData {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "UsuarioData{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", password='" + password + '\'' +
+                ", tipouser='" + tipouser + '\'' +
+                '}';
     }
 }

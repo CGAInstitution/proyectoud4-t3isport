@@ -67,6 +67,14 @@ public class LoginController {
             session.setAttribute("userId", usuario.getId());
             System.out.println("SessionUserId: " + usuario.getId());
 
+            System.out.println(usuario.getTipouser());
+
+            // Si el usuario es admin, redirigir a panelAdmin
+            if (usuario.getTipouser().equals("admin")) {
+                model.addAttribute("usuario", usuario);
+                return "redirect:/panelAdmin/" + usuario.getId();
+            }
+
             return "redirect:/usuarios/" + usuario.getId() + "/userhub";
 
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
