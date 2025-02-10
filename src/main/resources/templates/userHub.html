@@ -17,7 +17,7 @@
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
                         <div class="boton-imagen" th:each="usuarioPlan : ${usuarioPlanes}" onclick="alert('Botón presionado!')">
-                            <img th:src="@{/images/{imagen}(imagen=${usuarioPlan.plan.imagen})}" alt="Imagen como botón">
+                            <img th:src="@{/images/{imagen}(imagen=${usuarioPlan.plan.imagen})}" alt="Plan de entrenamiento">
                             <div class="texto" th:text="${usuarioPlan.plan.nombre}"></div>
                         </div>
                 </div>
@@ -26,21 +26,24 @@
         <div class="card">
             <div class="card-header card-premium" id="headingTwo">
                 <h5 class="mb-0">
-                    <button class="btn btn-plan-premium w-100" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <button class="btn btn-plan-premium w-100" th:attr="disabled=${usuarioPlanes[0].usuario.tipouser != 'Gold' and usuarioPlanes[0].usuario.tipouser != 'Premium' and usuarioPlanes[0].usuario.tipouser != 'admin'}" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                         Plan Premium
                     </button>
                 </h5>
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                 <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
+                        <img src="/images/plan_velocidad.jpeg" alt="Plan de entrenamiento">
+                        <div class="texto">Entrenamiento de velocidad</div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-header card-gold" id="headingThree">
                 <h5 class="mb-0">
-                    <button class="btn btn-plan-gold w-100" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <button class="btn btn-plan-gold w-100" th:attr="disabled=${usuarioPlanes[0].usuario.tipouser != 'Gold' and usuarioPlanes[0].usuario.tipouser != 'admin'}" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                         Plan Gold
                     </button>
                 </h5>
@@ -48,12 +51,8 @@
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                 <div class="card-body">
                     <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_portero.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento para porteros</div>
-                    </div>
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_portero.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento para porteros</div>
+                        <img src="/images/plan_estrategia.jpg" alt="Plan de entrenamiento">
+                        <div class="texto">Entrenamiento de estrategia</div>
                     </div>
                 </div>
             </div>
