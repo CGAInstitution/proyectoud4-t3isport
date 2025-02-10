@@ -16,34 +16,11 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_tiro.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento de tiro a puerta</div>
-                    </div>
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_regate.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento de regate</div>
-                    </div>
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_portero.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento para porteros</div>
-                    </div>
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_portero.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento para porteros</div>
-                    </div>
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_portero.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento para porteros</div>
-                    </div>
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_portero.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento para porteros</div>
-                    </div>
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_portero.jpg" alt="Imagen como botón">
-                        <div class="texto">Entrenamiento para porteros</div>
-                    </div>
+                        <div class="boton-imagen" th:each="usuarioPlan : ${usuarioPlanes}" onclick="alert('Botón presionado!')">
+                            <img th:src="@{/images/{imagen}(imagen=${usuarioPlan.plan.imagen})}" alt="Imagen como botón">
+                            <div class="texto" th:text="${usuarioPlan.plan.nombre}"></div>
+                        </div>
+                </div>
             </div>
         </div>
         <div class="card">

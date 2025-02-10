@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -26,16 +25,14 @@ public class UsuarioPlan {
     private Usuario usuario;
 
     @MapsId("planId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "plan_id", nullable = false)
     private PlanesEntrenamiento plan;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fecha_inicio")
     private Instant fechaInicio;
 
-    @ColumnDefault("'en progreso'")
     @Lob
     @Column(name = "estado")
     private String estado;

@@ -17,6 +17,7 @@ import java.time.Instant;
 @Table(name = "tickets")
 public class Ticket {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -32,7 +33,6 @@ public class Ticket {
     @Column(name = "estado", nullable = false)
     private Boolean estado = false;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fecha_creacion")
     private Instant fechaCreacion;
 
