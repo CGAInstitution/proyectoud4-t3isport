@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -111,9 +112,7 @@ public class Ticket {
         this.asunto = asunto;
     }
 
-    public Ticket() {
-        this.fechaCreacion = Instant.now();
-    }
+
 
     @Override
     public String toString() {
@@ -127,8 +126,11 @@ public class Ticket {
                 ", estado=" + estado +
                 ", fechaCreacion=" + fechaCreacion +
                 '}';
+    }
+
 
     public Ticket() {
+        this.fechaCreacion = Date.from(Instant.now());
     }
 
     public Ticket(Usuario usuario, Long id, Date fechaCreacion, Boolean estado, String descripcion) {
