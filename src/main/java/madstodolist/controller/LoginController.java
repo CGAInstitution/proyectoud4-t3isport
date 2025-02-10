@@ -26,17 +26,6 @@ public class LoginController {
     @Autowired
     ManagerUserSession managerUserSession;
 
-//    @GetMapping("/")
-//    public String home(Model model) {
-//        return "redirect:/login";
-//    }
-
-//  @GetMapping("/login")
-//  public String loginForm(Model model) {
-//      model.addAttribute("loginData", new LoginData());
-//      return "formLogin";
-//  }
-
     @GetMapping("/index")
     public String index(Model model) {
         return "index";
@@ -45,24 +34,38 @@ public class LoginController {
     @GetMapping("/index/usuarios/{id}")
     public String index(@PathVariable Long id, Model model, HttpSession session) {
         Long sessionUserId = (Long) session.getAttribute("userId");
-        System.out.println("LoginController sessionUserId: " + sessionUserId);
+
         if (sessionUserId == null || !sessionUserId.equals(id)) {
             return "redirect:/login";
         }
+
         model.addAttribute("userId", id);
         return "index";
     }
 
+//    @GetMapping("/usuarios/{id}/userhub")
+//    public String userHub(@PathVariable Long id, Model model, HttpSession session) {
+//        Long sessionUserId = (Long) session.getAttribute("userId");
+//
+//        // Si no hay sesión iniciada o el ID de la sesión no coincide, redirigir a login
+//        if (sessionUserId == null || !sessionUserId.equals(id)) {
+//            return "redirect:/login";
+//        }
+//
+//        model.addAttribute("userId", id);
+//        return "userHub";
+//    }
+
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
         // Llamada al servicio para comprobar si el login es correcto
-        UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
 
+        UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
-
             // Almacena el userId en la sesión
             session.setAttribute("userId", usuario.getId());
+            System.out.println("SessionUserId: " + usuario.getId());
 
             return "redirect:/usuarios/" + usuario.getId() + "/userhub";
 
@@ -76,11 +79,15 @@ public class LoginController {
         return "formLogin";
     }
 
-//   @GetMapping("/registro")
-//   public String registroForm(Model model) {
-//       model.addAttribute("registroData", new RegistroData());
-//       return "formRegistro";
-//   }
+//    @GetMapping("/usuarios/{id}/userhub")
+//    public String userHub(@PathVariable Long id, Model model, HttpSession session) {
+//        Long sessionUserId = (Long) session.getAttribute("userId");
+//        if (sessionUserId == null || !sessionUserId.equals(id)) {
+//            return "redirect:/login";
+//        }
+//        model.addAttribute("userId", id);
+//        return "userHub";
+//    }
 
     @PostMapping("/registro")
     public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
