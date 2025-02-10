@@ -69,7 +69,8 @@ input:disabled {
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px
+    margin: 10px;
+    padding: 0
 }
 
 .boton-imagen img {
@@ -137,6 +138,25 @@ footer {
     flex: 1; /* Hace que el accordion ocupe el espacio disponible entre el header y el footer */
     overflow-y: auto; /* Habilita el scroll solo para el accordion */
     margin-bottom: 100px;
+}
+
+.form_basico {
+    display: inline-block;
+}
+
+#basic_panel {
+    background-color: #555151; /* Azul */
+    color: white;
+}
+
+#premium_panel {
+    background-color: #efb337; /* Verde */
+    color: #1e1e1e;
+}
+
+#gold_panel {
+    background-color: #1c1c1c; /* Rojo */
+    color: #fff400;
 }
 
 
