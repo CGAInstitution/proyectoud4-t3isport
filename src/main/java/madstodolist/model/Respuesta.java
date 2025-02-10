@@ -14,18 +14,14 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "respuestas")
 public class Respuesta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "pregunta_id", nullable = false)
     private Pregunta pregunta;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
 
     @Lob
     @Column(name = "respuesta", nullable = false)
@@ -47,14 +43,6 @@ public class Respuesta {
         this.pregunta = pregunta;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public String getRespuesta() {
         return respuesta;
     }
@@ -63,4 +51,8 @@ public class Respuesta {
         this.respuesta = respuesta;
     }
 
+    @Override
+    public String toString() {
+        return respuesta ;
+    }
 }

@@ -1,30 +1,25 @@
 package madstodolist.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import java.util.*;
 
 @Entity
 @Table(name = "preguntas")
 public class Pregunta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cuestionario_id", nullable = false)
     private Cuestionario cuestionario;
 
-    @Lob
     @Column(name = "texto", nullable = false)
     private String texto;
+
+    @OneToMany(mappedBy = "pregunta",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Respuesta> respuestas = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -50,4 +45,16 @@ public class Pregunta {
         this.texto = texto;
     }
 
+    public List<Respuesta> getRespuestas() {
+        return respuestas;
+    }
+
+    public void setRespuestas(List<Respuesta> respuestas) {
+        this.respuestas = respuestas;
+    }
+
+    public void agregarRespuesta(Respuesta respuesta) {
+        this.respuestas.add(respuesta);
+        respuesta.setPregunta(this);
+    }
 }
