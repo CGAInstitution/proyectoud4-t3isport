@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,5 +74,14 @@ public class UsuarioService {
         else {
             return modelMapper.map(usuario, UsuarioData.class);
         }
+    }
+
+    public List<UsuarioData> findAll() {
+        List<Usuario> usuarios = StreamSupport
+                .stream(usuarioRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+        return usuarios.stream()
+                .map(usuario -> new UsuarioData(usuario.getId(), usuario.getEmail(), usuario.getNombre(), usuario.getPassword(), usuario.getTipouser()))
+                .collect(Collectors.toList());
     }
 }

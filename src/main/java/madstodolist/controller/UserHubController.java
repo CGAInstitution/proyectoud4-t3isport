@@ -22,6 +22,9 @@ public class UserHubController {
     @Autowired
     private UsuarioPlanService usuarioPlanService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @GetMapping("{id}/userhub")
     public String userHub(@PathVariable Long id, Model model, HttpSession session) {
         // Lógica para obtener los detalles del usuario, si es necesario
