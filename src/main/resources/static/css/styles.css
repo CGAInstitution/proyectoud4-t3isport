@@ -146,6 +146,14 @@ footer {
     margin-bottom: 100px;
 }
 
-
-
+/* Overlay en administrador */
+#backgroundOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040; /* Ensure it is behind the modal */
+}
 

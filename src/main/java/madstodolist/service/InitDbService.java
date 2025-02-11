@@ -34,6 +34,15 @@ public class InitDbService {
         usuario.setTipouser("admin");
         usuarioRepository.save(usuario);
 
+        Usuario usuario2 = new Usuario("a@ua");
+        usuario2.setId(2L); // Manually assign an ID
+        usuario2.setNombre("Otro Usuario");
+        usuario2.setApellidos("Otro Apellidos"); // Set apellidos
+        usuario2.setPassword("123");
+        usuario2.setBio("Otra bio de ejemplo");
+        usuario2.setFoto("otra_foto.jpg");
+        usuario2.setTipouser("user");
+        usuarioRepository.save(usuario2);
 //        Tarea tarea1 = new Tarea(usuario, "Lavar coche");
 //        tareaRepository.save(tarea1);
 //
