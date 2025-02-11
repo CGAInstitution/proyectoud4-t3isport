@@ -65,6 +65,7 @@
             </div>
         </div>
     </section>
+
     <!-- Background overlay -->
     <div id="backgroundOverlay" class="d-none"></div>
 
@@ -80,7 +81,7 @@
                          document.getElementById('backgroundOverlay').classList.toggle('d-none');">X
                     </button>
                 </div>
-                <form method="POST" th:action="@{/admin/addUser}" enctype="multipart/form-data">
+                <form method="POST" th:action="@{/panelAdmin/{userId}/addUser(userId=${userId})}" enctype="multipart/form-data">
                     <div class="modal-body">
                         <!-- Correo -->
                         <div class="mb-3">

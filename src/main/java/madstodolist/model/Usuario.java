@@ -22,14 +22,14 @@ public class Usuario {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "apellidos", nullable = false)
+    @Column(name = "apellidos")
     private String apellidos;
 
     @Column(name = "bio")
     private String bio;
 
     @Lob
-    @Column(name = "foto", nullable = false)
+    @Column(name = "foto")
     private String foto;
 
     @Column(name = "password", nullable = false)
