@@ -5,10 +5,9 @@ import madstodolist.repository.CuestionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -36,5 +35,23 @@ public class CuestionarioController {
 
         return "cuestionario";
     }
+
+    @PostMapping("/guardar-cuestionario")
+    public String guardarCuestionario(@RequestParam Map<String, String> respuestas, Model model) {
+        // 🔹 Mostrar respuestas en consola para depuración
+        respuestas.forEach((preguntaId, respuestaId) ->
+                System.out.println("✅ Pregunta " + preguntaId + ": Respuesta " + respuestaId));
+
+        // 🔹 Agregar mensaje de éxito y redirigir a inicio
+        model.addAttribute("mensaje", "¡Cuestionario enviado con éxito!");
+
+        // Se pueden coger los valores de preguntaID y Respuesta ID para hacer un algoritmo sencillo y asignar
+        //con el valor en la tabla usuario_plan la ID del usuario que hace el cuestionario y un plan
+
+        // el redirect es provisional para que no de error , hay que cambiarlo a /hubplanes
+
+        return "redirect:/";
+    }
+
 }
 

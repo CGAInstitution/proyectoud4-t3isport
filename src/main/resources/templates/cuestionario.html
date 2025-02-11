@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="fragments :: head(titulo='Cuestionario')"></head>
 
 <body>
@@ -9,84 +8,31 @@
 <div class="container mt-5">
   <h2 class="text-center">Cuestionario</h2>
 
-  <!-- Formulario de respuestas -->
-  <form id="CuestionarioController" method="post" action="/guardar-cuestionario">
+  <!-- Formulario de cuestionario -->
+  <form method="post" th:action="@{/cuestionario/guardar-cuestionario}">
 
-    <!-- Pregunta -->
-    <div class="card p-3 text-center">
-      <h4 id="preguntaTexto" th:text="${preguntas[0].texto}">Pregunta a mostrar si funciona :)</h4>
-    </div>
+    <!-- 🔹 Iteramos sobre las preguntas y respuestas -->
+    <div th:each="pregunta, iterStat : ${preguntas}" class="card p-3 mt-3">
+      <h4 th:text="${pregunta.texto}"></h4>
 
-    <!-- Opciones de respuesta -->
-    <div class="mt-3" id="opciones">
-      <div class="form-check" th:each="respuesta, iterStat : ${preguntas[0].respuestas}">
-        <label>
-          <input class="form-check-input" type="radio" th:id="'opcion-' + ${iterStat.index}"
-                 name="respuesta" th:value="${respuesta.id}" />
+      <div th:each="respuesta, resStat : ${pregunta.respuestas}" class="form-check">
+        <input class="form-check-input" type="radio"
+               th:id="'pregunta-' + ${pregunta.id} + '-opcion-' + ${resStat.index}"
+               th:name="'respuesta_' + ${pregunta.id}"
+               th:value="${respuesta.id}" required />
+        <label class="form-check-label"
+               th:for="'pregunta-' + ${pregunta.id} + '-opcion-' + ${resStat.index}"
+               th:text="${respuesta.respuesta}">
         </label>
-        <label class="form-check-label" th:for="'opcion-' + ${iterStat.index}" th:text="${respuesta.respuesta}"></label>
       </div>
     </div>
 
-    <!-- Botones de navegación -->
-    <div class="d-flex justify-content-between mt-4">
-      <button type="button" id="btnAnterior" class="btn btn-secondary" disabled>Anterior</button>
-      <button type="button" id="btnSiguiente" class="btn btn-primary">Siguiente</button>
+    <!-- 🔹 Botón para enviar el cuestionario -->
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success">Finalizar Cuestionario</button>
     </div>
-
-    <!-- Botón para enviar el cuestionario -->
-    <div class="text-center mt-3">
-      <button type="submit" class="btn btn-success" id="btnFinalizar" disabled>Finalizar Cuestionario</button>
-    </div>
-
   </form>
 </div>
-
-<!-- Script para manejar la navegación de preguntas -->
-<script type="text/javascript">
-  let currentIndex = 0;
-  let preguntas = /*[[${preguntas}]]*/ [];  // Verifica que esto se esté pasando correctamente
-
-  // Función para cargar la pregunta según el índice
-  function cargarPregunta(index) {
-
-    // Actualizar pregunta y respuestas
-    document.getElementById("preguntaTexto").innerText = preguntas[index].texto;
-    const opcionesDiv = document.getElementById("opciones");
-    opcionesDiv.innerHTML = ""; // Limpiar las opciones anteriores
-
-    preguntas[index].respuestas.forEach((respuesta, i) => {
-      opcionesDiv.innerHTML += `
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="respuesta" id="opcion-${i}" value="${respuesta.id}" ${respuestasUsuario[preguntas[index].id] === respuesta.id ? "checked" : ""}>
-          <label class="form-check-label" for="opcion-${i}">${respuesta.respuesta}</label>
-        </div>
-      `;
-    });
-
-    // Habilitar/Deshabilitar botones de navegación
-    document.getElementById("btnAnterior").disabled = index === 0;
-    document.getElementById("btnSiguiente").disabled = index === preguntas.length - 1;
-    document.getElementById("btnFinalizar").disabled = index !== preguntas.length - 1;  // Habilitar botón Finalizar en la última pregunta
-
-    currentIndex = index;
-  }
-
-  // Event listeners para los botones
-  document.getElementById("btnSiguiente").addEventListener("click", () => {
-    if (currentIndex < preguntas.length - 1) {
-      cargarPregunta(currentIndex + 1);
-    }
-  });
-
-  document.getElementById("btnAnterior").addEventListener("click", () => {
-    if (currentIndex > 0) {
-      cargarPregunta(currentIndex - 1);
-    }
-  });
-
-  cargarPregunta(currentIndex);
-</script>
 
 <div th:replace="__footer :: body"></div>
 <div th:replace="fragments::javascript"></div>
