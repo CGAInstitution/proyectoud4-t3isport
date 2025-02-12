@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Mis planes')">
+</head>
+<body>
+    <div th:replace="__header :: body"></div>
+    <div th:replace="__ticket :: body"></div>
+    <div>
+        <button id="btnNewTicket">
+            +
+        </button>
+    </div>
+    <div id="accordion" class="accordion-container">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-plan-basico w-100" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Plan Básico
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                        <div class="boton-imagen" th:each="usuarioPlan : ${usuarioPlanes}" onclick="alert('Botón presionado!')">
+                            <img th:src="@{/images/{imagen}(imagen=${usuarioPlan.plan.imagen})}" alt="Plan de entrenamiento">
+                            <div class="texto" th:text="${usuarioPlan.plan.nombre}"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header card-premium" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-plan-premium w-100" th:attr="disabled=${usuarioPlanes[0].usuario.tipouser != 'Gold' and usuarioPlanes[0].usuario.tipouser != 'Premium' and usuarioPlanes[0].usuario.tipouser != 'admin'}" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        Plan Premium
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
+                        <img src="/images/plan_velocidad.jpeg" alt="Plan de entrenamiento">
+                        <div class="texto">Entrenamiento de velocidad</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header card-gold" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-plan-gold w-100" th:attr="disabled=${usuarioPlanes[0].usuario.tipouser != 'Gold' and usuarioPlanes[0].usuario.tipouser != 'admin'}" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        Plan Gold
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
+                        <img src="/images/plan_estrategia.jpg" alt="Plan de entrenamiento">
+                        <div class="texto">Entrenamiento de estrategia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="__footer :: body"></div>
+
+    <div th:replace="fragments::javascript"/>
+</body>
+</html>

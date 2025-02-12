@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="ticket" id="ticketUsuario" class="container mt-4"
+     style="z-index: 4; position: absolute; transition: top 0.5s; top: -150%; right: 0; color: black; padding: 10px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">New Ticket</h5>
+        </div>
+        <div class="card-body">
+            <form id="ticketForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Hora de Contacto</label>
+                            <select id="horaContacto" class="form-select form-control">
+                                <option selected>10:00 - 12:00</option>
+                                <option>12:00 - 14:00</option>
+                                <option>16:00 - 18:00</option>
+                                <option>18:00 - 20:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Tema</label>
+                            <select id="tema" class="form-select form-control">
+                                <option selected>Pagos</option>
+                                <option>Soporte</option>
+                                <option>Información</option>
+                                <option>Quejas</option>
+                                <option>Reclamos</option>
+                                <option>Reembolsos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Asunto</label>
+                    <input id="asunto" type="text" class="form-control" placeholder="Ingrese el asunto">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea id="descripcion" class="form-control" rows="4" placeholder="Escriba aquí..."></textarea>
+                </div>
+                <div class="mb-3" style="">
+                    <label class="form-label">Adjuntar Archivos <span
+                            class="text-muted">(Campo deshabilitado)</span>
+                    </label>
+                    <input id="archivo" type="file" class="form-control" disabled>
+                </div>
+                <span id="userId" th:text="${userId}" style="display: none;"></span>
+                <div class="text-end">
+                    <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
+                    <button type="submit" class="btn btn-primary" id="btnEnviarTicket">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

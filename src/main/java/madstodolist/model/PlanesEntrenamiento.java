@@ -12,6 +12,7 @@ import java.util.Set;
 @Table(name = "planes_entrenamiento")
 public class PlanesEntrenamiento {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -21,6 +22,13 @@ public class PlanesEntrenamiento {
     @Lob
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
+
+    @Column(name="imagen", nullable = false)
+    private String imagen;
+
+    public String getImagen() {return imagen;}
+
+    public void setImagen(String imagen) {this.imagen = imagen;}
 
     public Long getId() {
         return id;

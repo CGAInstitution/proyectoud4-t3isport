@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import madstodolist.repository.*;
@@ -32,6 +33,7 @@ public class LoginController {
     @Autowired
     ManagerUserSession managerUserSession;
 
+
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
 
@@ -45,24 +47,41 @@ public class LoginController {
 //        return "redirect:/login";
 //    }
 
-//  @GetMapping("/login")
-//  public String loginForm(Model model) {
-//      model.addAttribute("loginData", new LoginData());
-//      return "formLogin";
-//  }
+
+//    @GetMapping("/usuarios/{id}/userhub")
+//    public String userHub(@PathVariable Long id, Model model, HttpSession session) {
+//        Long sessionUserId = (Long) session.getAttribute("userId");
+//
+//        // Si no hay sesión iniciada o el ID de la sesión no coincide, redirigir a login
+//        if (sessionUserId == null || !sessionUserId.equals(id)) {
+//            return "redirect:/login";
+//        }
+//
+//        model.addAttribute("userId", id);
+//        return "userHub";
+//    }
 
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
-
         // Llamada al servicio para comprobar si el login es correcto
-        UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
 
+        UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
+            // Almacena el userId en la sesión
+            session.setAttribute("userId", usuario.getId());
+            System.out.println("SessionUserId: " + usuario.getId());
 
-            managerUserSession.logearUsuario(usuario.getId());
+            System.out.println(usuario.getTipouser());
 
-            return "redirect:/usuarios/" + usuario.getId() + "/tareas";
+            // Si el usuario es admin, redirigir a panelAdmin
+            if (usuario.getTipouser().equals("admin")) {
+                model.addAttribute("usuario", usuario);
+                return "redirect:/panelAdmin/" + usuario.getId();
+            }
+
+            return "redirect:/usuarios/" + usuario.getId() + "/userhub";
+
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");
             return "formLogin";
@@ -73,11 +92,15 @@ public class LoginController {
         return "formLogin";
     }
 
-//   @GetMapping("/registro")
-//   public String registroForm(Model model) {
-//       model.addAttribute("registroData", new RegistroData());
-//       return "formRegistro";
-//   }
+//    @GetMapping("/usuarios/{id}/userhub")
+//    public String userHub(@PathVariable Long id, Model model, HttpSession session) {
+//        Long sessionUserId = (Long) session.getAttribute("userId");
+//        if (sessionUserId == null || !sessionUserId.equals(id)) {
+//            return "redirect:/login";
+//        }
+//        model.addAttribute("userId", id);
+//        return "userHub";
+//    }
 
     @PostMapping("/registro")
     public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
@@ -96,6 +119,7 @@ public class LoginController {
         usuario.setEmail(registroData.getEmail());
         usuario.setPassword(registroData.getPassword());
         usuario.setNombre(registroData.getNombre());
+
 
         usuario = usuarioRepository.save(usuario); // Ahora se guarda como entidad Usuario y se obtiene su ID
 
@@ -123,12 +147,10 @@ public class LoginController {
         return "redirect:/cuestionario/1";
     }
 
-
-
-
     @GetMapping("/logout")
-   public String logout(HttpSession session) {
+    public String logout(HttpSession session) {
+
         managerUserSession.logout();
         return "redirect:/login";
-   }
+    }
 }

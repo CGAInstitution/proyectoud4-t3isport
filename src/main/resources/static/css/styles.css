@@ -1,4 +1,151 @@
+body {
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
 .github-link:hover {
     color: black !important;
     font-weight: bold;
 }
+
+
+input:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #e9ecef;
+}
+
+/* Cambiar color de fondo y texto para cada botón */
+.btn-plan-basico {
+    background-color: #555151; /* Azul */
+    color: white;
+    text-align: start;
+}
+
+#headingOne {
+    background-color: #555151;
+    color: white;
+}
+
+.btn-plan-premium {
+    background-color: #efb337; /* Verde */
+    color: #1e1e1e;
+    text-align: start;
+}
+
+#headingTwo {
+    background-color: #efb337; /* Verde */
+    color: #1e1e1e;
+}
+
+.btn-plan-gold {
+    background-color: #1c1c1c; /* Rojo */
+    color: #fff400;
+    text-align: start;
+}
+
+#headingThree {
+    background-color: #1c1c1c; /* Rojo */
+    color: #fff400;
+}
+
+/* Efecto al pasar el ratón por encima */
+.btn-plan-basico:hover {
+    background-color: #343435;
+    color: white;
+}
+
+.btn-plan-premium:hover {
+    background-color: #c58522;
+    color: #1e1e1e;
+}
+
+.btn-plan-gold:hover {
+    background-color: #494343;
+    color: #fff400;
+}
+
+.boton-imagen {
+    display: inline-block;
+    position: relative;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px
+}
+
+.boton-imagen img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.texto {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    border-radius: 0 0 8px 8px;
+}
+
+.boton-imagen:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.card-body {
+    margin-left: 60px;
+    padding: 15px;
+}
+
+/* Asegura que las cards tengan suficiente espacio */
+.card {
+    margin-bottom: 10px; /* Espaciado entre cards */
+}
+body {
+    height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header fijo en la parte superior */
+header {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer fijo en la parte inferior */
+footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Contenedor del accordion, con scroll solo dentro de este */
+.accordion-container {
+    flex: 1; /* Hace que el accordion ocupe el espacio disponible entre el header y el footer */
+    overflow-y: auto; /* Habilita el scroll solo para el accordion */
+    margin-bottom: 100px;
+}
+
+
+
+
