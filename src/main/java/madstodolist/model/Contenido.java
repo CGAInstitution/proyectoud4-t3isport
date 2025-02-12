@@ -19,10 +19,13 @@ public class Contenido {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "plan_id", nullable = false)
     private PlanesEntrenamiento plan;
+
+    @Column(name="nombre_contenido", nullable = false)
+    private String nombre_contenido;
 
     @Lob
     @Column(name = "tipo", nullable = false)
@@ -64,4 +67,11 @@ public class Contenido {
         this.url = url;
     }
 
+    public String getNombre_contenido() {
+        return nombre_contenido;
+    }
+
+    public void setNombre_contenido(String nombre_contenido) {
+        this.nombre_contenido = nombre_contenido;
+    }
 }
