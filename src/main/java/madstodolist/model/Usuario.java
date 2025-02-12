@@ -1,5 +1,8 @@
 package madstodolist.model;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -16,20 +19,21 @@ public class Usuario {
     @Column(name = "id", nullable = false)
     private Long id;
 
+
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "apellidos", nullable = false)
+    @Column(name = "apellidos",nullable = true, length = 200)
     private String apellidos;
 
-    @Column(name = "bio")
+    @Column(name = "bio", nullable = true)
     private String bio;
 
     @Lob
-    @Column(name = "foto", nullable = false)
+    @Column(name = "foto", nullable = true)
     private String foto;
 
     @Column(name = "password", nullable = false)
@@ -37,7 +41,7 @@ public class Usuario {
 
     @Lob
     @Column(name = "tipouser", nullable = false)
-    private String tipouser;
+    private String tipouser = "gratuito";
 
     public Long getId() {
         return id;

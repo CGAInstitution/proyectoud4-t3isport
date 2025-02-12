@@ -1,13 +1,8 @@
 package madstodolist.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import org.hibernate.annotations.ColumnDefault;
+
+import madstodolist.dto.UsuarioData;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head(titulo='Cuestionario')"></head>
+
+<body>
+<div th:replace="__header :: body"></div>
+
+<div class="container mt-5">
+  <h2 class="text-center">Cuestionario</h2>
+
+  <!-- Formulario de cuestionario -->
+  <form method="post" th:action="@{/cuestionario/guardar-cuestionario}">
+
+    <!-- 🔹 Iteramos sobre las preguntas y respuestas -->
+    <div th:each="pregunta, iterStat : ${preguntas}" class="card p-3 mt-3">
+      <h4 th:text="${pregunta.texto}"></h4>
+
+      <div th:each="respuesta, resStat : ${pregunta.respuestas}" class="form-check">
+        <input class="form-check-input" type="radio"
+               th:id="'pregunta-' + ${pregunta.id} + '-opcion-' + ${resStat.index}"
+               th:name="'respuesta_' + ${pregunta.id}"
+               th:value="${respuesta.id}" required />
+        <label class="form-check-label"
+               th:for="'pregunta-' + ${pregunta.id} + '-opcion-' + ${resStat.index}"
+               th:text="${respuesta.respuesta}">
+        </label>
+      </div>
+    </div>
+
+    <!-- 🔹 Botón para enviar el cuestionario -->
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success">Finalizar Cuestionario</button>
+    </div>
+  </form>
+</div>
+
+<div th:replace="__footer :: body"></div>
+<div th:replace="fragments::javascript"></div>
+
+</body>
+</html>
