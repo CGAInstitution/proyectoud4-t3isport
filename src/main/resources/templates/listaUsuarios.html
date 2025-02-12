@@ -11,7 +11,9 @@
 <div th:replace="__header :: body"></div>
 
 <div class="container vh-100">
-
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <p th:text="${error}"></p>
+    </div>
     <section class="">
         <div class="container">
             <div class="bg-white rounded shadow-sm p-4">
@@ -81,7 +83,8 @@
                          document.getElementById('backgroundOverlay').classList.toggle('d-none');">X
                     </button>
                 </div>
-                <form method="POST" th:action="@{/panelAdmin/{userId}/addUser(userId=${userId})}" enctype="multipart/form-data">
+                <form method="POST" th:action="@{/panelAdmin/{userId}/addUser(userId=${userId})}"
+                      enctype="multipart/form-data">
                     <div class="modal-body">
                         <!-- Correo -->
                         <div class="mb-3">
@@ -124,9 +127,11 @@
                 <div class="modal-content" style="width: 400px">
                     <div class="modal-header">
                         <h5 class="modal-title">Actualizar Usuario</h5>
-                        <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal" aria-label="Close">X</button>
+                        <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">X
+                        </button>
                     </div>
-                    <form method="POST" th:action="@{/admin/updateUser}" enctype="multipart/form-data">
+                    <form method="POST" th:action="@{/panelAdmin/{userId}/updateUser(userId=${userId})}" enctype="multipart/form-data">
                         <div class="modal-body">
                             <input type="hidden" name="idUsuarioUpdate" th:value="${usuario.id}">
 
@@ -134,25 +139,26 @@
                             <div class="mb-3">
                                 <label for="correo" class="form-label">Correo (*)</label>
                                 <input type="email" name="correo" id="correo" class="form-control"
-                                       th:value="${usuario.email}" placeholder="ejemplo@correo.com" required>
+                                       th:value="${usuario.email}" placeholder="ejemplo@correo.com">
                             </div>
 
                             <!-- Nombre -->
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre (*)</label>
                                 <input type="text" name="nombre" id="nombre" class="form-control"
-                                       th:value="${usuario.nombre}" placeholder="Nombre completo" required>
+                                       th:value="${usuario.nombre}" placeholder="Nombre completo" >
                             </div>
 
                             <!-- Contraseña -->
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label">Contraseña (*)</label>
                                 <input type="password" name="contrasena" id="contrasena" class="form-control"
-                                       placeholder="********" required>
+                                       th:value="${usuario.password}" placeholder="Nombre completo" >
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">Cerrar
+                            </button>
                             <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
                         </div>
                     </form>
@@ -169,16 +175,19 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Confirmar Borrado</h5>
-                        <button type="button" class="btn btn-secondary btn-close-del" data-bs-dismiss="modal" aria-label="Close">X</button>
+                        <button type="button" class="btn btn-secondary btn-close-del" data-bs-dismiss="modal"
+                                aria-label="Close">X
+                        </button>
                     </div>
                     <div class="modal-body">
                         <p>¿Estás seguro de que deseas borrar el usuario <strong th:text="${usuario.nombre}"></strong>?
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <form method="POST" th:action="@{/admin/deleteUser}">
+                        <form method="POST" th:action="@{/panelAdmin/{userId}/deleteUser(userId=${userId})}">
                             <input type="hidden" name="idUsuario" th:value="${usuario.id}">
-                            <button type="button" class="btn btn-secondary btn-close-del" data-bs-dismiss="modal">No, cancelar
+                            <button type="button" class="btn btn-secondary btn-close-del" data-bs-dismiss="modal">No,
+                                cancelar
                             </button>
                             <button type="submit" class="btn btn-danger">Sí, continuar</button>
                         </form>
