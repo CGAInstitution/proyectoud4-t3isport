@@ -32,6 +32,12 @@ public class Contenido {
     @Column(name = "url", nullable = false)
     private String url;
 
+    @Column(name = "nombre_contenido", nullable = false)
+    private String nombre_contenido;
+
+    @Column(name = "content", nullable = true)
+    private String content;
+
     public Long getId() {
         return id;
     }
@@ -64,4 +70,19 @@ public class Contenido {
         this.url = url;
     }
 
+    public String getNombre_contenido() {
+        return nombre_contenido;
+    }
+
+    public void setNombre_contenido(String nombre_contenido) {
+        this.nombre_contenido = nombre_contenido;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

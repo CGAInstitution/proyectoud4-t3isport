@@ -159,6 +159,29 @@ footer {
     color: #fff400;
 }
 
+#carouselExampleIndicators {
+    flex-grow: 1; /* El carrusel ocupa el espacio restante */
+    height: 100%; /* Asegura que el carrusel ocupe toda la altura disponible */
+}
+
+.carousel-inner {
+    height: 100%; /* Asegura que las diapositivas ocupen toda la altura del contenedor */
+}
+
+.carousel-item {
+    height: 100%; /* Hace que cada item ocupe toda la altura del contenedor */
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center;     /* Centra el contenido verticalmente */
+}
+
+.carousel-item img,
+.carousel-item video {
+    width: 100%;  /* Hace que el video o la imagen ocupen todo el ancho del item */
+    height: 100%; /* Hace que el video o la imagen ocupen toda la altura del item */
+    object-fit: cover; /* Hace que el video ocupe todo el contenedor sin perder la proporción */
+}
+
 
 
 

@@ -1,19 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: head (titulo='Inicio')"></head>
+<head th:replace="fragments :: head (titulo=${planEntrenamiento.nombre})">
+</head>
 
 <body>
 <div th:replace="__header :: body"></div>
 
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <!-- Crear los indicadores del carrusel -->
+        <li th:each="contenido, iterStat : ${contenidos}"
+            th:data-target="'#carouselExampleIndicators'"
+            th:data-slide-to="${iterStat.index}"
+            th:classappend="${iterStat.index == 0 ? ' active' : ''}">
+        </li>
+    </ol>
 
-<div class="row mt-2">
-    <div class="col text-center">
-        <video autoplay loop muted playsinline class="w-50 rounded shadow" style="max-width: 720px;">
-            <source src="/video/videoportada.mp4" type="video/mp4">
-        </video>
+    <div class="carousel-inner">
+        <!-- Iterar sobre los contenidos para crear las diapositivas -->
+        <div th:each="contenido, iterStat : ${contenidos}"
+             class="carousel-item"
+             th:classappend="${iterStat.index == 0 ? ' active' : ''}">
+
+            <div th:switch="${contenido.url != null and contenido.url != ''}">
+                <!-- Si es una imagen .jpg -->
+                <div th:case="${contenido.url.endsWith('.jpg')}">
+                    <img class="d-block w-100" th:src="@{/images/${contenido.url}}" alt="Imagen ${iterStat.index + 1}">
+                </div>
+
+                <!-- Si es una imagen .png -->
+                <div th:case="${contenido.url.endsWith('.png')}">
+                    <img class="d-block w-100" th:src="@{/images/${contenido.url}}" alt="Imagen ${iterStat.index + 1}">
+                </div>
+
+                <!-- Si es un video .mp4 -->
+                <div th:case="${contenido.url.endsWith('.mp4')}">
+                    <video autoplay loop muted playsinline class="w-50 rounded shadow">
+                        <source src="/video/videoportada.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- Si es un archivo .txt -->
+                <div th:case="${contenido.url.endsWith('.txt')}">
+                    <pre class="d-block w-100" th:text="fileContent"></pre>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
+
 
 
 <div th:replace="__footer :: body"></div>
@@ -21,3 +66,4 @@
 
 </body>
 </html>
+
