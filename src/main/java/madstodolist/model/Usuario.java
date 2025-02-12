@@ -41,7 +41,10 @@ public class Usuario {
 
     @Lob
     @Column(name = "tipouser", nullable = false)
-    private String tipouser = "gratuito";
+    private String tipouser = "user";
+
+    @Column(name = "plan", nullable = false)
+    private String plan = "gratuito";
 
     public Long getId() {
         return id;
@@ -105,6 +108,14 @@ public class Usuario {
 
     public void setTipouser(String tipouser) {
         this.tipouser = tipouser;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
     }
 
     public Usuario() {

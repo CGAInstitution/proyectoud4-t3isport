@@ -15,13 +15,13 @@ public class UsuarioCuestionario {
     private UsuarioCuestionarioId id;
 
     @MapsId("usuarioId")
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @MapsId("cuestionarioId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "cuestionario_id", nullable = false)
     private Cuestionario cuestionario;
