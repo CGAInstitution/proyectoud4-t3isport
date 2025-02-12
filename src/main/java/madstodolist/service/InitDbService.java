@@ -24,15 +24,15 @@ public class InitDbService {
     // para inicializar la base de datos
     @PostConstruct
     public void initDatabase() {
-        Usuario usuario = new Usuario("user@ua");
-        usuario.setId(1L); // Manually assign an ID
-        usuario.setNombre("Usuario Ejemplo");
-        usuario.setApellidos("Ejemplo Apellidos"); // Set apellidos
-        usuario.setPassword("123");
-        usuario.setBio("Bio de ejemplo");
-        usuario.setFoto("foto.jpg");
-        usuario.setTipouser("admin");
-        usuarioRepository.save(usuario);
+//        Usuario usuario = new Usuario("user@ua");
+//        usuario.setId(1L); // Manually assign an ID
+//        usuario.setNombre("Usuario Ejemplo");
+//        usuario.setApellidos("Ejemplo Apellidos"); // Set apellidos
+//        usuario.setPassword("123");
+//        usuario.setBio("Bio de ejemplo");
+//        usuario.setFoto("foto.jpg");
+//        usuario.setTipouser("admin");
+//        usuarioRepository.save(usuario);
 
 //        Tarea tarea1 = new Tarea(usuario, "Lavar coche");
 //        tareaRepository.save(tarea1);

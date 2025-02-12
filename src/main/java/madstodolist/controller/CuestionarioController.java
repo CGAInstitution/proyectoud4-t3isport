@@ -38,11 +38,11 @@ public class CuestionarioController {
 
     @PostMapping("/guardar-cuestionario")
     public String guardarCuestionario(@RequestParam Map<String, String> respuestas, Model model) {
-        // 🔹 Mostrar respuestas en consola para depuración
+        //Depuracion respuestas
         respuestas.forEach((preguntaId, respuestaId) ->
-                System.out.println("✅ Pregunta " + preguntaId + ": Respuesta " + respuestaId));
+                System.out.println("Pregunta: " + preguntaId + ": Respuesta " + respuestaId));
 
-        // 🔹 Agregar mensaje de éxito y redirigir a inicio
+
         model.addAttribute("mensaje", "¡Cuestionario enviado con éxito!");
 
         // Se pueden coger los valores de preguntaID y Respuesta ID para hacer un algoritmo sencillo y asignar
@@ -50,7 +50,7 @@ public class CuestionarioController {
 
         // el redirect es provisional para que no de error , hay que cambiarlo a /hubplanes
 
-        return "redirect:/";
+        return "redirect:/userHub";
     }
 
 }
