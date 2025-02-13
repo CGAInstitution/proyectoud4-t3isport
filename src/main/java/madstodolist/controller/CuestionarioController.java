@@ -47,6 +47,11 @@ public class CuestionarioController {
     @PostMapping("/guardar-cuestionario")
     public String guardarCuestionario(@RequestParam Map<String, String> respuestas, Model model, HttpSession session) {
         Long usuarioId = (Long) session.getAttribute("userId");
+
+        //Debuguear mañana en clasee
+        System.out.println("Sesión actual: " + session);
+        System.out.println("Usuario en sesión: " + session.getAttribute("userId"));
+
         if (usuarioId == null) {
             return "redirect:/login";
         }
