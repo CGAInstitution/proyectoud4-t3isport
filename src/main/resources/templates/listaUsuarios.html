@@ -10,14 +10,26 @@
 <body>
 <div th:replace="__header :: body"></div>
 
-<div class="container">
-
-    <section class="bg-light p-3">
+<div class="container vh-100">
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <p th:text="${error}"></p>
+    </div>
+    <section class="">
         <div class="container">
             <div class="bg-white rounded shadow-sm p-4">
                 <div class="d-flex justify-content-between mb-3">
                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#createProductModal">
+                            data-bs-target="#createProductModal"
+                            onclick="document.getElementById('createUserModal').classList.toggle('d-none');
+                 document.getElementById('createUserModal').style.display = 'flex';
+                 document.getElementById('createUserModal').style.position = 'absolute';
+                 document.getElementById('createUserModal').style.zIndex = '1050';
+                 document.getElementById('createUserModal').style.top = '0';
+                 document.getElementById('createUserModal').style.justifyContent = 'center';
+                 document.getElementById('createUserModal').style.alignItems = 'center';
+                 document.getElementById('createUserModal').style.left = '0';
+                 document.getElementById('createUserModal').style.right = '0';
+                 document.getElementById('backgroundOverlay').classList.toggle('d-none');">
                         Nuevo Usuario
                     </button>
                 </div>
@@ -41,10 +53,11 @@
                         <td th:text="${usuario.password}"></td>
                         <td th:text="${usuario.tipouser}"></td>
                         <td>
-                            <button class="btn btn-info" data-bs-toggle="modal"
-                                    th:data-bs-target="'#updateUserModal-' + ${usuario.id}">Editar
+                            <button class="btn btn-info edit-btn" data-bs-toggle="modal"
+                                    th:data-bs-target="'#updateUserModal-' + ${usuario.id}"
+                            >Editar
                             </button>
-                            <button class="btn btn-danger" data-bs-toggle="modal"
+                            <button class="btn btn-danger del-btn" data-bs-toggle="modal"
                                     th:data-bs-target="'#deleteUserModal-' + ${usuario.id}">Borrar
                             </button>
                         </td>
@@ -55,16 +68,23 @@
         </div>
     </section>
 
+    <!-- Background overlay -->
+    <div id="backgroundOverlay" class="d-none"></div>
+
     <!-- Create Modal -->
-    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel"
-         aria-hidden="true">
+    <div class="d-none" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 400px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createUserModalLabel">Nuevo Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            onclick="
+                         document.getElementById('createUserModal').classList.toggle('d-none');
+                         document.getElementById('backgroundOverlay').classList.toggle('d-none');">X
+                    </button>
                 </div>
-                <form method="POST" th:action="@{/admin/addUser}" enctype="multipart/form-data">
+                <form method="POST" th:action="@{/panelAdmin/{userId}/addUser(userId=${userId})}"
+                      enctype="multipart/form-data">
                     <div class="modal-body">
                         <!-- Correo -->
                         <div class="mb-3">
@@ -84,14 +104,14 @@
                             <input type="password" name="contrasena" id="contrasena" class="form-control"
                                    placeholder="********" required>
                         </div>
-                        <!-- Imagen (opcional) -->
-                        <div class="mb-3">
-                            <label for="img" class="form-label">Imagen</label>
-                            <input type="file" name="img" id="img" class="form-control">
-                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                onclick="
+                         document.getElementById('createUserModal').classList.toggle('d-none');
+                         document.getElementById('backgroundOverlay').classList.toggle('d-none');">
+                            Cerrar
+                        </button>
                         <button type="submit" class="btn btn-primary">Crear Usuario</button>
                     </div>
                 </form>
@@ -99,18 +119,19 @@
         </div>
     </div>
 
-
     <!-- Update Modal -->
     <div th:each="usuario : ${usuarios}">
-        <div class="modal fade" th:id="'updateUserModal-' + ${usuario.id}" tabindex="-1"
-             aria-labelledby="updateUserModalLabel" aria-hidden="true">
+        <div class="d-none" th:id="'updateUserModal-' + ${usuario.id}" tabindex="-1"
+             aria-labelledby="updateUserModalLabel">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content" style="width: 400px">
                     <div class="modal-header">
                         <h5 class="modal-title">Actualizar Usuario</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">X
+                        </button>
                     </div>
-                    <form method="POST" th:action="@{/admin/updateUser}" enctype="multipart/form-data">
+                    <form method="POST" th:action="@{/panelAdmin/{userId}/updateUser(userId=${userId})}" enctype="multipart/form-data">
                         <div class="modal-body">
                             <input type="hidden" name="idUsuarioUpdate" th:value="${usuario.id}">
 
@@ -118,31 +139,26 @@
                             <div class="mb-3">
                                 <label for="correo" class="form-label">Correo (*)</label>
                                 <input type="email" name="correo" id="correo" class="form-control"
-                                       th:value="${usuario.email}" placeholder="ejemplo@correo.com" required>
+                                       th:value="${usuario.email}" placeholder="ejemplo@correo.com">
                             </div>
 
                             <!-- Nombre -->
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre (*)</label>
                                 <input type="text" name="nombre" id="nombre" class="form-control"
-                                       th:value="${usuario.nombre}" placeholder="Nombre completo" required>
+                                       th:value="${usuario.nombre}" placeholder="Nombre completo" >
                             </div>
 
                             <!-- Contraseña -->
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label">Contraseña (*)</label>
                                 <input type="password" name="contrasena" id="contrasena" class="form-control"
-                                       placeholder="********" required>
-                            </div>
-
-                            <!-- Imagen (opcional) -->
-                            <div class="mb-3">
-                                <label for="img" class="form-label">Imagen</label>
-                                <input type="file" name="img" id="img" class="form-control">
+                                       th:value="${usuario.password}" placeholder="Nombre completo" >
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">Cerrar
+                            </button>
                             <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
                         </div>
                     </form>
@@ -151,25 +167,27 @@
         </div>
     </div>
 
-
     <!-- Delete Modal -->
     <div th:each="usuario : ${usuarios}">
-        <div class="modal fade" th:id="'deleteUserModal-' + ${usuario.id}" tabindex="-1"
-             aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+        <div class="d-none" th:id="'deleteUserModal-' + ${usuario.id}" tabindex="-1"
+             aria-labelledby="deleteUserModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Confirmar Borrado</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn btn-secondary btn-close-del" data-bs-dismiss="modal"
+                                aria-label="Close">X
+                        </button>
                     </div>
                     <div class="modal-body">
                         <p>¿Estás seguro de que deseas borrar el usuario <strong th:text="${usuario.nombre}"></strong>?
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <form method="POST" th:action="@{/admin/deleteUser}">
+                        <form method="POST" th:action="@{/panelAdmin/{userId}/deleteUser(userId=${userId})}">
                             <input type="hidden" name="idUsuario" th:value="${usuario.id}">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, cancelar
+                            <button type="button" class="btn btn-secondary btn-close-del" data-bs-dismiss="modal">No,
+                                cancelar
                             </button>
                             <button type="submit" class="btn btn-danger">Sí, continuar</button>
                         </form>
@@ -183,9 +201,8 @@
 
 
 </div>
-<div th:replace="__footer :: body">
+<div th:replace="__footer :: body"></div>
 
-    <div th:replace="fragments::javascript"/>
-</div>
+<div th:replace="fragments::javascript"/>
 </body>
 </html>
