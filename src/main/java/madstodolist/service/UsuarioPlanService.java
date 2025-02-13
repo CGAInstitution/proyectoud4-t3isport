@@ -13,8 +13,13 @@ public class UsuarioPlanService {
     @Autowired
     private UsuarioPlanRepository usuarioPlanRepository;
 
+    public void guardarUsuarioPlan(UsuarioPlan usuarioPlan) {
+        usuarioPlanRepository.save(usuarioPlan);
+    }
+
     public List<UsuarioPlan> obtenerPlanesUsuario(Long usuarioId) {
         return usuarioPlanRepository.findByUsuarioId(usuarioId);
     }
 }
+
 

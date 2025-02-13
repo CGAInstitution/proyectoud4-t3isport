@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UsuarioPlanRepository extends JpaRepository<UsuarioPlan, UsuarioPlanId> {
-
     List<UsuarioPlan> findByUsuarioId(Long usuarioId);
 }
+
 
