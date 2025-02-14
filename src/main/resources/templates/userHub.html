@@ -22,10 +22,15 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
-                        <div class="boton-imagen" th:each="usuarioPlan : ${usuarioPlanes}" onclick="alert('Botón presionado!')">
+                    <form th:each="usuarioPlan : ${usuarioPlanes}"
+                          th:action="@{/usuarios/{userId}/userhub/{id}/plan_entrenamiento(userId=${usuario.id}, id=${usuarioPlan.plan.id})}"
+                          method="get"
+                          class="form_basico">
+                        <button type="submit" class="boton-imagen">
                             <img th:src="@{/images/{imagen}(imagen=${usuarioPlan.plan.imagen})}" alt="Plan de entrenamiento">
                             <div class="texto" th:text="${usuarioPlan.plan.nombre}"></div>
-                        </div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -39,10 +44,12 @@
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                 <div class="card-body">
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_velocidad.jpeg" alt="Plan de entrenamiento">
-                        <div class="texto">Entrenamiento de velocidad</div>
-                    </div>
+                    <form action="/plan_entrenamiento" method="get">
+                        <button type="submit" class="boton-imagen">
+                            <img src="/images/plan_velocidad.jpeg" alt="Plan de entrenamiento">
+                            <div class="texto">Entrenamiento de velocidad</div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -56,10 +63,12 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                 <div class="card-body">
-                    <div class="boton-imagen" onclick="alert('Botón presionado!')">
-                        <img src="/images/plan_estrategia.jpg" alt="Plan de entrenamiento">
-                        <div class="texto">Entrenamiento de estrategia</div>
-                    </div>
+                    <form action="/plan_entrenamiento" method="get">
+                        <button type="submit" class="boton-imagen">
+                            <img src="/images/plan_estrategia.jpg" alt="Plan de entrenamiento">
+                            <div class="texto">Entrenamiento de estrategia</div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

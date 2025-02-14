@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo=${planEntrenamiento.nombre})">
+</head>
+
+<body>
+<div th:replace="__header :: body"></div>
+<form th:action="@{/usuarios/{id}/userhub(id=${usuario.id})}" method="GET">
+    <div class="back-button-container">
+        <button type="submit" class="btn btn-volver">Volver</button>
+    </div>
+</form>
+<div class="carousel-container">
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <!-- Crear los indicadores del carrusel -->
+        <li th:each="contenido, iterStat : ${contenidos}"
+            th:data-target="'#carouselExampleIndicators'"
+            th:data-slide-to="${iterStat.index}"
+            th:classappend="${iterStat.index == 0 ? ' active' : ''}">
+        </li>
+    </ol>
+
+    <div class="carousel-inner">
+        <!-- Iterar sobre los contenidos para crear las diapositivas -->
+        <div th:each="contenido, iterStat : ${contenidos}"
+             class="carousel-item"
+             th:classappend="${iterStat.index == 0 ? ' active' : ''}">
+
+
+            <div th:switch="${contenido.url != null and contenido.url != ''}">
+                <!-- Si es una imagen .jpg -->
+                <div th:case="${contenido.url.endsWith('.jpg')}">
+                    <img th:src="@{/images/{filename}(filename=${contenido.url})}"  alt="">
+                </div>
+                <!-- Si es una imagen .png -->
+                <div th:case="${contenido.url.endsWith('.png')}">
+                    <img th:src="@{/images/{filename}(filename=${contenido.url})}" alt="">
+                </div>
+
+                <!-- Si es un video .mp4 -->
+                <div th:case="${contenido.url.endsWith('.mp4')}">
+                    <video controls playsinline>
+                        <source th:src="@{/video/{filename}(filename=${contenido.url})}" type="video/mp4">
+                    </video>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+</div>
+
+
+<div th:replace="__footer :: body"></div>
+<div th:replace="fragments::javascript"></div>
+
+</body>
+</html>
+
