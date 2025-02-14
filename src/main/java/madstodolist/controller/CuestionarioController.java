@@ -53,6 +53,7 @@ public class CuestionarioController {
         System.out.println("Usuario en sesión: " + session.getAttribute("userId"));
 
         if (usuarioId == null) {
+            System.out.println("Usuario no encontrado");
             return "redirect:/login";
         }
 
@@ -65,6 +66,7 @@ public class CuestionarioController {
         //Llamada al metodo con el algoritmo para determinar el plan
         Long planId = determinarPlan(respuestas);
         if (planId == null) {
+            System.out.println("PLAN NO ENCONTRADO");
             return "redirect:/error";
         }
 
@@ -91,7 +93,8 @@ public class CuestionarioController {
         usuarioPlan.setEstado("Asignado");
 
         usuarioPlanService.guardarUsuarioPlan(usuarioPlan);
-        return "redirect:/"+ usuarioId + "/userhub";
+        return "redirect:/usuarios/" + usuarioId + "/userhub";
+
     }
 
     private Long determinarPlan(Map<String, String> respuestas) {
