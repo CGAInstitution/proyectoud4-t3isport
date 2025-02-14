@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/usuarios")
 public class UserHubController {
 
     @Autowired
@@ -26,15 +25,15 @@ public class UserHubController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("{id}/userhub")
+    @GetMapping("/usuarios/{id}/userhub")
     public String userHub(@PathVariable Long id, Model model, HttpSession session) {
-        // Lógica para obtener los detalles del usuario, si es necesario
-        UsuarioData usuario = usuarioService.findById(id);
         Long sessionUserId = (Long) session.getAttribute("userId");
 
         if (sessionUserId == null || !sessionUserId.equals(id)) {
             return "redirect:/login";
         }
+        // Lógica para obtener los detalles del usuario, si es necesario
+        UsuarioData usuario = usuarioService.findById(id);
 
         model.addAttribute("userId", sessionUserId);
         // Puedes pasar información del usuario al modelo si es necesario
@@ -42,6 +41,7 @@ public class UserHubController {
         List<UsuarioPlan> usuarioPlanes = usuarioPlanService.obtenerPlanesUsuario(id);
 
         model.addAttribute("usuarioPlanes", usuarioPlanes);
+
         // Retorna la vista para "userhub"
         return "userHub";
     }

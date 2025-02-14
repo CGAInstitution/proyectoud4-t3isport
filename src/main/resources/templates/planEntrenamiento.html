@@ -6,7 +6,7 @@
 
 <body>
 <div th:replace="__header :: body"></div>
-<form th:action="@{{id}/userhub(id=${usuario.id})}" method="GET">
+<form th:action="@{/usuarios/{id}/userhub(id=${usuario.id})}" method="GET">
     <div class="back-button-container">
         <button type="submit" class="btn btn-volver">Volver</button>
     </div>
@@ -47,10 +47,6 @@
 
                 </div>
 
-                <!-- Si es un archivo .txt -->
-                <div th:case="${contenido.url.endsWith('.txt')}">
-                    <pre th:text="fileContent"></pre>
-                </div>
             </div>
         </div>
     </div>

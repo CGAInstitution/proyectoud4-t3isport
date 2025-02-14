@@ -43,19 +43,6 @@ public class LoginController {
         return "index";
     }
 
-//    @GetMapping("/usuarios/{id}/userhub")
-//    public String userHub(@PathVariable Long id, Model model, HttpSession session) {
-//        Long sessionUserId = (Long) session.getAttribute("userId");
-//
-//        // Si no hay sesión iniciada o el ID de la sesión no coincide, redirigir a login
-//        if (sessionUserId == null || !sessionUserId.equals(id)) {
-//            return "redirect:/login";
-//        }
-//
-//        model.addAttribute("userId", id);
-//        return "userHub";
-//    }
-
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
         // Llamada al servicio para comprobar si el login es correcto
