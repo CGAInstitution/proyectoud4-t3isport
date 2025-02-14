@@ -22,7 +22,7 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
-                    <form th:each="usuarioPlan : ${usuarioPlanes}" th:action="@{/{id}/plan_entrenamiento(id=${usuarioPlan.plan.id})}" method="get" class="form_basico">
+                    <form th:each="usuarioPlan : ${usuarioPlanes}" th:action="@{{userId}/userhub/{id}/plan_entrenamiento(userId=${usuario.getId()}, id=${usuarioPlan.plan.id})}" method="get" class="form_basico">
                         <button type="submit" class="boton-imagen">
                             <img th:src="@{/images/{imagen}(imagen=${usuarioPlan.plan.imagen})}" alt="Plan de entrenamiento">
                             <div class="texto" th:text="${usuarioPlan.plan.nombre}"></div>

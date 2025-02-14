@@ -36,14 +36,14 @@ public class UserHubController {
             return "redirect:/login";
         }
 
+        model.addAttribute("userId", sessionUserId);
         // Puedes pasar información del usuario al modelo si es necesario
-        model.addAttribute("usuarioID", id);
+        model.addAttribute("usuario", usuario);
         List<UsuarioPlan> usuarioPlanes = usuarioPlanService.obtenerPlanesUsuario(id);
 
-        // Pasar la lista de usuarioPlanes al modelo
         model.addAttribute("usuarioPlanes", usuarioPlanes);
         // Retorna la vista para "userhub"
-        return "userHub";  // Nombre de la vista userHub.html
+        return "userHub";
     }
-
 }
+

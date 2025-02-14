@@ -164,23 +164,79 @@ footer {
     height: 100%; /* Asegura que el carrusel ocupe toda la altura disponible */
 }
 
-.carousel-inner {
-    height: 100%; /* Asegura que las diapositivas ocupen toda la altura del contenedor */
-}
-
-.carousel-item {
-    height: 100%; /* Hace que cada item ocupe toda la altura del contenedor */
+/* Contenedor principal que ocupa toda la altura disponible */
+.carousel-container {
     display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: center;     /* Centra el contenido verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    flex-direction: column; /* Centra los elementos en columna */
 }
 
-.carousel-item img,
-.carousel-item video {
-    width: 100%;  /* Hace que el video o la imagen ocupen todo el ancho del item */
-    height: 100%; /* Hace que el video o la imagen ocupen toda la altura del item */
-    object-fit: cover; /* Hace que el video ocupe todo el contenedor sin perder la proporción */
+/* Carrusel */
+.carousel {
+    display: flex;
+    overflow: hidden; /* Oculta los elementos fuera del área visible */
+    width: 80%;
+    height: 50%; /* Ajusta el ancho del carrusel */
+    max-width: 800px; /* Tamaño máximo */
+    position: relative;
 }
+
+/* Elementos dentro del carrusel */
+.carousel-item {
+    flex: 0 0 100%; /* Solo un elemento ocupa el carrusel a la vez */
+    display: flex;
+    overflow: hidden;
+    justify-content: center; /* Centra los elementos (videos o imágenes) dentro del carrusel */
+    align-items: center; /* Centra verticalmente los elementos dentro del carrusel */
+    height: 100%;
+    display: none; /* Ocultamos todos los elementos por defecto */
+}
+
+/* Estilo común para video e imagen */
+.carousel-item video, .carousel-item img {
+    width: 100%; /* Hace que el video o imagen ocupe el 100% del contenedor */
+    height: 100%; /* Fuerza que el video o imagen ocupe el 100% de la altura del contenedor */
+    object-fit: contain;
+    object-position: center center;
+}
+
+/* Solo el elemento activo será visible */
+.carousel-item.active {
+    display: block; /* Hacemos visible solo el elemento activo */
+}
+
+/* Asegúrate de que el carrusel tenga suficiente espacio para los controles */
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Estilo común para video e imagen */
+.carousel-item img, .carousel-item video {
+    width: 100%; /* Asegura que el video o la imagen ocupe todo el contenedor */
+    height: auto; /* Mantiene la relación de aspecto */
+    object-fit: cover; /* Asegura que la imagen o video cubra el contenedor */
+}
+
+/* Estilo de los controles (anterior y siguiente) */
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%; /* Centrar verticalmente */
+    transform: translateY(-50%); /* Ajustar para que estén exactamente en el centro */
+    color: white; /* Color de las flechas */
+    border: none;
+    padding: 10px;
+    font-size: 2rem; /* Ajuste del tamaño de las flechas */
+    cursor: pointer;
+    z-index: 10; /* Aseguramos que los botones estén por encima del contenido */
+}
+
+
+
+
+
 
 
 

@@ -6,7 +6,12 @@
 
 <body>
 <div th:replace="__header :: body"></div>
-
+<form th:action="@{{id}/userhub(id=${usuario.id})}" method="GET">
+    <div class="back-button-container">
+        <button type="submit" class="btn btn-volver">Volver</button>
+    </div>
+</form>
+<div class="carousel-container">
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <!-- Crear los indicadores del carrusel -->
@@ -23,27 +28,28 @@
              class="carousel-item"
              th:classappend="${iterStat.index == 0 ? ' active' : ''}">
 
+
             <div th:switch="${contenido.url != null and contenido.url != ''}">
                 <!-- Si es una imagen .jpg -->
                 <div th:case="${contenido.url.endsWith('.jpg')}">
-                    <img class="d-block w-100" th:src="@{/images/${contenido.url}}" alt="Imagen ${iterStat.index + 1}">
+                    <img th:src="@{/images/{filename}(filename=${contenido.url})}"  alt="">
                 </div>
-
                 <!-- Si es una imagen .png -->
                 <div th:case="${contenido.url.endsWith('.png')}">
-                    <img class="d-block w-100" th:src="@{/images/${contenido.url}}" alt="Imagen ${iterStat.index + 1}">
+                    <img th:src="@{/images/{filename}(filename=${contenido.url})}" alt="">
                 </div>
 
                 <!-- Si es un video .mp4 -->
                 <div th:case="${contenido.url.endsWith('.mp4')}">
-                    <video autoplay loop muted playsinline class="w-50 rounded shadow">
-                        <source src="/video/videoportada.mp4" type="video/mp4">
+                    <video controls playsinline>
+                        <source th:src="@{/video/{filename}(filename=${contenido.url})}" type="video/mp4">
                     </video>
+
                 </div>
 
                 <!-- Si es un archivo .txt -->
                 <div th:case="${contenido.url.endsWith('.txt')}">
-                    <pre class="d-block w-100" th:text="fileContent"></pre>
+                    <pre th:text="fileContent"></pre>
                 </div>
             </div>
         </div>
@@ -58,7 +64,7 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-
+</div>
 
 
 <div th:replace="__footer :: body"></div>
