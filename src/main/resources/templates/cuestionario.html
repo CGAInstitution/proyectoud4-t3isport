@@ -11,7 +11,7 @@
   <!-- Formulario de cuestionario -->
   <form method="post" th:action="@{/cuestionario/guardar-cuestionario}">
 
-    <!-- 🔹 Iteramos sobre las preguntas y respuestas -->
+    <!-- Iteramos sobre las preguntas y respuestas -->
     <div th:each="pregunta, iterStat : ${preguntas}" class="card p-3 mt-3">
       <h4 th:text="${pregunta.texto}"></h4>
 
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <!-- 🔹 Botón para enviar el cuestionario -->
+    <!-- Botón para enviar el cuestionario -->
     <div class="text-center mt-4">
       <button type="submit" class="btn btn-success">Finalizar Cuestionario</button>
     </div>

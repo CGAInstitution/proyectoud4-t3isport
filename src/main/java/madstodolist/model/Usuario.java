@@ -45,7 +45,7 @@ public class Usuario {
     private String tipouser = "user";
 
     @Column(name = "plan", nullable = false)
-    private String plan = "gratuito";
+    private String plan = "Premium";
 
     public Long getId() {
         return id;
