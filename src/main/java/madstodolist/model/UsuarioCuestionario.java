@@ -1,13 +1,8 @@
 package madstodolist.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import org.hibernate.annotations.ColumnDefault;
+
+import madstodolist.dto.UsuarioData;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -20,13 +15,13 @@ public class UsuarioCuestionario {
     private UsuarioCuestionarioId id;
 
     @MapsId("usuarioId")
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @MapsId("cuestionarioId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "cuestionario_id", nullable = false)
     private Cuestionario cuestionario;

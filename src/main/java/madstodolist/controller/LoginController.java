@@ -4,18 +4,22 @@ import madstodolist.authentication.ManagerUserSession;
 import madstodolist.dto.LoginData;
 import madstodolist.dto.RegistroData;
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.Cuestionario;
+import madstodolist.model.Usuario;
+import madstodolist.model.UsuarioCuestionario;
+import madstodolist.model.UsuarioCuestionarioId;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import madstodolist.repository.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class LoginController {
@@ -26,33 +30,32 @@ public class LoginController {
     @Autowired
     ManagerUserSession managerUserSession;
 
-    @GetMapping("/index")
-    public String index(Model model) {
-        return "index";
-    }
+    @Autowired
+    private CuestionarioRepository cuestionarioRepository;
 
-    @GetMapping("/index/usuarios/{id}")
-    public String index(@PathVariable Long id, Model model, HttpSession session) {
-        Long sessionUserId = (Long) session.getAttribute("userId");
+    @Autowired
+    private UsuarioCuestionarioRepository usuarioCuestionarioRepository;
 
-        if (sessionUserId == null || !sessionUserId.equals(id)) {
-            return "redirect:/login";
-        }
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-        model.addAttribute("userId", id);
-        return "index";
-    }
-
+    // -------------------- LOGIN --------------------
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
-        // Llamada al servicio para comprobar si el login es correcto
-
         UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
+
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
-            // Almacena el userId en la sesión
+
+            // Guardar usuario en sesión
             session.setAttribute("userId", usuario.getId());
-            System.out.println("SessionUserId: " + usuario.getId());
+
+            System.out.println("🔹 Usuario en sesión tras login: " + usuario.getId());
+            System.out.println("🔹 Tipo de usuario: " + usuario.getTipouser());
+
+            if (usuario.getTipouser().equals("admin")) {
+                return "redirect:/panelAdmin/" + usuario.getId();
+            }
 
             return "redirect:/usuarios/" + usuario.getId() + "/userhub";
 
@@ -63,22 +66,13 @@ public class LoginController {
             model.addAttribute("error", "Contraseña incorrecta");
             return "formLogin";
         }
+
         return "formLogin";
     }
 
-//    @GetMapping("/usuarios/{id}/userhub")
-//    public String userHub(@PathVariable Long id, Model model, HttpSession session) {
-//        Long sessionUserId = (Long) session.getAttribute("userId");
-//        if (sessionUserId == null || !sessionUserId.equals(id)) {
-//            return "redirect:/login";
-//        }
-//        model.addAttribute("userId", id);
-//        return "userHub";
-//    }
-
+    // -------------------- REGISTRO --------------------
     @PostMapping("/registro")
-    public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
-
+    public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
             return "formRegistro";
         }
@@ -89,18 +83,48 @@ public class LoginController {
             return "formRegistro";
         }
 
-        UsuarioData usuario = new UsuarioData();
+        // Crear usuario y guardarlo en la BD
+        Usuario usuario = new Usuario();
         usuario.setEmail(registroData.getEmail());
         usuario.setPassword(registroData.getPassword());
         usuario.setNombre(registroData.getNombre());
 
-        usuarioService.registrar(usuario);
-        return "redirect:/login";
+        usuario = usuarioRepository.save(usuario);
+
+        // 🔹 Guardar usuario en la sesión
+        session.setAttribute("userId", usuario.getId());
+
+        System.out.println("🔹 Usuario registrado con ID: " + usuario.getId());
+        System.out.println("🔹 Usuario en sesión después del registro: " + session.getAttribute("userId"));
+
+        // Recuperar el cuestionario con id = 1
+        Optional<Cuestionario> cuestionarioOpt = cuestionarioRepository.findById(1L);
+        if (!cuestionarioOpt.isPresent()) {
+            throw new RuntimeException("⚠️ El cuestionario con ID 1 no existe en la base de datos.");
+        }
+        Cuestionario cuestionario = cuestionarioOpt.get();
+
+        // Crear clave primaria compuesta
+        UsuarioCuestionarioId usuarioCuestionarioId = new UsuarioCuestionarioId();
+        usuarioCuestionarioId.setUsuarioId(usuario.getId());
+        usuarioCuestionarioId.setCuestionarioId(1L);
+
+        // Crear la relación en la tabla intermedia UsuarioCuestionario
+        UsuarioCuestionario usuarioCuestionario = new UsuarioCuestionario();
+        usuarioCuestionario.setId(usuarioCuestionarioId);
+        usuarioCuestionario.setUsuario(usuario);
+        usuarioCuestionario.setCuestionario(cuestionario);
+
+        usuarioCuestionarioRepository.save(usuarioCuestionario);
+
+        // Redirigir al cuestionario
+        return "redirect:/cuestionario/1";
     }
 
+    // -------------------- LOGOUT --------------------
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        managerUserSession.logout();
+        session.invalidate();  // Cerrar sesión
         return "redirect:/login";
     }
 }

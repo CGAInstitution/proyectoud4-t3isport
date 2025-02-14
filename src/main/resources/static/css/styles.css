@@ -1,3 +1,10 @@
+body {
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
 .github-link:hover {
     color: black !important;
     font-weight: bold;
@@ -127,7 +134,7 @@ footer {
     padding: 10px;
     text-align: center;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    position: fixed;
+    position: absolute;
     bottom: 0;
     width: 100%;
     margin-top: 10px;
@@ -140,6 +147,16 @@ footer {
     margin-bottom: 100px;
 }
 
+/* Overlay en administrador */
+#backgroundOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040; /* Ensure it is behind the modal */
+}
 .form_basico {
     display: inline-block;
 }

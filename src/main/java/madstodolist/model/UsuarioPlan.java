@@ -30,11 +30,11 @@ public class UsuarioPlan {
     @JoinColumn(name = "plan_id", nullable = false)
     private PlanesEntrenamiento plan;
 
-    @Column(name = "fecha_inicio")
+    @Column(name = "fecha_inicio" , nullable = true)
     private Instant fechaInicio;
 
     @Lob
-    @Column(name = "estado")
+    @Column(name = "estado" , nullable = true)
     private String estado;
 
     public UsuarioPlanId getId() {

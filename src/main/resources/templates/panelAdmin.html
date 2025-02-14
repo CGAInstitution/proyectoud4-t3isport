@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="fragments :: head (titulo='Panel Administrador')">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body class="bg-dark text-light">
+<div th:replace="__header :: body"></div>
+<div class="container vh-100 d-flex flex-column justify-content-between">
+    <!-- Botón de cierre -->
+    <div class="d-flex justify-content-end mt-2">
+        <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+    </div>
+
+    <!-- Sección de perfil -->
+    <div class="card bg-warning text-white text-center shadow-lg rounded-3">
+        <div class="card-body bg-dark rounded-bottom">
+            <img class="rounded-circle mb-3" src="https://luachea.es/images/perfiles/default/admin-default.png"
+                 alt="User" width="100">
+            <h1 class="fw-bold"><span th:text="${usuario.getNombre()}"></span></h1>
+            <div class="row text-center text-light mt-3">
+                <div class="col"></div>
+                <div class="col border-start border-end border-white">
+                    <h5 class="fw-bold">Rol</h5>
+                    <p><span th:text="${usuario.getTipouser()}"></span></p>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones de acciones -->
+    <div class="row g-3 text-center mt-4">
+        <div class="col-4 mb-3">
+            <a href="#" class="text-decoration-none text-light">
+                <div class="bg-secondary p-3 rounded">
+                    <i class="bi bi-person-circle display-6"></i>
+                    <p class="mt-2">Tickets</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-4 mb-3">
+                <a th:href="@{/panelAdmin/{id}/listaUsuarios(id=${usuario.id})}" class="text-decoration-none text-light">
+                <div class="bg-secondary p-3 rounded">
+                    <i class="bi bi-people display-6"></i>
+                    <p class="mt-2">Usuarios</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-4 mb-3">
+            <a href="#" class="text-decoration-none text-light">
+                <div class="bg-secondary p-3 rounded">
+                    <i class="bi bi-list display-6"></i>
+                    <p class="mt-2">Cursos</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="#" class="text-decoration-none text-light">
+                <div class="bg-secondary p-3 rounded">
+                    <i class="bi bi-file-earmark-text display-6"></i>
+                    <p class="mt-2">Tickets</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="#" class="text-decoration-none text-light">
+                <div class="bg-secondary p-3 rounded">
+                    <i class="bi bi-key display-6"></i>
+                    <p class="mt-2">Codigos</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="/" class="text-decoration-none text-danger">
+                <div class="bg-light p-3 rounded">
+                    <i class="bi bi-box-arrow-right display-6 text-danger"></i>
+                    <p class="mt-2">Salir</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div th:replace="__footer :: body"></div>
+<div th:replace="fragments::javascript"/>
+</body>
+</html>

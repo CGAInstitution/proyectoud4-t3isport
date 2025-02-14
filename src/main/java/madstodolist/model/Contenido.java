@@ -24,6 +24,9 @@ public class Contenido {
     @JoinColumn(name = "plan_id", nullable = false)
     private PlanesEntrenamiento plan;
 
+    @Column(name="nombre_contenido", nullable = false)
+    private String nombre_contenido;
+
     @Lob
     @Column(name = "tipo", nullable = false)
     private String tipo;
@@ -31,12 +34,6 @@ public class Contenido {
     @Lob
     @Column(name = "url", nullable = false)
     private String url;
-
-    @Column(name = "nombre_contenido", nullable = false)
-    private String nombre_contenido;
-
-    @Column(name = "content", nullable = true)
-    private String content;
 
     public Long getId() {
         return id;
@@ -76,13 +73,5 @@ public class Contenido {
 
     public void setNombre_contenido(String nombre_contenido) {
         this.nombre_contenido = nombre_contenido;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 }
