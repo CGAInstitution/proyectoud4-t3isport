@@ -35,14 +35,6 @@
     <!-- Botones de acciones -->
     <div class="row g-3 text-center mt-4">
         <div class="col-4 mb-3">
-            <a href="#" class="text-decoration-none text-light">
-                <div class="bg-secondary p-3 rounded">
-                    <i class="bi bi-person-circle display-6"></i>
-                    <p class="mt-2">Tickets</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-4 mb-3">
                 <a th:href="@{/panelAdmin/{id}/listaUsuarios(id=${usuario.id})}" class="text-decoration-none text-light">
                 <div class="bg-secondary p-3 rounded">
                     <i class="bi bi-people display-6"></i>
@@ -51,10 +43,10 @@
             </a>
         </div>
         <div class="col-4 mb-3">
-            <a href="#" class="text-decoration-none text-light">
+            <a th:href="@{/panelAdmin/{id}/tickets(id=${usuario.id})}" class="text-decoration-none text-light">
                 <div class="bg-secondary p-3 rounded">
                     <i class="bi bi-list display-6"></i>
-                    <p class="mt-2">Cursos</p>
+                    <p class="mt-2">Tickets</p>
                 </div>
             </a>
         </div>
@@ -62,7 +54,7 @@
             <a href="#" class="text-decoration-none text-light">
                 <div class="bg-secondary p-3 rounded">
                     <i class="bi bi-file-earmark-text display-6"></i>
-                    <p class="mt-2">Tickets</p>
+                    <p class="mt-2">Cursos</p>
                 </div>
             </a>
         </div>
