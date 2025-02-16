@@ -37,7 +37,7 @@
         <div class="card">
             <div class="card-header card-premium" id="headingTwo">
                 <h5 class="mb-0">
-                    <button class="btn btn-plan-premium w-100" th:attr="disabled=${usuarioPlanes[0].usuario.plan != 'Gold' and usuarioPlanes[0].usuario.plan != 'Premium'}" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <button class="btn btn-plan-premium w-100" th:attr="disabled=${usuarioPlanes[0].usuario.plan.name() != 'GOLD' and usuarioPlanes[0].usuario.plan.name() != 'PREMIUM'}" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                         Plan Premium
                     </button>
                 </h5>
@@ -56,7 +56,8 @@
         <div class="card">
             <div class="card-header card-gold" id="headingThree">
                 <h5 class="mb-0">
-                    <button class="btn btn-plan-gold w-100" th:attr="disabled=${usuarioPlanes[0].usuario.tipouser != 'Gold'}" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <button class="btn btn-plan-gold w-100" th:attr="disabled=${usuarioPlanes[0].usuario.plan.name() != 'GOLD'}"
+                            data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                         Plan Gold
                     </button>
                 </h5>

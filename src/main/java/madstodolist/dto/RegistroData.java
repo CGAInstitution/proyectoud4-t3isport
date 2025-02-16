@@ -1,5 +1,6 @@
 package madstodolist.dto;
 
+import madstodolist.model.TipoPlan;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -13,6 +14,7 @@ public class RegistroData {
     private String nombre;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date fechaNacimiento;
+    private TipoPlan plan;
 
     public String getEmail() {
         return eMail;
@@ -44,5 +46,21 @@ public class RegistroData {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public @Email String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(@Email String eMail) {
+        this.eMail = eMail;
+    }
+
+    public TipoPlan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(TipoPlan plan) {
+        this.plan = plan;
     }
 }

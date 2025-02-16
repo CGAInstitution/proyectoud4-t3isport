@@ -45,7 +45,8 @@ public class Usuario {
     private String tipouser = "user";
 
     @Column(name = "plan", nullable = false)
-    private String plan = "Premium";
+    @Enumerated(EnumType.STRING)
+    private TipoPlan plan = TipoPlan.GRATUITO;
 
     public Long getId() {
         return id;
@@ -111,11 +112,11 @@ public class Usuario {
         this.tipouser = tipouser;
     }
 
-    public String getPlan() {
+    public TipoPlan getPlan() {
         return plan;
     }
 
-    public void setPlan(String plan) {
+    public void setPlan(TipoPlan plan) {
         this.plan = plan;
     }
 

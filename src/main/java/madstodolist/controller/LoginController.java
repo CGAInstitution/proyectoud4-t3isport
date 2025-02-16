@@ -1,24 +1,24 @@
 package madstodolist.controller;
 
+import ch.qos.logback.core.pattern.Converter;
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.dto.LoginData;
 import madstodolist.dto.RegistroData;
 import madstodolist.dto.UsuarioData;
-import madstodolist.model.Cuestionario;
-import madstodolist.model.Usuario;
-import madstodolist.model.UsuarioCuestionario;
-import madstodolist.model.UsuarioCuestionarioId;
+import madstodolist.model.*;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import madstodolist.repository.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.beans.PropertyEditorSupport;
 import java.util.Optional;
 
 @Controller
@@ -70,6 +70,17 @@ public class LoginController {
         return "formLogin";
     }
 
+    // INIT BINDER para convertir String a TipoPlan automáticamente
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(TipoPlan.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                setValue(TipoPlan.valueOf(text.toUpperCase()));  // Convierte el String a Enum
+            }
+        });
+    }
+
     // -------------------- REGISTRO --------------------
     @PostMapping("/registro")
     public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model, HttpSession session) {
@@ -88,6 +99,7 @@ public class LoginController {
         usuario.setEmail(registroData.getEmail());
         usuario.setPassword(registroData.getPassword());
         usuario.setNombre(registroData.getNombre());
+        usuario.setPlan(registroData.getPlan());
 
         usuario = usuarioRepository.save(usuario);
 
