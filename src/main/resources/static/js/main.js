@@ -63,6 +63,7 @@ window.onload = function () {
 
     // FUNCION PARA EL FOOTER
     // document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM cargado...");
         const footer = document.querySelector("footer");
         console.log(window.location.pathname);
 

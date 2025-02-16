@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments :: head (titulo='Inicio')"></head>
@@ -9,64 +9,64 @@
 
 <div class="container-fluid">
 
-  <div class="col-auto d-flex justify-content-end">
-    <form action="/login" method="get" class="me-3">
-      <button type="submit" class="btn btn-primary btn-sm" style="margin-right: 15px;">Login</button>
-    </form>
-    <form action="/registro" method="get">
-      <button type="submit" class="btn btn-primary btn-sm">Registro</button>
-    </form>
-  </div>
-
-
-  <!-- Video de presentación con tamaño reducido -->
-  <div class="row mt-2">
-    <div class="col text-center">
-      <video autoplay loop muted playsinline class="w-50 rounded shadow" style="max-width: 720px;">
-        <source src="/video/videoportada.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
+    <div class="col-auto d-flex justify-content-end">
+        <form action="/login" method="get" class="me-3">
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-right: 15px;">Login</button>
+        </form>
+        <form action="/registro" method="get">
+            <button type="submit" class="btn btn-primary btn-sm">Registro</button>
+        </form>
     </div>
-  </div>
 
-  <!-- Planes de entrenamiento -->
-  <div class="row mt-4">
-    <div class="col-md-4">
-      <div class="panel panel-default" id="basic_panel">
-        <div class="p-4 rounded shadow text-center" >
-          <p class="font-weight-bold">Plan Básico</p>
-          <p>Plan gratuito: 0€/mes</p>
+
+    <!-- Video de presentación con tamaño reducido -->
+    <div class="row mt-2">
+        <div class="col text-center">
+            <video autoplay loop muted playsinline class="w-50 rounded shadow" style="max-width: 720px;">
+                <source src="/video/videoportada.mp4" type="video/mp4">
+                Tu navegador no soporta el video.
+            </video>
         </div>
-      </div>
     </div>
-    <div class="col-md-4">
-      <div class="panel panel-default text-center" id="premium_panel">
-        <div class="p-4 rounded shadow" >
-          <p class="font-weight-bold">Plan Premium</p>
-          <p>Plan iniciación: 10,99€/mes</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel panel-default text-center" id="gold_panel">
-        <div class="p-4 rounded shadow">
-          <p class="font-weight-bold">Plan Gold</p>
-          <p>Plan avanzado: 20,99€/mes</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Mensaje de error -->
-  <div id="mensaje" class="rounded"
-       style="z-index: 4; position: absolute; transition: top 0.5s; top: -150%; right: 0; color: black; padding: 10px;"
-       th:if="${error != null}">
-    <div class="alert alert-danger text-center" th:text="${error}"></div>
-  </div>
+    <!-- Planes de entrenamiento -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="panel panel-default" id="basic_panel">
+                <div class="p-4 rounded shadow text-center">
+                    <p class="font-weight-bold">Plan Básico</p>
+                    <p>Plan gratuito: 0€/mes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default text-center" id="premium_panel">
+                <div class="p-4 rounded shadow">
+                    <p class="font-weight-bold">Plan Premium</p>
+                    <p>Plan iniciación: 10,99€/mes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default text-center" id="gold_panel">
+                <div class="p-4 rounded shadow">
+                    <p class="font-weight-bold">Plan Gold</p>
+                    <p>Plan avanzado: 20,99€/mes</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <script type="text/javascript">
-    // Puedes añadir aquí cualquier script que necesites
-  </script>
+    <!-- Mensaje de error -->
+    <div id="mensaje" class="rounded"
+         style="z-index: 4; position: absolute; transition: top 0.5s; top: -150%; right: 0; color: black; padding: 10px;"
+         th:if="${error != null}">
+        <div class="alert alert-danger text-center" th:text="${error}"></div>
+    </div>
+
+    <script type="text/javascript">
+        // Puedes añadir aquí cualquier script que necesites
+    </script>
 </div>
 
 <div th:replace="__footer :: body"></div>
