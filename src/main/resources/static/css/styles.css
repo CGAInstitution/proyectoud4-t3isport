@@ -113,6 +113,7 @@ input:disabled {
 .card {
     margin-bottom: 10px; /* Espaciado entre cards */
 }
+
 body {
     height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
     margin: 0;
@@ -157,6 +158,7 @@ footer {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1040; /* Ensure it is behind the modal */
 }
+
 .form_basico {
     display: inline-block;
 }
@@ -251,10 +253,28 @@ footer {
 }
 
 
+/*Login y Footer*/
+.gradient-custom-2 {
+    background-color: rgb(227, 176, 75);
+}
 
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
 
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
 
-
-
-
-
+@media (max-width: 992px) {
+    footer {
+        background-color: black !important;
+        position: inherit !important;
+    }
+}
+/*FIN*/
