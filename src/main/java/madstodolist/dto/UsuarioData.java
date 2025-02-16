@@ -10,6 +10,9 @@ public class UsuarioData {
     private String nombre;
     private String password;
     private String tipouser;
+    private String foto;
+    private String apellidos;
+    private String bio;
 
     // Getters y setters
 
@@ -59,12 +62,15 @@ public class UsuarioData {
     public UsuarioData() {
     }
 
-    public UsuarioData(Long id, String email, String nombre, String password, String tipouser) {
+    public UsuarioData(Long id, String email, String nombre, String password, String tipouser, String foto, String apellidos, String bio) {
         this.id = id;
         this.email = email;
         this.nombre = nombre;
         this.password = password;
         this.tipouser = tipouser;
+        this.foto = foto;
+        this.apellidos = apellidos;
+        this.bio = bio;
     }
 
     @Override
@@ -88,6 +94,31 @@ public class UsuarioData {
                 ", nombre='" + nombre + '\'' +
                 ", password='" + password + '\'' +
                 ", tipouser='" + tipouser + '\'' +
+                ", foto='" + foto + '\'' +
                 '}';
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
