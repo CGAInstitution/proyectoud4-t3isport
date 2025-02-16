@@ -4,62 +4,77 @@
 <head th:replace="fragments :: head (titulo='Registro')"></head>
 
 <body>
-<div class="container-fluid">
+<div th:replace="__header :: body"></div>
 
-    <div class="row justify-content-center mb-3">
-        <div class="col-auto">
-            <h2>Registro nuevo usuario</h2>
-        </div>
-    </div>
+<section class="mt-5">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+                <div class="card rounded-3 text-black">
+                    <div class="row g-0">
+                        <div class="col-lg-6">
+                            <div class="p-md-5 mx-md-4">
 
-    <div class="row justify-content-center">
-        <div class="col-6">
-            <form method="post" th:action="@{/registro}" th:object="${registroData}">
-                <div class="row justify-content-center">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="eMail">Correo electrónico</label>
-                            <input id="eMail" class="form-control" name="eMail" placeholder="Correo electrónico"
-                                   type="text" th:field="*{email}" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input id="nombre" class="form-control" name="nombre" placeholder="Nombre" type="text"
-                                   th:field="*{nombre}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Contraseña</label>
-                            <input id="password" class="form-control" name="password" placeholder="Contraseña"
-                                   type="password" th:field="*{password}" required/>
-                        </div>
+                                <div class="text-center">
+                                    <img src="/images/logo.png" style="width: 185px;" alt="logo">
+                                </div>
 
-                        <div class="form-group">
-                            <label for="fechaNacimiento">Fecha de nacimiento</label>
-                            <input id="fechaNacimiento" class="form-control" name="fechaNacimiento"
-                                   placeholder="01-12-2019" th:field="*{fechaNacimiento}"/>
-                        </div>
+                                <h2 class="text-center mb-4">Registro nuevo usuario</h2>
 
-                        <button type="submit" class="btn btn-primary">Registro</button>
-                        <a class="btn btn-link" href="/login">Ir a login</a>
+                                <form method="post" th:action="@{/registro}" th:object="${registroData}">
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <label class="form-label" for="eMail">Correo electrónico</label>
+                                        <input id="eMail" class="form-control form-control-sm" name="eMail"
+                                               placeholder="Correo electrónico" type="text" th:field="*{email}" required/>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <label class="form-label" for="nombre">Nombre</label>
+                                        <input id="nombre" class="form-control form-control-sm" name="nombre"
+                                               placeholder="Nombre" type="text" th:field="*{nombre}"/>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <label class="form-label" for="password">Contraseña</label>
+                                        <input id="password" class="form-control form-control-sm" name="password"
+                                               placeholder="Contraseña" type="password" th:field="*{password}" required/>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <label class="form-label" for="fechaNacimiento">Fecha de nacimiento</label>
+                                        <input id="fechaNacimiento" class="form-control form-control-sm" name="fechaNacimiento"
+                                               placeholder="01-12-2019" th:field="*{fechaNacimiento}"/>
+                                    </div>
+
+                                    <div class="text-center pt-1 mb-5 pb-1">
+                                        <button data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                                                type="submit">Registrar
+                                        </button>
+                                    </div>
+
+                                    <div class="d-flex align-items-center justify-content-center pb-4">
+                                        <p class="mb-0 mr-2">¿Ya tienes cuenta? </p>
+                                        <a href="/login" class="">Inicia sesión</a>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                            <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                                <h4 class="mb-4">¿A qué nos dedicamos?</h4>
+                                <p class="small mb-0">Nos dedicamos a optimizar el rendimiento de los futbolistas, independientemente de su nivel actual. Ofrecemos planes personalizados diseñados para mejorar sus habilidades y desempeño en el campo, adaptándonos a las necesidades individuales de cada jugador.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-    <div class="row mt-3 justify-content-center">
-        <div class="col-9">
-            <div th:object="${registroData}">
-                <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-                </ul>
             </div>
-            <ul th:if="${error != null}" class="alert alert-danger">
-                <li th:text="${error}"></li>
-            </ul>
         </div>
     </div>
-</div>
+</section>
 
+<div th:replace="__footer :: body"></div>
 <div th:replace="fragments::javascript"/>
 
 </body>

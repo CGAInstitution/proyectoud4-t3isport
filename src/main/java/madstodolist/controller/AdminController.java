@@ -1,7 +1,10 @@
 package madstodolist.controller;
 
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.PlanesEntrenamiento;
 import madstodolist.model.Usuario;
+import madstodolist.model.UsuarioPlan;
+import madstodolist.repository.UsuarioPlanRepository;
 import madstodolist.repository.UsuarioRepository;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioPlanRepository usuarioPlanRepository;
 
     /**
      * Método que muestra el panel de administración de un usuario.
@@ -221,4 +227,19 @@ public class AdminController {
 
         return "redirect:/panelAdmin/" + id + "/listaUsuarios";
     }
+
+
+    @GetMapping("/panelAdmin/{id}/listaUsuariosPlanes")
+    public String listaUsuariosPlanes(@PathVariable Long id, Model model, HttpSession session) {
+        Long sessionUserId = (Long) session.getAttribute("userId");
+
+        if (sessionUserId == null || !sessionUserId.equals(id)) {
+            return "redirect:/login";
+        }
+
+        List<UsuarioPlan> planesUsuarios = usuarioPlanRepository.findAllUsuarioPlanes();
+        model.addAttribute("planesUsuarios", planesUsuarios);
+        return "listaUsuariosPlanes";
+    }
+
 }

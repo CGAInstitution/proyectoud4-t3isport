@@ -50,8 +50,8 @@ public class LoginController {
             // Guardar usuario en sesión
             session.setAttribute("userId", usuario.getId());
 
-            System.out.println("🔹 Usuario en sesión tras login: " + usuario.getId());
-            System.out.println("🔹 Tipo de usuario: " + usuario.getTipouser());
+            System.out.println(" Usuario en sesión tras login: " + usuario.getId());
+            System.out.println(" Tipo de usuario: " + usuario.getTipouser());
 
             if (usuario.getTipouser().equals("admin")) {
                 return "redirect:/panelAdmin/" + usuario.getId();
@@ -100,7 +100,7 @@ public class LoginController {
         // Recuperar el cuestionario con id = 1
         Optional<Cuestionario> cuestionarioOpt = cuestionarioRepository.findById(1L);
         if (!cuestionarioOpt.isPresent()) {
-            throw new RuntimeException("⚠️ El cuestionario con ID 1 no existe en la base de datos.");
+            throw new RuntimeException("El cuestionario con ID 1 no existe en la base de datos.");
         }
         Cuestionario cuestionario = cuestionarioOpt.get();
 
