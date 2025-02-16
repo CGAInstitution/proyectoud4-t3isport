@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Mi perfil')">
+</head>
+<body>
+<div th:replace="__header :: body"></div>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Columna para la imagen -->
+        <div class="col-md-4 d-flex justify-content-left">
+            <div>
+                <img id="fotoEditable" th:src="@{${usuario.foto != null ? '/images/' + usuario.foto : '/images/avatar_base.jpg'}}" alt="Foto usuario" class="img-fluid rounded-circle" style="max-width: 150px; max-height: 150px;"/>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <!-- Primera fila de campos -->
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" class="form-control form-control-sm" name="nombre"
+                               placeholder="Nombre"
+                               type="text" th:field="${usuario.nombre}" disabled/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="apellidos">Apellidos</label>
+                        <input id="apellidos" class="form-control form-control-sm" name="apellidos"
+                               placeholder="Apellidos"
+                               th:value="${usuario.apellidos}" disabled/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segunda fila de campos -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="email">Email</label>
+                        <input id="email" class="form-control form-control-sm" name="email"
+                               placeholder="Email"
+                               type="email" th:field="${usuario.email}" disabled/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="bio">Bio</label>
+                        <input id="bio" class="form-control form-control-sm" name="bio"
+                               placeholder="Escribe tu bio"
+                               type="text" th:field="${usuario.bio}" disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-primary" id="habilitarCampos">Editar</button>
+                <button type="button" class="btn btn-primary" id="confirmarEdit">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="__footer :: body"></div>
+
+<div th:replace="fragments::javascript"></div>
+
+</body>
+</html>

@@ -81,7 +81,7 @@ public class UsuarioService {
                 .stream(usuarioRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
         return usuarios.stream()
-                .map(usuario -> new UsuarioData(usuario.getId(), usuario.getEmail(), usuario.getNombre(), usuario.getPassword(), usuario.getTipouser()))
+                .map(usuario -> new UsuarioData(usuario.getId(), usuario.getEmail(), usuario.getNombre(), usuario.getPassword(), usuario.getTipouser(), usuario.getFoto(), usuario.getApellidos(), usuario.getBio()))
                 .collect(Collectors.toList());
     }
 }

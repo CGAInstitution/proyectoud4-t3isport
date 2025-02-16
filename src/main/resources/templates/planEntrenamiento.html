@@ -6,6 +6,7 @@
 
 <body>
 <div th:replace="__header :: body"></div>
+<div th:replace="fragment_user :: user-menu"></div>
 <form th:action="@{/usuarios/{id}/userhub(id=${usuario.id})}" method="GET">
     <div class="back-button-container">
         <button type="submit" class="btn btn-volver">Volver</button>
@@ -22,10 +23,10 @@
         </li>
     </ol>
 
-    <div class="carousel-inner">
+    <div class="carousel-inner w-100">
         <!-- Iterar sobre los contenidos para crear las diapositivas -->
         <div th:each="contenido, iterStat : ${contenidos}"
-             class="carousel-item"
+             class="carousel-item w-100"
              th:classappend="${iterStat.index == 0 ? ' active' : ''}">
 
 
