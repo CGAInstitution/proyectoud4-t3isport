@@ -84,4 +84,27 @@ public class UsuarioService {
                 .map(usuario -> new UsuarioData(usuario.getId(), usuario.getEmail(), usuario.getNombre(), usuario.getPassword(), usuario.getTipouser(), usuario.getFoto(), usuario.getApellidos(), usuario.getBio()))
                 .collect(Collectors.toList());
     }
+
+    public void actualizarUsuario(UsuarioData usuario) {
+        // Lógica para actualizar el usuario en la base de datos
+        System.out.println(usuario.toString());
+        Usuario usuarioExistente = usuarioRepository.findById(usuario.getId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (usuario.getEmail() != null) {
+            usuarioExistente.setEmail(usuario.getEmail());
+        }
+        if (usuario.getNombre() != null) {
+            usuarioExistente.setNombre(usuario.getNombre());
+        }
+        if (usuario.getApellidos() != null) {
+            usuarioExistente.setApellidos(usuario.getApellidos());
+        }
+        if (usuario.getBio() != null) {
+            usuarioExistente.setBio(usuario.getBio());
+        }
+        // Actualiza otros campos si es necesario
+
+        usuarioRepository.save(usuarioExistente);
+    }
 }

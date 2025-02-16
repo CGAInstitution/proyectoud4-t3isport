@@ -177,22 +177,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    document.getElementById('confirmarEdit').addEventListener('click', function() {
-        // Seleccionar todos los inputs en el contenedor
-        const inputs = document.querySelectorAll('.col-md-6 input');
-
-        // Habilitar todos los inputs
-        inputs.forEach(function(input) {
-            input.disabled = true;
-        });
-
-        // Obtener el elemento por su ID
-        const elemento = document.getElementById("confirmarEdit");
-
-        // Cambiar el estilo para hacerlo invisible
-        elemento.style.display = "none";
-
-    });
-
 });
 
