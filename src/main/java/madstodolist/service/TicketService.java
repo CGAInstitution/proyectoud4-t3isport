@@ -25,6 +25,10 @@ public class TicketService {
         return mensajeTicketRepository.save(mensajeTicket);
     }
 
+    public List<MensajeTicket> getMensajesByTicketId(Long ticketId) {
+        return mensajeTicketRepository.findByTicketId(ticketId);
+    }
+
     public List<MensajeTicket> findMensajesByTicketId(Long ticketId) {
         return mensajeTicketRepository.findByTicketId(ticketId);
     }

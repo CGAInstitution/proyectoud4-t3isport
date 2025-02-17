@@ -34,10 +34,10 @@ public class TicketController {
     private UsuarioService usuarioService;
 
     @Autowired
-    private TicketRepository ticketRepository;
+    private TicketRepository ticketRepository; //cambiarlo a service, repository no !
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository; //sobra porque ya esta en el service
 
     @Autowired
     private MensajeTicketRepository mensajeTicketRepository;
@@ -71,23 +71,35 @@ public class TicketController {
     public String listaTickets(@PathVariable Long id, Model model, HttpSession session) {
         Long sessionUserId = (Long) session.getAttribute("userId");
 
+        // Verificar si el usuario está autenticado y si coincide con el id del path
         if (sessionUserId == null || !sessionUserId.equals(id)) {
             return "redirect:/login";
         }
 
-        List<Ticket> tickets = ticketRepository.findAll();
+        // Recuperar todos los tickets desde la base de datos
+        List<Ticket> tickets = ticketService.findAllTickets();
+
+        // Ordenar los mensajes de cada ticket por fecha de envío
         for (Ticket ticket : tickets) {
-            List<MensajeTicket> mensajesOrdenados = ticket.getMensajes().stream()
-                    .sorted(Comparator.comparing(MensajeTicket::getFechaEnvio))
-                    .collect(Collectors.toList());
+            System.out.println(ticketService.getMensajesByTicketId(ticket.getId()));
+
+            List<MensajeTicket> mensajesOrdenados = ticketService.getMensajesByTicketId(ticket.getId());
+
+            // Establecemos la lista ordenada en el ticket
             ticket.setMensajes(mensajesOrdenados);
-//            System.out.println("ss" + ticket.getMensajes());
+
+            // Imprimir para depuración (esto te ayudará a verificar que el orden se mantiene)
+            // System.out.println("aa (ordenados): " + mensajesOrdenados);
+            // System.out.println("ss (original): " + ticket.getMensajes());
         }
+
+        // Pasamos la lista de tickets al modelo para que sea accesible en la vista
         model.addAttribute("tickets", tickets);
         model.addAttribute("userId", id);
 
-        return "listaTickets";
+        return "listaTickets";  // Devolver el nombre de la vista
     }
+
 
     @PostMapping("/panelAdmin/{id}/addTicketRespuesta")
     public String addTicketRespuesta(@PathVariable Long id,
@@ -101,7 +113,7 @@ public class TicketController {
         }
 
         // Buscar el ticket por ID
-        Optional<Ticket> optionalTicket = ticketRepository.findById(ticketId);
+        Optional<Ticket> optionalTicket = Optional.ofNullable(ticketService.findTicketById(ticketId));
         if (!optionalTicket.isPresent()) {
             redirectAttributes.addFlashAttribute("error", "El ticket no existe.");
             return "redirect:/panelAdmin/" + sessionUserId + "/listaTickets";
@@ -127,12 +139,16 @@ public class TicketController {
         // Guardar el mensaje en la base de datos
         mensajeTicketRepository.save(mensajeTicket);
 
-        // Ordenar los mensajes por fecha de envío
-        List<MensajeTicket> mensajesOrdenados = ticket.getMensajes().stream()
-                .sorted(Comparator.comparing(MensajeTicket::getFechaEnvio))
-                .collect(Collectors.toList());
-        ticket.setMensajes(mensajesOrdenados);
+        // Obtener y ordenar los mensajes por fecha de envío
+//        List<MensajeTicket> mensajesOrdenados = ticketService.getMensajesByTicketId(ticketId).stream()
+//                .sorted(Comparator.comparing(MensajeTicket::getFechaEnvio))
+//                .collect(Collectors.toList());
 
+
+        // Reemplazar los mensajes del ticket con la lista ordenada
+//        ticket.setMensajes(mensajesOrdenados);
+
+        // Añadir mensaje de éxito y redirigir
         redirectAttributes.addFlashAttribute("success", "Respuesta enviada correctamente.");
         return "redirect:/panelAdmin/" + sessionUserId + "/listaTickets";
     }
