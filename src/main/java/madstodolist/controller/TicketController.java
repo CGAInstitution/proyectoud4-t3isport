@@ -145,7 +145,7 @@ public class TicketController {
         /*model.addAttribute("tickets", tickets);
         model.addAttribute("userId", id);*/
 
-        return "listaTickets";  // Devolver el nombre de la vista
+        return "listaTickets";  // Devolver el nombre de la vista del usuario
     }
 
 }
