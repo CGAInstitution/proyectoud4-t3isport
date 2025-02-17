@@ -89,17 +89,17 @@ window.onload = function () {
 
     // FUNCION PARA EL FOOTER
     // document.addEventListener("DOMContentLoaded", function () {
-        console.log("DOM cargado...");
-        const footer = document.querySelector("footer");
-        console.log(window.location.pathname);
+    console.log("DOM cargado...");
+    const footer = document.querySelector("footer");
+    console.log(window.location.pathname);
 
-        if (!window.location.pathname.includes("/login")) {
-            console.log("entra")
-            footer.style.position = "relative";
-            footer.style.setProperty("margin-top", "50px", "important");
-        } else {
-            footer.style.position = "absolute";
-        }
+    if (!window.location.pathname.includes("/login")) {
+        console.log("entra")
+        footer.style.position = "relative";
+        footer.style.setProperty("margin-top", "50px", "important");
+    } else {
+        footer.style.position = "absolute";
+    }
     // });
 
 };
@@ -186,12 +186,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    document.getElementById('habilitarCampos').addEventListener('click', function() {
+    document.getElementById('habilitarCampos').addEventListener('click', function () {
         // Seleccionar todos los inputs en el contenedor
         const inputs = document.querySelectorAll('.col-md-6 input');
 
         // Habilitar todos los inputs
-        inputs.forEach(function(input) {
+        inputs.forEach(function (input) {
             input.disabled = false;
         });
 
@@ -201,30 +201,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Cambiar el estilo para hacerlo visible
         elemento.style.display = "block";
 
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Obtener el botón de "Nuevo ticket" y el submenú
-        const btnTicket = document.getElementById("btnTicket");
-        const submenu = document.getElementById("submenuTicket");
-
-        // Asegurarse de que el submenú esté oculto al inicio
-        submenu.style.display = "none"; // Inicialmente oculto
-
-        // Verificar si el botón existe
-        if (btnTicket) {
-            // Agregar el evento de clic al botón
-            btnTicket.addEventListener('click', function() {
-                // Verificar si el submenú está oculto o visible
-                if (submenu.style.display === "none" || submenu.style.display === "") {
-                    submenu.style.display = "block"; // Mostrar el submenú
-                } else {
-                    submenu.style.display = "none"; // Ocultar el submenú
-                }
-            });
-        } else {
-            console.error("No se pudo encontrar el botón con el id 'btnTicket'");
-        }
     });
 
 });

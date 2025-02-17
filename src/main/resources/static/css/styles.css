@@ -392,7 +392,7 @@ footer {
 
 .submenu {
     position: absolute;
-    left: -140px;  /* Posición a la izquierda del menú principal */
+    left: -130px;  /* Posición a la izquierda del menú principal */
     top: 0;
     background-color: #f1f1f1;
     padding: 10px;
