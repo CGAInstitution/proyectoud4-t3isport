@@ -118,4 +118,34 @@ public class TicketController {
         return "redirect:/panelAdmin/" + sessionUserId + "/listaTickets";
     }
 
+
+    //VISTA USUARIO LISTAJE DE TICKETS
+    @GetMapping("/usuarios/{id}/listaTickets")
+    public String listaTicketsUsuariio(@PathVariable Long id, Model model, HttpSession session) {
+        Long sessionUserId = (Long) session.getAttribute("userId");
+
+        // Verificar si el usuario está autenticado y si coincide con el id del path
+        if (sessionUserId == null || !sessionUserId.equals(id)) {
+            return "redirect:/login";
+        }
+
+        // Recuperar todos los tickets desde la base de datos
+        /*List<Ticket> tickets = ticketService.findAllTickets();*/
+
+        // Ordenar los mensajes de cada ticket por fecha de envío
+        /*for (Ticket ticket : tickets) {
+            // Obtener y ordenar los mensajes por fecha de envío
+            List<MensajeTicket> mensajesOrdenados = ticketService.getMensajesByTicketId(ticket.getId());
+
+            // Establecemos la lista ordenada en el ticket
+            ticket.setMensajes(mensajesOrdenados);
+        }*/
+
+        // Pasamos la lista de tickets al modelo para que sea accesible en la vista
+        /*model.addAttribute("tickets", tickets);
+        model.addAttribute("userId", id);*/
+
+        return "listaTickets";  // Devolver el nombre de la vista
+    }
+
 }
