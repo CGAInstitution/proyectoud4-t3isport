@@ -8,12 +8,15 @@
 <div id="user-menu" th:fragment="user-menu">
 
   <img id="perfilFoto" th:src="@{${usuario.foto != null ? '/images/' + usuario.foto : '/images/avatar_base.jpg'}}" alt="Foto Usuario"/>
-
+  <div id="dropdown-menu">
   <!-- Opción de perfil -->
   <a th:href="@{/usuarios/{id}/perfil(id=${usuario.id})}">Mi perfil</a>
 
+  <button id="btnNewTicket">Nuevo ticket</button>
+
   <!-- Opción de cerrar sesión -->
   <a class="logout" th:href="@{/logout}">Cerrar sesión</a>
+  </div>
 </div>
 </body>
 </html>

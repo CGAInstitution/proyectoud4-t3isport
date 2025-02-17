@@ -64,15 +64,13 @@ public class CuestionarioController {
 
 
         //Llamada al metodo con el algoritmo para determinar el plan
-        Long planId = determinarPlan(respuestas);
-        if (planId == null) {
+        List<Long> planIds = determinarPlan(respuestas);
+        if (planIds == null || planIds.isEmpty()) {
             System.out.println("PLAN NO ENCONTRADO");
             return "redirect:/error";
         }
 
-
-        //uso usuariodata por seguridad, pero creo que es menos eficiente. Ademas el data incluye la contraseña,
-        //no sé muy bien por qué
+        // Uso de UsuarioData por seguridad , aunque no entiedo exactamente porqué ya que usuariodata incluye la pass
         UsuarioData usuarioData = usuarioService.findById(usuarioId);
         Usuario usuario = new Usuario();
         usuario.setId(usuarioData.getId());
@@ -81,62 +79,75 @@ public class CuestionarioController {
         usuario.setPassword(usuarioData.getPassword());
         usuario.setTipouser(usuarioData.getTipouser());
 
-        PlanesEntrenamiento plan = planService.findById(planId);
+        //Recorrer la lista de planes y asignarlos uno a uno
+        for (Long planId : planIds) {
+            PlanesEntrenamiento plan = planService.findById(planId);
 
-        UsuarioPlan usuarioPlan = new UsuarioPlan();
-        usuarioPlan.setId(new UsuarioPlanId());
-        usuarioPlan.getId().setUsuarioId(usuarioId);
-        usuarioPlan.getId().setPlanId(planId);
-        usuarioPlan.setUsuario(usuario);
-        usuarioPlan.setPlan(plan);
-        usuarioPlan.setFechaInicio(Instant.now());
-        usuarioPlan.setEstado("Asignado");
+            UsuarioPlan usuarioPlan = new UsuarioPlan();
+            usuarioPlan.setId(new UsuarioPlanId());
+            usuarioPlan.getId().setUsuarioId(usuarioId);
+            usuarioPlan.getId().setPlanId(planId);
+            usuarioPlan.setUsuario(usuario);
+            usuarioPlan.setPlan(plan);
+            usuarioPlan.setFechaInicio(Instant.now());
+            usuarioPlan.setEstado("Asignado");
 
-        usuarioPlanService.guardarUsuarioPlan(usuarioPlan);
+            usuarioPlanService.guardarUsuarioPlan(usuarioPlan);
+        }
+
         return "redirect:/usuarios/" + usuarioId + "/userhub";
 
     }
 
-    private Long determinarPlan(Map<String, String> respuestas) {
-        //añado las combinaciones de respuestas y el id del plan al mapa
-        Map<String, Long> mapaPlanes = new HashMap<>();
-        mapaPlanes.put("1-9", 1L);
-        mapaPlanes.put("2-9", 8L);
-        mapaPlanes.put("3-9", 8L);
-        mapaPlanes.put("4-9", 15L);
-        mapaPlanes.put("1-10-16", 2L);
-        mapaPlanes.put("2-10-16", 9L);
-        mapaPlanes.put("3-10-16", 9L);
-        mapaPlanes.put("4-10-16", 16L);
-        mapaPlanes.put("1-11-16", 3L);
-        mapaPlanes.put("2-11-16", 10L);
-        mapaPlanes.put("3-11-16", 10L);
-        mapaPlanes.put("4-11-16", 17L);
-        mapaPlanes.put("1-12-16", 4L);
-        mapaPlanes.put("2-12-16", 11L);
-        mapaPlanes.put("3-12-16", 11L);
-        mapaPlanes.put("4-12-16", 18L);
-        mapaPlanes.put("1-13-16", 5L);
-        mapaPlanes.put("2-13-16", 12L);
-        mapaPlanes.put("3-13-16", 12L);
-        mapaPlanes.put("4-13-16", 19L);
-        mapaPlanes.put("1-14-16", 6L);
-        mapaPlanes.put("2-14-16", 13L);
-        mapaPlanes.put("3-14-16", 13L);
-        mapaPlanes.put("4-14-16", 20L);
-        mapaPlanes.put("1-15-16", 7L);
-        mapaPlanes.put("2-15-16", 14L);
-        mapaPlanes.put("3-15-16", 14L);
-        mapaPlanes.put("4-15-16", 21L);
+    private List<Long> determinarPlan(Map<String, String> respuestas) {
+        // Definir categorías, divisiones, posiciones y mejoras
+        int[] categorias = {1, 2, 3, 4};
+        int[] divisiones = {5, 6, 7, 8};
+        int[] posiciones = {9, 10, 11, 12, 13, 14, 15};
+        int[] mejoras = {16, 17, 18, 19};
 
-        //saco los valores de las ids de las respuestas del Map<String, String> respuestas
+        // Mapa de planes
+        Map<String, List<Long>> mapaPlanes = new HashMap<>();
+
+        for (int cat : categorias) {
+            for (int div : divisiones) {
+                for (int pos : posiciones) {
+                    for (int mejora : mejoras) {
+                        List<Long> planes = new ArrayList<>();
+
+                        // Asignar plan principal según categoría y posición
+                        if (pos == 9) planes.add(cat == 1 ? 1L : (cat == 2 || cat == 3) ? 8L : 15L);
+                        else if (pos == 10) planes.add(cat == 1 ? 2L : (cat == 2 || cat == 3) ? 9L : 16L);
+                        else if (pos == 11) planes.add(cat == 1 ? 3L : (cat == 2 || cat == 3) ? 10L : 17L);
+                        else if (pos == 12) planes.add(cat == 1 ? 4L : (cat == 2 || cat == 3) ? 11L : 18L);
+                        else if (pos == 13) planes.add(cat == 1 ? 5L : (cat == 2 || cat == 3) ? 12L : 19L);
+                        else if (pos == 14) planes.add(cat == 1 ? 6L : (cat == 2 || cat == 3) ? 13L : 20L);
+                        else if (pos == 15) planes.add(cat == 1 ? 7L : (cat == 2 || cat == 3) ? 14L : 21L);
+
+                        // Asignar plan adicional según aspecto a mejorar
+                        planes.add(mejora == 16 ? 24L : mejora == 17 ? 22L : mejora == 18 ? 25L : 23L);
+
+                        // Guardar combinación en el mapa
+                        String clave = cat + "-" + div + "-" + pos + "-" + mejora;
+                        mapaPlanes.put(clave, planes);
+                    }
+                }
+            }
+        }
+
+        // Obtener respuestas y construir clave
         List<String> seleccionadas = new ArrayList<>(respuestas.values());
-        //ordenamos para que coincida con lo que meti en el mapa
-        Collections.sort(seleccionadas);
-        // le damos formato a "seleccionadas" para que coincida con un posible valor del Map<String, Long> mapaPlanes
         String clave = String.join("-", seleccionadas);
 
-        //busca un id para esa comnbinacion "clave" en el mapaPlanes, si no asigna por defecto el entrenamiento fisico.
-        return mapaPlanes.getOrDefault(clave, 22L);
+        // Obtener lista de planes asignados o planes predeterminados si no se encuentra la clave
+        List<Long> resultado = new ArrayList<>(mapaPlanes.getOrDefault(clave, new ArrayList<>()));
+
+        // Añadir siempre los planes 26, 27 y 28
+        resultado.add(26L);
+        resultado.add(27L);
+        resultado.add(28L);
+
+        return resultado;
     }
+
 }

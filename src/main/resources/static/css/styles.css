@@ -281,9 +281,11 @@ footer {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 200px;
+    z-index: 500;
+    background: whitesmoke;
 }
 
-#user-menu a {
+#user-menu a, button {
     text-decoration: none;
     padding: 10px;
     margin: 5px 0;
@@ -322,6 +324,7 @@ footer {
 
 #habilitarCampos {
     margin-right: 50px;
+    margin-left: 15px;
 }
 
 #confirmarEdit {
@@ -353,10 +356,42 @@ footer {
     }
 }
 
+
 /*@media(max-height: 768px) {*/
 /*    footer {*/
 /*        background-color: black !important;*/
 /*        position: relative !important;*/
 /*    }*/
 /*}*/
+
+#user-menu button {
+    border-style: none;
+    background: none;
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px 0;
+    color: #000000;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#user-menu button:hover {
+    background-color: #bababa;
+}
+
+#dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: whitesmoke;
+    border-radius: 5px;
+    z-index: 500;
+}
+
+#user-menu:hover #dropdown-menu {
+    display: block;
+}
+
 /*FIN*/
