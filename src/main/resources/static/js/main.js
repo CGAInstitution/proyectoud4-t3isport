@@ -4,6 +4,7 @@ window.onload = function () {
     var ticketUsuario = document.getElementById('ticketUsuario');
     var btnNewTicket = document.getElementById('btnNewTicket');
     var btnEnviarTicket = document.getElementById('btnEnviarTicket');
+    var btnCloseTicket = document.getElementById('btnCloseTicket');
 
     if (mensajeDiv) { // Solo ejecutar si el div existe
         setTimeout(function () {
@@ -26,16 +27,41 @@ window.onload = function () {
             ticketUsuario.style.top = '-150%';
         });
     }
+
+    if (btnCloseTicket) {
+        btnCloseTicket.addEventListener('click', function () {
+            ticketUsuario.style.transition = 'top 0.5s';
+            ticketUsuario.style.top = '-150%';
+        });
+    }
     if (document.getElementById("ticketForm")) {
         document.getElementById("ticketForm").addEventListener("submit", function (event) {
             event.preventDefault();
 
+            const horaContacto = document.getElementById("horaContacto").value;
+            const tema = document.getElementById("tema").value;
+            const asunto = document.getElementById("asunto").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const archivo = document.getElementById("archivo").files[0];
+
+            console.log("Hora de contacto:", horaContacto);
+            console.log("Tema:", tema);
+            console.log("Asunto:", asunto);
+            console.log("Descripción:", descripcion);
+
+
+            if (!horaContacto || !tema || !asunto || !descripcion || !archivo) {
+                alert("Por favor, rellena todos los campos del formulario.");
+                ticketUsuario.style.top = '15%';
+                return;
+            }
+
             const formData = new FormData();
-            formData.append("horaContacto", document.getElementById("horaContacto").value);
-            formData.append("tema", document.getElementById("tema").value);
-            formData.append("asunto", document.getElementById("asunto").value);
-            formData.append("descripcion", document.getElementById("descripcion").value);
-            formData.append("archivo", document.getElementById("archivo").files[0]);
+            formData.append("horaContacto", horaContacto);
+            formData.append("tema", tema);
+            formData.append("asunto", asunto);
+            formData.append("descripcion", descripcion);
+            formData.append("archivo", archivo);
 
             const userIdElement = document.getElementById("userId");
             if (!userIdElement) {
