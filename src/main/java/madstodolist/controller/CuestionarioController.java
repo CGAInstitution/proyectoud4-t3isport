@@ -3,6 +3,7 @@ package madstodolist.controller;
 import madstodolist.dto.UsuarioData;
 import madstodolist.model.*;
 import madstodolist.repository.CuestionarioRepository;
+import madstodolist.service.CuestionarioService;
 import madstodolist.service.PlanService;
 import madstodolist.service.UsuarioPlanService;
 import madstodolist.service.UsuarioService;
@@ -20,7 +21,7 @@ import java.util.*;
 public class CuestionarioController {
 
     @Autowired
-    private CuestionarioRepository cuestionarioRepository;
+    private CuestionarioService cuestionarioService;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -33,7 +34,7 @@ public class CuestionarioController {
 
     @GetMapping("/{id}")
     public String mostrarCuestionario(@PathVariable Long id, Model model) {
-        Optional<Cuestionario> cuestionarioOpt = cuestionarioRepository.findById(id);
+        Optional<Cuestionario> cuestionarioOpt = Optional.ofNullable(cuestionarioService.findById(id));
         if (!cuestionarioOpt.isPresent()) {
             return "error";
         }
