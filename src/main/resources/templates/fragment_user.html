@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Fragmento Menu de Usuario</title>
+  <script src="src/main/resources/static/js/main.js" defer></script>
 </head>
 <body>
 <div id="user-menu" th:fragment="user-menu">
@@ -12,12 +13,16 @@
   <!-- Opción de perfil -->
   <a th:href="@{/usuarios/{id}/perfil(id=${usuario.id})}">Mi perfil</a>
 
-  <button id="btnNewTicket">Nuevo ticket</button>
-
+  <button id="btnTicket">Nuevo ticket</button>
+    <div class="submenu d-none" id="submenuTicket">
+    <button id="btnNewTicket">Nuevo ticket</button>
+    <button id="btnListTicket">Listar tickets</button>
+  </div>
   <!-- Opción de cerrar sesión -->
   <a class="logout" th:href="@{/logout}">Cerrar sesión</a>
   </div>
 </div>
+<div th:replace="fragments::javascript"/>
 </body>
 </html>
 

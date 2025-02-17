@@ -203,5 +203,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtener el botón de "Nuevo ticket" y el submenú
+        const btnTicket = document.getElementById("btnTicket");
+        const submenu = document.getElementById("submenuTicket");
+
+        // Asegurarse de que el submenú esté oculto al inicio
+        submenu.style.display = "none"; // Inicialmente oculto
+
+        // Verificar si el botón existe
+        if (btnTicket) {
+            // Agregar el evento de clic al botón
+            btnTicket.addEventListener('click', function() {
+                // Verificar si el submenú está oculto o visible
+                if (submenu.style.display === "none" || submenu.style.display === "") {
+                    submenu.style.display = "block"; // Mostrar el submenú
+                } else {
+                    submenu.style.display = "none"; // Ocultar el submenú
+                }
+            });
+        } else {
+            console.error("No se pudo encontrar el botón con el id 'btnTicket'");
+        }
+    });
+
 });
 
