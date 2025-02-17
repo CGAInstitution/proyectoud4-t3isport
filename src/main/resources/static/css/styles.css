@@ -356,6 +356,14 @@ footer {
     }
 }
 
+
+/*@media(max-height: 768px) {*/
+/*    footer {*/
+/*        background-color: black !important;*/
+/*        position: relative !important;*/
+/*    }*/
+/*}*/
+
 #user-menu button {
     border-style: none;
     background: none;
@@ -385,4 +393,5 @@ footer {
 #user-menu:hover #dropdown-menu {
     display: block;
 }
+
 /*FIN*/
