@@ -1,13 +1,6 @@
 package madstodolist.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -23,6 +16,10 @@ public class CodigoDescuento {
 
     @Column(name = "descuento", nullable = false, precision = 5, scale = 2)
     private BigDecimal descuento;
+
+    @JoinColumn(name = "usuario", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -48,4 +45,11 @@ public class CodigoDescuento {
         this.descuento = descuento;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

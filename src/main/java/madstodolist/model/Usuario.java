@@ -48,6 +48,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoPlan plan = TipoPlan.GRATUITO;
 
+    @OneToOne(mappedBy = "usuario")
+    private CodigoDescuento codigoDescuento;
+
     public Long getId() {
         return id;
     }
@@ -125,5 +128,13 @@ public class Usuario {
 
     public Usuario(String email) {
         this.email = email;
+    }
+
+    public CodigoDescuento getCodigoDescuento() {
+        return codigoDescuento;
+    }
+
+    public void setCodigoDescuento(CodigoDescuento codigoDescuento) {
+        this.codigoDescuento = codigoDescuento;
     }
 }
