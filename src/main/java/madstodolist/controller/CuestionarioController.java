@@ -139,8 +139,14 @@ public class CuestionarioController {
         List<String> seleccionadas = new ArrayList<>(respuestas.values());
         String clave = String.join("-", seleccionadas);
 
-        // Devolver lista de planes asignados
-        List<Long> resultado = new ArrayList<>(mapaPlanes.getOrDefault(clave, Arrays.asList(26L, 27L, 28L)));
+        // Obtener lista de planes asignados o planes predeterminados si no se encuentra la clave
+        List<Long> resultado = new ArrayList<>(mapaPlanes.getOrDefault(clave, new ArrayList<>()));
+
+        // Añadir siempre los planes 26, 27 y 28
+        resultado.add(26L);
+        resultado.add(27L);
+        resultado.add(28L);
+
         return resultado;
     }
 
