@@ -352,4 +352,11 @@ footer {
         position: inherit !important;
     }
 }
+
+/*@media(max-height: 768px) {*/
+/*    footer {*/
+/*        background-color: black !important;*/
+/*        position: relative !important;*/
+/*    }*/
+/*}*/
 /*FIN*/

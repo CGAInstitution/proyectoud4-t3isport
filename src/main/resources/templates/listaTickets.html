@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')"></head>
+<body>
+<div th:replace="__header :: body"></div>
+
+<div class="container vh-100">
+    <section class="content">
+        <div class="row">
+            <!-- BEGIN TICKET -->
+            <div class="col-md-12">
+                <div class="grid support-content">
+                    <div class="grid-body">
+                        <h2>Issues</h2>
+                        <hr>
+
+                        <!-- Formulario de filtros -->
+                        <div class="mb-4">
+                            <h5>Filtrar Tickets</h5>
+                            <form class="form-inline">
+                                <div class="form-group mr-2">
+                                    <label for="filterSubject" class="mr-2">Asunto:</label>
+                                    <input type="text" class="form-control" id="filterSubject"
+                                           placeholder="Buscar por asunto">
+                                </div>
+                                <div class="form-group mr-2">
+                                    <label for="filterStatus" class="mr-2">Estado:</label>
+                                    <select class="form-control" id="filterStatus">
+                                        <option value="">Todos</option>
+                                        <option value="open">Abierto</option>
+                                        <option value="in-progress">En Proceso</option>
+                                        <option value="resolved">Resuelto</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-secondary">Aplicar Filtros</button>
+                            </form>
+                        </div>
+
+                        <div class="btn-group mb-3">
+                            <button type="button" class="btn btn-default active">162 Open</button>
+                            <button type="button" class="btn btn-default">95,721 Closed</button>
+                        </div>
+                        <div class="btn-group mb-3">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Sort: <strong>Newest</strong> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu fa-padding" role="menu">
+                                <li><a href="#"><i class="fa fa-check"></i> Newest</a></li>
+                                <li><a href="#"><i class="fa fa-clock-o"></i> Oldest</a></li>
+                                <li><a href="#"><i class="fa fa-refresh"></i> Recently updated</a></li>
+                                <li><a href="#"><i class="fa fa-clock-o"></i> Least recently updated</a></li>
+                                <li><a href="#"><i class="fa fa-comments"></i> Most commented</a></li>
+                                <li><a href="#"><i class="fa fa-comments"></i> Least commented</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- BEGIN NEW TICKET -->
+                        <button type="button" class="btn btn-success pull-right mb-3" data-toggle="modal"
+                                data-target="#newIssue">New Issue
+                        </button>
+                        <div class="modal fade" id="newIssue" tabindex="-1" role="dialog" aria-labelledby="newIssue"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-blue">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                        </button>
+                                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Create New Issue</h4>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <input name="subject" type="text" class="form-control"
+                                                       placeholder="Subject" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="department" type="text" class="form-control"
+                                                       placeholder="Department" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea name="message" class="form-control"
+                                                          placeholder="Please detail your issue or question"
+                                                          style="height: 120px;" required></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="file" name="attachment">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                                    class="fa fa-times"></i> Discard
+                                            </button>
+                                            <button type="submit" class="btn btn-primary pull-right"><i
+                                                    class="fa fa-pencil"></i> Create
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END NEW TICKET -->
+
+                        <div class="row">
+                            <!-- BEGIN TICKET CONTENT -->
+                            <div class="col-md-12">
+                                <ul class="list-group fa-padding">
+                                    <li th:each="ticket : ${tickets}" class="list-group-item" data-toggle="modal"
+                                        th:attr="data-target='#issue-' + ${ticket.id}">
+                                        <div class="media">
+                                            <i class="fa fa-file-o pull-left"></i>
+                                            <div class="media-body">
+                                                <strong th:text="${ticket.asunto}"></strong>
+                                                <span th:classappend="${ticket.estado} ? 'label bg-success px-2 py-1 rounded text-white' : 'label bg-warning px-2 py-1 rounded'"
+                                                      th:text="${ticket.estado} ? 'Resuelto' : 'Pendiente'"></span>
+                                                <span class="number pull-right"
+                                                      th:text="' COD: #' + ${ticket.id}"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <!-- BEGIN DETAIL TICKET -->
+                                <div th:each="ticket : ${tickets}" class="modal fade" th:id="'issue-' + ${ticket.id}"
+                                     tabindex="-1" role="dialog" aria-labelledby="issue" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="d-flex justify-content-around align-content-between align-items-center bg-blue">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">X
+                                                </button>
+                                                <h4 class="modal-title" th:text="${ticket.asunto}"></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="">
+                                                    <!--<div class="col-md-2">
+
+                                                    </div>
+                                                    <div class="col-md-10">-->
+                                                        <p>Ticket: <strong th:text="'#' + ${ticket.id}"></strong></p>
+                                                        <p th:text="'Fecha de creación: ' + ${ticket.fechaCreacion}"></p>
+                                                        <p th:text="'Hora de contacto: ' + ${ticket.horaContacto}"></p>
+                                                        <p th:text="'Descripción: ' + ${ticket.descripcion}"></p>
+                                                        <div th:each="message : ${ticket.mensajes}">
+                                                            <hr>
+                                                            <p>
+                                                                <img src="https://luachea.es/images/perfiles/default/admin-default.png" class="img-circle mr-2"  alt=""
+                                                             width="40"><strong th:text="${message.getUsuarioNombre()}"></strong>:
+                                                                <span th:text="${message.getContenido()}"></span></p>
+                                                        </div>
+                                                    <!--</div>-->
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form th:action="@{/panelAdmin/{userId}/addTicketRespuesta(userId=${userId})}"
+                                                      method="post"
+                                                      class="d-flex justify-content-between align-items-center w-100">
+                                                    <input type="hidden" name="ticketId" th:value="${ticket.id}"/>
+                                                    <input type="hidden" name="userId" th:value="${userId}"/>
+                                                    <textarea name="content" class="form-control mr-3"
+                                                              placeholder="Escribe un mensaje..."></textarea>
+                                                    <div>
+                                                        <button type="submit" class="btn btn-primary pull-right">
+                                                            <i class="fa fa-pencil"></i> Enviar
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">
+                                                            <i class="fa fa-times"></i> Close
+                                                        </button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- END DETAIL TICKET -->
+                            </div>
+                            <!-- END TICKET CONTENT -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END TICKET -->
+        </div>
+    </section>
+</div>
+<div th:replace="__footer :: body"></div>
+
+<div th:replace="fragments::javascript"/>
+</body>
+</html>
