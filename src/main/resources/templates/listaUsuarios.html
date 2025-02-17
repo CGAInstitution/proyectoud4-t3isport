@@ -131,7 +131,8 @@
                                 aria-label="Close">X
                         </button>
                     </div>
-                    <form method="POST" th:action="@{/panelAdmin/{userId}/updateUser(userId=${userId})}" enctype="multipart/form-data">
+                    <form method="POST" th:action="@{/panelAdmin/{userId}/updateUser(userId=${userId})}"
+                          enctype="multipart/form-data">
                         <div class="modal-body">
                             <input type="hidden" name="idUsuarioUpdate" th:value="${usuario.id}">
 
@@ -146,14 +147,14 @@
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre (*)</label>
                                 <input type="text" name="nombre" id="nombre" class="form-control"
-                                       th:value="${usuario.nombre}" placeholder="Nombre completo" >
+                                       th:value="${usuario.nombre}" placeholder="Nombre completo">
                             </div>
 
                             <!-- Contraseña -->
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label">Contraseña (*)</label>
                                 <input type="password" name="contrasena" id="contrasena" class="form-control"
-                                       th:value="${usuario.password}" placeholder="Nombre completo" >
+                                       th:value="${usuario.password}" placeholder="Nombre completo">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -200,7 +201,6 @@
 </div>
 
 
-</div>
 <div th:replace="__footer :: body"></div>
 
 <div th:replace="fragments::javascript"/>
