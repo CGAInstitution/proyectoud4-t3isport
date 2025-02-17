@@ -3,10 +3,7 @@ package madstodolist.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.hibernate.annotations.ColumnDefault;
@@ -23,7 +20,7 @@ public class Ticket {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
@@ -46,6 +43,11 @@ public class Ticket {
 
     @Column(name = "fecha_creacion")
     private Date fechaCreacion;
+
+    @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("fechaEnvio ASC")
+    private List<MensajeTicket> mensajes = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -87,7 +89,6 @@ public class Ticket {
         this.fechaCreacion = fechaCreacion;
     }
 
-
     public String getHoraContacto() {
         return horaContacto;
     }
@@ -112,6 +113,13 @@ public class Ticket {
         this.asunto = asunto;
     }
 
+    public List<MensajeTicket> getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(List<MensajeTicket> mensajes) {
+    this.mensajes = new ArrayList<>(mensajes);
+}
 
 
     @Override
@@ -128,7 +136,6 @@ public class Ticket {
                 '}';
     }
 
-
     public Ticket() {
         this.fechaCreacion = Date.from(Instant.now());
     }
@@ -139,6 +146,5 @@ public class Ticket {
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
         this.descripcion = descripcion;
-
     }
 }
