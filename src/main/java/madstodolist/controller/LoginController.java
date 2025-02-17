@@ -1,11 +1,15 @@
 package madstodolist.controller;
 
-import ch.qos.logback.core.pattern.Converter;
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.dto.LoginData;
 import madstodolist.dto.RegistroData;
 import madstodolist.dto.UsuarioData;
-import madstodolist.model.*;
+import madstodolist.model.Cuestionario;
+import madstodolist.model.TipoPlan;
+import madstodolist.model.UsuarioCuestionario;
+import madstodolist.model.UsuarioCuestionarioId;
+import madstodolist.service.CuestionarioService;
+import madstodolist.service.UsuarioCuestionarioService;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-import madstodolist.repository.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -25,19 +27,16 @@ import java.util.Optional;
 public class LoginController {
 
     @Autowired
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
     @Autowired
-    ManagerUserSession managerUserSession;
+    private CuestionarioService cuestionarioService;
 
     @Autowired
-    private CuestionarioRepository cuestionarioRepository;
+    private UsuarioCuestionarioService usuarioCuestionarioService;
 
     @Autowired
-    private UsuarioCuestionarioRepository usuarioCuestionarioRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private ManagerUserSession managerUserSession;
 
     // -------------------- LOGIN --------------------
     @PostMapping("/login")
@@ -47,24 +46,26 @@ public class LoginController {
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
 
+            if (usuario == null) {
+                model.addAttribute("error", "No existe usuario");
+                return "formLogin";
+            }
+
             // Guardar usuario en sesión
             session.setAttribute("userId", usuario.getId());
 
             System.out.println(" Usuario en sesión tras login: " + usuario.getId());
             System.out.println(" Tipo de usuario: " + usuario.getTipouser());
 
-            if (usuario.getTipouser().equals("admin")) {
+            if ("admin".equals(usuario.getTipouser())) {
                 return "redirect:/panelAdmin/" + usuario.getId();
             }
 
             return "redirect:/usuarios/" + usuario.getId() + "/userhub";
-
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");
-            return "formLogin";
         } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
             model.addAttribute("error", "Contraseña incorrecta");
-            return "formLogin";
         }
 
         return "formLogin";
@@ -76,10 +77,12 @@ public class LoginController {
         binder.registerCustomEditor(TipoPlan.class, new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
-                setValue(TipoPlan.valueOf(text.toUpperCase()));  // Convierte el String a Enum
+                setValue(TipoPlan.valueOf(text.toUpperCase())); // Convierte String a Enum
             }
         });
     }
+
+
 
     // -------------------- REGISTRO --------------------
     @PostMapping("/registro")
@@ -88,46 +91,62 @@ public class LoginController {
             return "formRegistro";
         }
 
-        if (usuarioService.findByEmail(registroData.getEmail()) != null) {
+        // Buscar si el usuario ya existe
+        UsuarioData usuarioExistente = usuarioService.findByEmail(registroData.getEmail());
+        if (usuarioExistente != null) {
             model.addAttribute("registroData", registroData);
             model.addAttribute("error", "El usuario " + registroData.getEmail() + " ya existe");
             return "formRegistro";
         }
 
+        //Debug combobox
+        System.out.println("Plan seleccionado en el formulario: " + registroData.getPlan());
+
         // Crear usuario y guardarlo en la BD
-        Usuario usuario = new Usuario();
-        usuario.setEmail(registroData.getEmail());
-        usuario.setPassword(registroData.getPassword());
-        usuario.setNombre(registroData.getNombre());
-        usuario.setPlan(registroData.getPlan());
+        UsuarioData usuarioData = new UsuarioData();
+        usuarioData.setEmail(registroData.getEmail());
+        usuarioData.setPassword(registroData.getPassword());
+        usuarioData.setNombre(registroData.getNombre());
+        usuarioData.setTipouser("user");  // Asignar rol por defecto
+        usuarioData.setPlan(registroData.getPlan());
 
-        usuario = usuarioRepository.save(usuario);
+        //Comprobamos si se asigna el valor de combo
+        System.out.println("Plan asignado al usuario: " + usuarioData.getPlan());
 
-        // 🔹 Guardar usuario en la sesión
-        session.setAttribute("userId", usuario.getId());
 
-        System.out.println("🔹 Usuario registrado con ID: " + usuario.getId());
-        System.out.println("🔹 Usuario en sesión después del registro: " + session.getAttribute("userId"));
+        UsuarioData nuevoUsuario = usuarioService.registrar(usuarioData);
+
+        //Comprobamos que se guardo en la bd
+        System.out.println(" Plan guardado en BD: " + nuevoUsuario.getPlan());
+
+
+        // Guardar usuario en la sesión
+        session.setAttribute("userId", nuevoUsuario.getId());
+
+        System.out.println("Usuario registrado con ID: " + nuevoUsuario.getId());
+        System.out.println("Usuario en sesión después del registro: " + session.getAttribute("userId"));
 
         // Recuperar el cuestionario con id = 1
-        Optional<Cuestionario> cuestionarioOpt = cuestionarioRepository.findById(1L);
+        Optional<Cuestionario> cuestionarioOpt = cuestionarioService.findById(1L);
         if (!cuestionarioOpt.isPresent()) {
-            throw new RuntimeException("El cuestionario con ID 1 no existe en la base de datos.");
+            model.addAttribute("error", "No se encontró el cuestionario.");
+            return "error"; // O redirecciona a una vista de error
         }
         Cuestionario cuestionario = cuestionarioOpt.get();
 
+
         // Crear clave primaria compuesta
         UsuarioCuestionarioId usuarioCuestionarioId = new UsuarioCuestionarioId();
-        usuarioCuestionarioId.setUsuarioId(usuario.getId());
+        usuarioCuestionarioId.setUsuarioId(nuevoUsuario.getId());
         usuarioCuestionarioId.setCuestionarioId(1L);
 
         // Crear la relación en la tabla intermedia UsuarioCuestionario
         UsuarioCuestionario usuarioCuestionario = new UsuarioCuestionario();
         usuarioCuestionario.setId(usuarioCuestionarioId);
-        usuarioCuestionario.setUsuario(usuario);
+        usuarioCuestionario.setUsuario(nuevoUsuario.toUsuario()); // Conversión de DTO a entidad
         usuarioCuestionario.setCuestionario(cuestionario);
 
-        usuarioCuestionarioRepository.save(usuarioCuestionario);
+        usuarioCuestionarioService.guardarUsuarioCuestionario(usuarioCuestionario);
 
         // Redirigir al cuestionario
         return "redirect:/cuestionario/1";

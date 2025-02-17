@@ -19,9 +19,12 @@ public class UsuarioPlanService {
         usuarioPlanRepository.save(usuarioPlan);
     }
 
-
     public List<UsuarioPlan> obtenerPlanesUsuario(Long usuarioId) {
         return usuarioPlanRepository.findByUsuarioId(usuarioId);
+    }
+
+    public List<UsuarioPlan> findAllUsuarioPlanes() {
+        return usuarioPlanRepository.findAll();
     }
 }
 

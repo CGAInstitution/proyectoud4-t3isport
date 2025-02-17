@@ -1,38 +1,68 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head th:replace="fragments :: head (titulo='Lista Planes-Usuarios')">
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div th:replace="__header :: body"></div>
 
 <div class="container mt-4">
-    <h2 class="text-center">Lista de Planes y Usuarios Asignados</h2>
-    <table class="table table-bordered mt-4">
-        <thead>
-        <tr>
-            <th>ID Plan</th>
-            <th>Nombre del Plan</th>
-            <th>ID Usuario</th>
-            <th>Email Usuario</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="plan : ${planesUsuarios}">
-            <td th:text="${plan.plan.id}"></td>
-            <td th:text="${plan.plan.nombre}"></td>
-            <td th:text="${plan.usuario.id}"></td>
-            <td th:text="${plan.usuario.email}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div th:replace="__footer :: body"></div>
+    <h2 class="text-center">Planes y Asignaciones</h2>
+    <div class="row">
+        <!-- Tabla de planes con contenido -->
+        <div class="col-md-6">
+            <h3 class="text-center">Planes Disponibles</h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID Plan</th>
+                    <th>Nombre</th>
+                    <th>Contenido</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="plan : ${planes}">
+                <td th:text="${plan.id}"></td>
+                    <td th:text="${plan.nombre}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="contenido : ${plan.contenidos}">
+                                <a th:href="${contenido.url}" th:text="${contenido.nombre_contenido}" target="_blank"></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
+        <!-- Tabla de usuarios con planes asignados -->
+        <div class="col-md-6">
+            <h3 class="text-center">Planes Asignados</h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID Plan</th>
+                    <th>Nombre del Plan</th>
+                    <th>ID Usuario</th>
+                    <th>Email Usuario</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="plan : ${planesUsuarios}">
+                    <td th:text="${plan.plan.id}"></td>
+                    <td th:text="${plan.plan.nombre}"></td>
+                    <td th:text="${plan.usuario.id}"></td>
+                    <td th:text="${plan.usuario.email}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="__footer :: body"></div>
 <div th:replace="fragments::javascript"/>
 </body>
 </html>

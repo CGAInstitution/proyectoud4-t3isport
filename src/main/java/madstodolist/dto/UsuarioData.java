@@ -1,5 +1,8 @@
 package madstodolist.dto;
 
+import madstodolist.model.TipoPlan;
+import madstodolist.model.Usuario;
+
 import java.util.Objects;
 
 // Data Transfer Object para la clase Usuario
@@ -13,6 +16,20 @@ public class UsuarioData {
     private String foto;
     private String apellidos;
     private String bio;
+    private TipoPlan plan;
+
+
+    public Usuario toUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setId(this.id);
+        usuario.setEmail(this.email);
+        usuario.setPassword(this.password);
+        usuario.setNombre(this.nombre);
+        usuario.setTipouser((this.tipouser != null) ? this.tipouser : "user"); // Si es null, asigna "user"
+        usuario.setPlan((this.plan != null) ? this.plan : TipoPlan.GRATUITO); // Manejo de plan
+        return usuario;
+    }
+
 
     // Getters y setters
 
@@ -60,18 +77,21 @@ public class UsuarioData {
     // si tienen el mismo ID (ignoramos el resto de atributos)
 
     public UsuarioData() {
+        this.tipouser = "user";  // Valor por defecto
     }
+
 
     public UsuarioData(Long id, String email, String nombre, String password, String tipouser, String foto, String apellidos, String bio) {
         this.id = id;
         this.email = email;
         this.nombre = nombre;
         this.password = password;
-        this.tipouser = tipouser;
+        this.tipouser = (tipouser != null) ? tipouser : "user"; // Si es null, asigna "user"
         this.foto = foto;
         this.apellidos = apellidos;
         this.bio = bio;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -121,4 +141,8 @@ public class UsuarioData {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    public TipoPlan getPlan() { return plan; }
+
+    public void setPlan(TipoPlan plan) { this.plan = plan; }
 }
