@@ -8,8 +8,9 @@
 <div th:fragment="ticket" id="ticketUsuario" class="container mt-4"
      style="z-index: 4; position: absolute; transition: top 0.5s; top: -150%; right: 0; color: black; padding: 10px;">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">New Ticket</h5>
+            <button class="btn btn-secondary close-btn" id="btnCloseTicket"> X </button>
         </div>
         <div class="card-body">
             <form id="ticketForm">
