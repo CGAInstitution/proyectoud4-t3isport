@@ -7,7 +7,9 @@ import madstodolist.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -26,8 +28,12 @@ public class TicketService {
     }
 
     public List<MensajeTicket> getMensajesByTicketId(Long ticketId) {
-        return mensajeTicketRepository.findByTicketId(ticketId);
-    }
+    return mensajeTicketRepository.findByTicketId(ticketId)
+            .stream()
+            .sorted(Comparator.comparing(MensajeTicket::getFechaEnvio))
+            .collect(Collectors.toList());
+}
+
 
     public List<MensajeTicket> findMensajesByTicketId(Long ticketId) {
         return mensajeTicketRepository.findByTicketId(ticketId);

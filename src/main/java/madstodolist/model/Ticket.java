@@ -45,7 +45,9 @@ public class Ticket {
     private Date fechaCreacion;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MensajeTicket> mensajes = new HashSet<>();
+    @OrderBy("fechaEnvio ASC")
+    private List<MensajeTicket> mensajes = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -111,13 +113,14 @@ public class Ticket {
         this.asunto = asunto;
     }
 
-    public Set<MensajeTicket> getMensajes() {
+    public List<MensajeTicket> getMensajes() {
         return mensajes;
     }
 
     public void setMensajes(List<MensajeTicket> mensajes) {
-        this.mensajes = new HashSet<>(mensajes);
-    }
+    this.mensajes = new ArrayList<>(mensajes);
+}
+
 
     @Override
     public String toString() {
