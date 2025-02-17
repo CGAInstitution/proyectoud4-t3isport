@@ -2,7 +2,7 @@ package madstodolist.controller;
 
 import madstodolist.dto.UsuarioData;
 import madstodolist.model.*;
-import madstodolist.repository.CuestionarioRepository;
+import madstodolist.service.CuestionarioService;
 import madstodolist.service.PlanService;
 import madstodolist.service.UsuarioPlanService;
 import madstodolist.service.UsuarioService;
@@ -20,7 +20,7 @@ import java.util.*;
 public class CuestionarioController {
 
     @Autowired
-    private CuestionarioRepository cuestionarioRepository;
+    private CuestionarioService cuestionarioService;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -33,12 +33,12 @@ public class CuestionarioController {
 
     @GetMapping("/{id}")
     public String mostrarCuestionario(@PathVariable Long id, Model model) {
-        Optional<Cuestionario> cuestionarioOpt = cuestionarioRepository.findById(id);
-        if (!cuestionarioOpt.isPresent()) {
-            return "error";
-        }
-        Cuestionario cuestionario = cuestionarioOpt.get();
+        Cuestionario cuestionario = cuestionarioService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cuestionario no encontrado"));
+
+        // Cargar las preguntas antes de pasarlas a la vista
         cuestionario.getPreguntas().size();
+
         model.addAttribute("cuestionario", cuestionario);
         model.addAttribute("preguntas", cuestionario.getPreguntas());
         return "cuestionario";
@@ -48,40 +48,37 @@ public class CuestionarioController {
     public String guardarCuestionario(@RequestParam Map<String, String> respuestas, Model model, HttpSession session) {
         Long usuarioId = (Long) session.getAttribute("userId");
 
-        //Debuguear mañana en clasee
-        System.out.println("Sesión actual: " + session);
-        System.out.println("Usuario en sesión: " + session.getAttribute("userId"));
-
         if (usuarioId == null) {
             System.out.println("Usuario no encontrado");
             return "redirect:/login";
         }
 
-
-        //Debbugin para ver las ids si las preguntas y respuestas se añaden correctamente
+        // Debugging: Mostrar respuestas seleccionadas
         respuestas.forEach((preguntaId, respuestaId) ->
                 System.out.println("Pregunta: " + preguntaId + " - Respuesta: " + respuestaId));
 
-
-        //Llamada al metodo con el algoritmo para determinar el plan
+        // Llamada al método con el algoritmo para determinar el plan
         List<Long> planIds = determinarPlan(respuestas);
-        if (planIds == null || planIds.isEmpty()) {
+        if (planIds.isEmpty()) {
             System.out.println("PLAN NO ENCONTRADO");
             return "redirect:/error";
         }
 
-        // Uso de UsuarioData por seguridad , aunque no entiedo exactamente porqué ya que usuariodata incluye la pass
+        // Obtener usuario desde el servicio y manejar si no existe
         UsuarioData usuarioData = usuarioService.findById(usuarioId);
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioData.getId());
-        usuario.setEmail(usuarioData.getEmail());
-        usuario.setNombre(usuarioData.getNombre());
-        usuario.setPassword(usuarioData.getPassword());
-        usuario.setTipouser(usuarioData.getTipouser());
+        if (usuarioData == null) {
+            throw new RuntimeException("Usuario no encontrado en la BD");
+        }
 
-        //Recorrer la lista de planes y asignarlos uno a uno
+        Usuario usuario = usuarioData.toUsuario(); // Convertir DTO a entidad
+
+        // Asignar todos los planes determinados al usuario
         for (Long planId : planIds) {
+            // Buscar plan de entrenamiento
             PlanesEntrenamiento plan = planService.findById(planId);
+            if (plan == null) {
+                throw new RuntimeException("Plan con ID " + planId + " no encontrado");
+            }
 
             UsuarioPlan usuarioPlan = new UsuarioPlan();
             usuarioPlan.setId(new UsuarioPlanId());
@@ -95,9 +92,10 @@ public class CuestionarioController {
             usuarioPlanService.guardarUsuarioPlan(usuarioPlan);
         }
 
-        return "redirect:/usuarios/" + usuarioId + "/userhub";
 
+        return "redirect:/usuarios/" + usuarioId + "/userhub";
     }
+
 
     private List<Long> determinarPlan(Map<String, String> respuestas) {
         // Definir categorías, divisiones, posiciones y mejoras
@@ -135,7 +133,7 @@ public class CuestionarioController {
             }
         }
 
-        // Obtener respuestas y construir clave
+        // Construir clave con las respuestas seleccionadas
         List<String> seleccionadas = new ArrayList<>(respuestas.values());
         String clave = String.join("-", seleccionadas);
 
@@ -143,11 +141,8 @@ public class CuestionarioController {
         List<Long> resultado = new ArrayList<>(mapaPlanes.getOrDefault(clave, new ArrayList<>()));
 
         // Añadir siempre los planes 26, 27 y 28
-        resultado.add(26L);
-        resultado.add(27L);
-        resultado.add(28L);
+        resultado.addAll(Arrays.asList(26L, 27L, 28L));
 
         return resultado;
     }
-
 }

@@ -1,6 +1,7 @@
 package madstodolist.service;
 
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.TipoPlan;
 import madstodolist.model.Usuario;
 import madstodolist.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
@@ -10,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -24,86 +24,105 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
     public LoginStatus login(String eMail, String password) {
-        Optional<Usuario> usuario = usuarioRepository.findByEmail(eMail);
-        if (!usuario.isPresent()) {
-            return LoginStatus.USER_NOT_FOUND;
-        } else if (!usuario.get().getPassword().equals(password)) {
+        Usuario usuario = usuarioRepository.findByEmail(eMail)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (!usuario.getPassword().equals(password)) {
             return LoginStatus.ERROR_PASSWORD;
-        } else {
-            return LoginStatus.LOGIN_OK;
         }
+        return LoginStatus.LOGIN_OK;
     }
 
-    // Se añade un usuario en la aplicación.
-    // El email y password del usuario deben ser distinto de null
-    // El email no debe estar registrado en la base de datos
     @Transactional
-    public UsuarioData registrar(UsuarioData usuario) {
-        Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
-        if (usuarioBD.isPresent())
-            throw new UsuarioServiceException("El usuario " + usuario.getEmail() + " ya está registrado");
-        else if (usuario.getEmail() == null)
-            throw new UsuarioServiceException("El usuario no tiene email");
-        else if (usuario.getPassword() == null)
-            throw new UsuarioServiceException("El usuario no tiene password");
-        else {
-            Usuario usuarioNuevo = modelMapper.map(usuario, Usuario.class);
-            usuarioNuevo = usuarioRepository.save(usuarioNuevo);
-            return modelMapper.map(usuarioNuevo, UsuarioData.class);
+    public UsuarioData registrar(UsuarioData usuarioData) {
+        if (usuarioRepository.findByEmail(usuarioData.getEmail()).isPresent()) {
+            throw new UsuarioServiceException("El usuario " + usuarioData.getEmail() + " ya está registrado");
         }
+        if (usuarioData.getEmail() == null || usuarioData.getPassword() == null) {
+            throw new UsuarioServiceException("El usuario debe tener email y password");
+        }
+
+        // Asignar 'user' como tipo de usuario por defecto si no se especifica
+        if (usuarioData.getTipouser() == null) {
+            usuarioData.setTipouser("user");
+        }
+
+        // Asignar plan por defecto si no se especifica en el formulario
+        if (usuarioData.getPlan() == null) {
+            usuarioData.setPlan(TipoPlan.GRATUITO);  // Se asigna "GRATUITO" como valor predeterminado
+        }
+
+        Usuario usuarioNuevo = modelMapper.map(usuarioData, Usuario.class);
+
+        // Debugging para verificar el plan antes de guardar en la base de datos
+        System.out.println("Plan asignado al usuario antes de guardar: " + usuarioNuevo.getPlan());
+
+        usuarioNuevo = usuarioRepository.save(usuarioNuevo);
+
+        return modelMapper.map(usuarioNuevo, UsuarioData.class);
     }
+
 
     @Transactional(readOnly = true)
     public UsuarioData findByEmail(String email) {
-        Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
-        if (usuario == null) return null;
-        else {
-            return modelMapper.map(usuario, UsuarioData.class);
-        }
+        return usuarioRepository.findByEmail(email)
+                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
+                .orElse(null);  // Devolver null en lugar de lanzar una excepción
     }
+
 
     @Transactional(readOnly = true)
     public UsuarioData findById(Long usuarioId) {
-        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
-        if (usuario == null) return null;
-        else {
-            return modelMapper.map(usuario, UsuarioData.class);
-        }
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return modelMapper.map(usuario, UsuarioData.class);
     }
 
     public List<UsuarioData> findAll() {
-        List<Usuario> usuarios = StreamSupport
-                .stream(usuarioRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
-        return usuarios.stream()
-                .map(usuario -> new UsuarioData(usuario.getId(), usuario.getEmail(), usuario.getNombre(), usuario.getPassword(), usuario.getTipouser(), usuario.getFoto(), usuario.getApellidos(), usuario.getBio()))
+        return StreamSupport.stream(usuarioRepository.findAll().spliterator(), false)
+                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
                 .collect(Collectors.toList());
     }
 
-    public void actualizarUsuario(UsuarioData usuario) {
-        // Lógica para actualizar el usuario en la base de datos
-        System.out.println(usuario.toString());
-        Usuario usuarioExistente = usuarioRepository.findById(usuario.getId())
+    @Transactional
+    public UsuarioData save(UsuarioData usuarioData) {
+        Usuario usuario = modelMapper.map(usuarioData, Usuario.class);
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+        return modelMapper.map(usuarioGuardado, UsuarioData.class);
+    }
+
+    @Transactional
+    public void eliminarUsuario(Long id) {
+        usuarioRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void actualizarUsuario(UsuarioData usuarioData) {
+        Usuario usuarioExistente = usuarioRepository.findById(usuarioData.getId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        if (usuario.getEmail() != null) {
-            usuarioExistente.setEmail(usuario.getEmail());
+        if (usuarioData.getEmail() != null) {
+            usuarioExistente.setEmail(usuarioData.getEmail());
         }
-        if (usuario.getNombre() != null) {
-            usuarioExistente.setNombre(usuario.getNombre());
+        if (usuarioData.getNombre() != null) {
+            usuarioExistente.setNombre(usuarioData.getNombre());
         }
-        if (usuario.getApellidos() != null) {
-            usuarioExistente.setApellidos(usuario.getApellidos());
+        if (usuarioData.getApellidos() != null) {
+            usuarioExistente.setApellidos(usuarioData.getApellidos());
         }
-        if (usuario.getBio() != null) {
-            usuarioExistente.setBio(usuario.getBio());
+        if (usuarioData.getBio() != null) {
+            usuarioExistente.setBio(usuarioData.getBio());
         }
-        // Actualiza otros campos si es necesario
+        if (usuarioData.getTipouser() != null) {
+            usuarioExistente.setTipouser(usuarioData.getTipouser());
+        }
 
         usuarioRepository.save(usuarioExistente);
     }

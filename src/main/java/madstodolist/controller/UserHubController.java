@@ -1,8 +1,6 @@
 package madstodolist.controller;
 
-import madstodolist.dto.LoginData;
 import madstodolist.dto.UsuarioData;
-import madstodolist.model.Usuario;
 import madstodolist.model.UsuarioPlan;
 import madstodolist.service.UsuarioPlanService;
 import madstodolist.service.UsuarioService;
@@ -11,8 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -32,18 +29,21 @@ public class UserHubController {
         if (sessionUserId == null || !sessionUserId.equals(id)) {
             return "redirect:/login";
         }
-        // Lógica para obtener los detalles del usuario, si es necesario
+
+        // Obtener usuario
         UsuarioData usuario = usuarioService.findById(id);
+        if (usuario == null) {
+            return "redirect:/login"; // Redirige si el usuario no existe
+        }
 
         model.addAttribute("userId", sessionUserId);
-        // Puedes pasar información del usuario al modelo si es necesario
-        model.addAttribute("usuario", usuario);
-        List<UsuarioPlan> usuarioPlanes = usuarioPlanService.obtenerPlanesUsuario(id);
+        model.addAttribute("usuario", usuario); // Ahora Thymeleaf recibe directamente el objeto
 
+        // Obtener la lista de planes del usuario
+        List<UsuarioPlan> usuarioPlanes = usuarioPlanService.obtenerPlanesUsuario(id);
         model.addAttribute("usuarioPlanes", usuarioPlanes);
 
-        // Retorna la vista para "userhub"
         return "userHub";
     }
-}
 
+}

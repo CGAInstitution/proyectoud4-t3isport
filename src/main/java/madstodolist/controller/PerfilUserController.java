@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -23,12 +22,20 @@ public class PerfilUserController {
         if (sessionUserId == null || !sessionUserId.equals(id)) {
             return "redirect:/login";
         }
-        // Lógica para obtener los detalles del usuario, si es necesario
+
         UsuarioData usuario = usuarioService.findById(id);
 
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no encontrado");
+            return "redirect:/login";
+        }
+
+
+
+
         model.addAttribute("userId", sessionUserId);
-        // Puedes pasar información del usuario al modelo si es necesario
         model.addAttribute("usuario", usuario);
+
         return "perfilUser";
     }
 
@@ -41,12 +48,14 @@ public class PerfilUserController {
         if (sessionUserId == null || !sessionUserId.equals(id)) {
             return "redirect:/login";
         }
+
         System.out.println(usuario);
-        // Llamamos al servicio para actualizar el usuario con los nuevos datos
+
         try {
+            // Llamamos al servicio para actualizar el usuario con los nuevos datos
             usuarioService.actualizarUsuario(usuario);
             model.addAttribute("success", "Perfil actualizado con éxito.");
-            // Redirigir o mostrar la página de perfil con los datos actualizados
+
             return "redirect:/usuarios/" + id + "/perfil";  // Redirige al perfil actualizado
         } catch (Exception e) {
             model.addAttribute("error", "Ocurrió un error al actualizar el perfil.");

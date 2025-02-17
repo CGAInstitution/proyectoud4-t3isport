@@ -3,10 +3,7 @@ package madstodolist.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "planes_entrenamiento")
@@ -25,6 +22,9 @@ public class PlanesEntrenamiento {
 
     @Column(name="imagen", nullable = false)
     private String imagen;
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Contenido> contenidos = new ArrayList<>();
 
     public String getImagen() {return imagen;}
 
@@ -52,6 +52,14 @@ public class PlanesEntrenamiento {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<Contenido> getContenidos() {
+        return contenidos;
+    }
+
+    public void setContenidos(List<Contenido> contenidos) {
+        this.contenidos = contenidos;
     }
 
 }

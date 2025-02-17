@@ -16,7 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//FALTA TERMINAR Y HACER EL TICKETSERVICE
+import java.util.Optional;
+
 @Controller
 public class TicketController {
 
@@ -28,11 +29,20 @@ public class TicketController {
 
     @PostMapping("/tickets/{userId}")
     public String saveTicket(@PathVariable Long userId, @ModelAttribute Ticket ticket) {
+        // Obtener el usuario con verificación de existencia
         UsuarioData usuarioData = usuarioService.findById(userId);
+
+        if (usuarioData == null) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+
+        // Crear la entidad Usuario usando UsuarioData
         Usuario usuario = new Usuario();
         usuario.setId(usuarioData.getId());
         usuario.setNombre(usuarioData.getNombre());
 
+        // Asociar el ticket con el usuario
         ticket.setUsuario(usuario);
         ticketService.saveTicket(ticket);
 
