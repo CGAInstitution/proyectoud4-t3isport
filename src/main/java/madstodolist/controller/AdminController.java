@@ -90,7 +90,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("/panelAdmin/{id}/updateUser")
+        @PostMapping("/panelAdmin/{id}/updateUser")
     public String updateUser(@RequestParam("idUsuarioUpdate") Long idUsuarioUpdate,
                              @RequestParam("correo") String correo,
                              @RequestParam("nombre") String nombre,
@@ -103,12 +103,22 @@ public class AdminController {
         }
 
         UsuarioData usuarioExistente = usuarioService.findById(idUsuarioUpdate);
+        if (usuarioExistente == null) {
+            redirectAttributes.addFlashAttribute("error", "Usuario no encontrado.");
+            return "redirect:/panelAdmin/" + id + "/listaUsuarios";
+        }
+
         usuarioExistente.setEmail(correo);
         usuarioExistente.setNombre(nombre);
         usuarioExistente.setPassword(contrasena);
-        usuarioService.registrar(usuarioExistente);
 
-        redirectAttributes.addFlashAttribute("success", "Usuario actualizado correctamente.");
+        try {
+            usuarioService.actualizarUsuario(usuarioExistente);
+            redirectAttributes.addFlashAttribute("success", "Usuario actualizado correctamente.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar el usuario.");
+        }
+
         return "redirect:/panelAdmin/" + id + "/listaUsuarios";
     }
 

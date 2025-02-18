@@ -111,7 +111,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    @Transactional
+        @Transactional
     public void actualizarUsuario(UsuarioData usuarioData) {
         Usuario usuarioExistente = usuarioRepository.findById(usuarioData.getId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -130,6 +130,9 @@ public class UsuarioService {
         }
         if (usuarioData.getTipouser() != null) {
             usuarioExistente.setTipouser(usuarioData.getTipouser());
+        }
+         if (usuarioData.getPassword() != null) {
+            usuarioExistente.setPassword(usuarioData.getPassword());
         }
 
         usuarioRepository.save(usuarioExistente);
