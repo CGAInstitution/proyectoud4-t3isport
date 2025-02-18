@@ -6,7 +6,7 @@ body {
 }
 
 .github-link:hover {
-    color: black !important;
+    color: rgb(255, 165, 10) !important;
     font-weight: bold;
 }
 
@@ -334,6 +334,14 @@ footer {
 /*Login y Footer*/
 .gradient-custom-2 {
     background-color: rgb(227, 176, 75);
+    color: white;
+}
+
+.gradient-custom-2:hover {
+    background-color: rgb(255, 165, 10);
+    transform: scale(1.1);
+    font-weight: bold;
+    color: white;
 }
 
 @media (min-width: 768px) {
@@ -580,4 +588,7 @@ a.list-group-item, .list-group-item-action {
     margin-bottom: -1px;
     background-color: #fff;
     border: 1px solid rgba(0,0,0,0.125);
+}
+.hidden {
+    display: none;
 }

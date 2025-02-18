@@ -4,7 +4,13 @@
 <head th:replace="fragments :: head (titulo='Login')"></head>
 <body>
 <div th:replace="__header :: body"></div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
 
+        <li class="breadcrumb-item active" aria-current="page"><a th:href="@{/panelAdmin/{id}(id=${userId})}">Panel Administrador</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Tickets</li>
+    </ol>
+</nav>
 <div class="container vh-100">
     <section class="content">
         <div class="row">
@@ -146,8 +152,10 @@
                                                         <hr>
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <span>
-                                                                <img src="https://luachea.es/images/perfiles/default/admin-default.png" class="img-circle mr-2" alt="" width="40">
-                                                                <strong th:text="${message.getUsuarioNombre()}"></strong>:
+<img th:src="@{${message.getUsuario().getFoto() != null ? '/images/' + message.getUsuario().getFoto() : '/images/avatar_base.jpg'}}"
+     th:alt="${message.getUsuarioNombre()}" class="img-circle mr-2"
+     width="40">                                                                <strong
+                                                                    th:text="${message.getUsuarioNombre()}"></strong>:
                                                                 <span th:text="${message.getContenido()}"></span>
                                                             </span>
                                                             <span th:text="${#temporals.format(message.getFechaEnvio(), 'dd/MM/yy HH:mm:ss')}"></span>

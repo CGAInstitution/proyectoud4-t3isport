@@ -1,7 +1,9 @@
 package madstodolist.controller;
 
 import madstodolist.dto.UsuarioData;
+import madstodolist.model.MensajeTicket;
 import madstodolist.model.Ticket;
+import madstodolist.model.Usuario;
 import madstodolist.model.UsuarioPlan;
 import madstodolist.service.TicketService;
 import madstodolist.service.UsuarioPlanService;
@@ -11,9 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -29,7 +34,7 @@ public class DashboardUsuarioController {
 
     //email:joel@joel   contra:123
     @GetMapping("/usuarios/{id}/dashboard")
-    public String userHub(@PathVariable Long id, Model model, HttpSession session,
+    public String dashboardUsuario(@PathVariable Long id, Model model, HttpSession session,
                           RedirectAttributes redirectAttributes) {
         Long sessionUserId = (Long) session.getAttribute("userId");
 
@@ -46,7 +51,7 @@ public class DashboardUsuarioController {
         List<Ticket> tickets = ticketService.findTicketsByUserId(id);
         if (tickets.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "No existen tickets.");
-            return "redirect:/panelAdmin/" + sessionUserId + "/listaTickets";
+            return "redirect:/usuarios/" + sessionUserId + "/dashboard";
         }
 
         System.out.println(usuario);
@@ -62,6 +67,43 @@ public class DashboardUsuarioController {
     }
 
 
-//    //VISTA USUARIO LISTAJE DE TICKETS
+     //VISTA USUARIO LISTAJE DE TICKETS
+    @PostMapping("/usuarios/{id}/dashboard/addTicketRespuestaUsuario")
+    public String addTicketRespuesta(@PathVariable Long id,
+                                     @RequestParam("ticketId") Long ticketId,
+                                     @RequestParam("content") String content,
+                                     HttpSession session,
+                                     RedirectAttributes redirectAttributes) {
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        if (sessionUserId == null) {
+            return "redirect:/login";
+        }
 
+        Ticket ticket = ticketService.findTicketById(ticketId);
+        if (ticket == null) {
+            redirectAttributes.addFlashAttribute("error", "El ticket no existe.");
+            return "redirect:/panelAdmin/" + sessionUserId + "/listaTickets";
+        }
+
+        UsuarioData usuarioData = usuarioService.findById(sessionUserId);
+        if (usuarioData == null) {
+            redirectAttributes.addFlashAttribute("error", "El usuario no existe.");
+            return "redirect:/panelAdmin/" + sessionUserId + "/listaTickets";
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioData.getId());
+        usuario.setNombre(usuarioData.getNombre());
+
+        MensajeTicket mensajeTicket = new MensajeTicket();
+        mensajeTicket.setMensaje(content);
+        mensajeTicket.setFechaEnvio(LocalDateTime.now());
+        mensajeTicket.setUsuario(usuario);
+        mensajeTicket.setTicket(ticket);
+
+        ticketService.saveMensajeTicket(mensajeTicket);
+
+        redirectAttributes.addFlashAttribute("success", "Respuesta enviada correctamente.");
+        return "redirect:/usuarios/" + sessionUserId + "/dashboard/";
+    }
 }

@@ -6,23 +6,12 @@
     <script src="src/main/resources/static/js/main.js" defer></script>
 </head>
 <body>
-<div id="user-menu" th:fragment="user-menu">
+<div id="user-menu" th:fragment="user-menu" onclick="document.getElementById('dropdown-menu-header').classList.toggle('d-none')">
 
     <img id="perfilFoto" th:src="@{${usuario.foto != null ? '/images/' + usuario.foto : '/images/avatar_base.jpg'}}"
-         alt="Foto Usuario"/>
-    <div id="dropdown-menu">
-        <!-- Opción de perfil -->
-        <a th:href="@{/usuarios/{id}/perfil(id=${usuario.id})}">Mi perfil</a>
-
-        <button id="btnTicketDesplegable"
-                onclick="document.getElementById('submenuTicket').classList.toggle('d-none');">Tickets
-        </button>
-        <div class="submenu d-none" id="submenuTicket">
-            <a th:href="@{'/usuarios/' + ${usuario.id} + '/dashboard'}">Panel</a>
-<!--            <button id="btnNewTicket">Nuevo ticket</button>-->
-            <button id="btnListTicket">Listar tickets</button>
-        </div>
-        <!-- Opción de cerrar sesión -->
+         alt="Foto Usuario" />
+    <div class="d-none justify-content-between flex-column" id="dropdown-menu-header">
+        <a th:href="@{'/usuarios/' + ${usuario.id} + '/dashboard'}">Panel</a>
         <a class="logout" th:href="@{/logout}">Cerrar sesión</a>
     </div>
 </div>

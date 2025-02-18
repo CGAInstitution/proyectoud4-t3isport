@@ -132,6 +132,7 @@ public class AdminController {
 
         model.addAttribute("planes", planes);
         model.addAttribute("planesUsuarios", planesUsuarios);
+        model.addAttribute("userId", id);
         return "listaUsuariosPlanes";
     }
 

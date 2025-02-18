@@ -89,6 +89,8 @@ window.onload = function () {
     // document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM cargado...");
     const footer = document.querySelector("footer");
+    const navbarNavOptions = document.getElementById("navbarNavOptions");
+
     console.log(window.location.pathname);
 
     if (!window.location.pathname.includes("/login")) {
@@ -96,10 +98,32 @@ window.onload = function () {
         footer.style.position = "relative";
         footer.style.setProperty("margin-top", "50px", "important");
     } else {
-        footer.style.position = "absolute";
-    }
-    // });
+        //Estamos en el login
 
+        footer.style.position = "absolute";
+        if (navbarNavOptions) {
+            navbarNavOptions.classList.add("hidden");
+        }
+    }
+
+    if (window.location.pathname.includes("/")) {
+         if (navbarNavOptions) {
+            navbarNavOptions.classList.add("hidden");
+        }
+    }
+
+
+    // Codigo para manejar la clase 'active' en los elementos del menú
+    const menuItems = document.querySelectorAll(".list-group-item");
+
+    menuItems.forEach(item => {
+        item.addEventListener("click", function () {
+            // Remover la clase 'active' de todos los elementos
+            menuItems.forEach(i => i.classList.remove("active"));
+            // Agregar la clase 'active' al elemento clicado
+            this.classList.add("active");
+        });
+    });
 };
 
 //[ADMINISTRADOR] FUNCION PARA ENSEÑAR EL MODAL DE ACTUALIZAR USUARIO
