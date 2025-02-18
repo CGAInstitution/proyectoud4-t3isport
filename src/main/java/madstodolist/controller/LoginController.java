@@ -123,6 +123,7 @@ public class LoginController {
         // Guardar usuario en la sesión
         session.setAttribute("userId", nuevoUsuario.getId());
 
+
         System.out.println("Usuario registrado con ID: " + nuevoUsuario.getId());
         System.out.println("Usuario en sesión después del registro: " + session.getAttribute("userId"));
 

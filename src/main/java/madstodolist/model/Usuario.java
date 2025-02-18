@@ -48,7 +48,7 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoPlan plan = TipoPlan.GRATUITO;
 
-    @OneToOne(mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.REMOVE)
     private CodigoDescuento codigoDescuento;
 
     public Long getId() {

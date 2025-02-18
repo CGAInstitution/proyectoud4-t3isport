@@ -43,10 +43,13 @@
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
-                <form action="/plan_entrenamiento" method="get">
+                <form th:each="plan : ${planesPremium}"
+                      th:action="@{/usuarios/{userId}/userhub/{id}/plan_entrenamiento(userId=${usuario.id}, id=${plan.id})}"
+                      method="get"
+                      class="form_basico">
                     <button type="submit" class="boton-imagen">
-                        <img src="/images/plan_velocidad.jpeg" alt="Plan de entrenamiento">
-                        <div class="texto">Entrenamiento de velocidad</div>
+                        <img th:src="@{/images/{imagen}(imagen=${plan.imagen})}" alt="Plan de entrenamiento">
+                        <div class="texto" th:text="${plan.nombre}"></div>
                     </button>
                 </form>
             </div>
@@ -65,10 +68,13 @@
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
             <div class="card-body">
-                <form action="/plan_entrenamiento" method="get">
+                <form th:each="plan : ${planesGold}"
+                      th:action="@{/usuarios/{userId}/userhub/{id}/plan_entrenamiento(userId=${usuario.id}, id=${plan.id})}"
+                      method="get"
+                      class="form_basico">
                     <button type="submit" class="boton-imagen">
-                        <img src="/images/plan_estrategia.jpg" alt="Plan de entrenamiento">
-                        <div class="texto">Entrenamiento de estrategia</div>
+                        <img th:src="@{/images/{imagen}(imagen=${plan.imagen})}" alt="Plan de entrenamiento">
+                        <div class="texto" th:text="${plan.nombre}"></div>
                     </button>
                 </form>
             </div>

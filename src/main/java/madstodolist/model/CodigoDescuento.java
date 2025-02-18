@@ -18,7 +18,7 @@ public class CodigoDescuento {
     private BigDecimal descuento;
 
     @JoinColumn(name = "usuario", nullable = false)
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
 
     public Long getId() {

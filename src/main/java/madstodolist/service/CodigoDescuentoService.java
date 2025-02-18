@@ -29,6 +29,10 @@ public class CodigoDescuentoService {
         return codigoDescuentoRepository.findByCodigo(codigo).isPresent() ? codigoDescuentoRepository.findByCodigo(codigo).get() : null;
     }
 
+    public CodigoDescuento buscarPorId(Long id) {
+        return codigoDescuentoRepository.findById(id).get();
+    }
+
     @Transactional
     public void nuevoCodigo(String codigo, BigDecimal descuento, Usuario usuario) {
 
@@ -38,5 +42,14 @@ public class CodigoDescuentoService {
         codigoDescuento.setDescuento(descuento);
         codigoDescuento.setUsuario(usuario);
         codigoDescuentoRepository.save(codigoDescuento);
+    }
+
+    @Transactional
+    public void actualizarCodigo(CodigoDescuento codigoExistente) {
+        codigoDescuentoRepository.save(codigoExistente);
+    }
+
+    public void eliminarCodigo(Long idCodigo) {
+        codigoDescuentoRepository.deleteById(idCodigo);
     }
 }

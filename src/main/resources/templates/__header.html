@@ -19,13 +19,14 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Inicio</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Futuramente">Futuramente</a>
+                <li class="nav-item" th:if="${usuario != null}">
+                    <a class="nav-link" id="linkMisplanes" th:href="@{/usuarios/{id}/userhub(id=${usuario.id})}">Mis planes</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Futuramente">Futuramente</a>
+                <li class="nav-item" th:if="${usuario != null}">
+                    <div th:if="${usuario.tipouser == 'admin'}">
+                    <a class="nav-link" id="linkMisplanes" th:href="@{/panelAdmin/{id}(id=${usuario.id})}">Panel administrador</a>
+                    </div>
                 </li>
-
             </ul>
         </div>
     </nav>

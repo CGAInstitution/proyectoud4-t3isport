@@ -122,46 +122,46 @@
     </div>
 
     <!-- Update Modal -->
-    <div th:each="usuario : ${usuarios}">
-        <div class="d-none" th:id="'updateUserModal-' + ${usuario.id}" tabindex="-1"
+    <div th:each="codigo : ${codigos}">
+        <div class="d-none" th:id="'updateUserModal-' + ${codigo.id}" tabindex="-1"
              aria-labelledby="updateUserModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content" style="width: 400px">
                     <div class="modal-header">
-                        <h5 class="modal-title">Actualizar Usuario</h5>
+                        <h5 class="modal-title">Actualizar Código</h5>
                         <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal"
                                 aria-label="Close">X
                         </button>
                     </div>
-                    <form method="POST" th:action="@{/panelAdmin/{userId}/updateUser(userId=${userId})}" enctype="multipart/form-data">
+                    <form method="POST" th:action="@{/panelAdmin/{userId}/updateCodigo(userId=${userId})}" enctype="multipart/form-data">
                         <div class="modal-body">
-                            <input type="hidden" name="idUsuarioUpdate" th:value="${usuario.id}">
+                            <input type="hidden" name="idCodigoUpdate" th:value="${codigo.id}">
 
-                            <!-- Correo -->
+                            <!-- Codigo -->
                             <div class="mb-3">
-                                <label for="correo" class="form-label">Correo (*)</label>
-                                <input type="email" name="correo" id="correo" class="form-control"
-                                       th:value="${usuario.email}" placeholder="ejemplo@correo.com">
+                                <label for="codigo" class="form-label">Código (*)</label>
+                                <input type="text" name="codigo" id="codigo" class="form-control"
+                                       th:value="${codigo.codigo}" placeholder="Código">
                             </div>
 
-                            <!-- Nombre -->
+                            <!-- Descuento -->
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre (*)</label>
-                                <input type="text" name="nombre" id="nombre" class="form-control"
-                                       th:value="${usuario.nombre}" placeholder="Nombre completo" >
+                                <label for="descuento" class="form-label">Descuento (*)</label>
+                                <input type="text" name="descuento" id="descuento" class="form-control"
+                                       th:value="${codigo.descuento}" placeholder="Descuento" >
                             </div>
 
-                            <!-- Contraseña -->
+                            <!-- Usuario -->
                             <div class="mb-3">
-                                <label for="contrasena" class="form-label">Contraseña (*)</label>
-                                <input type="password" name="contrasena" id="contrasena" class="form-control"
-                                       th:value="${usuario.password}" placeholder="Nombre completo" >
+                                <label for="usuario" class="form-label">Usuario (*)</label>
+                                <input type="text" name="usuario" id="usuario" class="form-control"
+                                       th:value="${codigo.usuario.id}" placeholder="Id usuario" >
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary close-btn" data-bs-dismiss="modal">Cerrar
                             </button>
-                            <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+                            <button type="submit" class="btn btn-primary">Actualizar Código</button>
                         </div>
                     </form>
                 </div>
@@ -170,8 +170,8 @@
     </div>
 
     <!-- Delete Modal -->
-    <div th:each="usuario : ${usuarios}">
-        <div class="d-none" th:id="'deleteUserModal-' + ${usuario.id}" tabindex="-1"
+    <div th:each="codigo : ${codigos}">
+        <div class="d-none" th:id="'deleteUserModal-' + ${codigo.id}" tabindex="-1"
              aria-labelledby="deleteUserModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -182,12 +182,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>¿Estás seguro de que deseas borrar el usuario <strong th:text="${usuario.nombre}"></strong>?
+                        <p>¿Estás seguro de que deseas borrar el código <strong th:text="${codigo.codigo}"></strong>?
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <form method="POST" th:action="@{/panelAdmin/{userId}/deleteUser(userId=${userId})}">
-                            <input type="hidden" name="idUsuario" th:value="${usuario.id}">
+                        <form method="POST" th:action="@{/panelAdmin/{userId}/deleteCodigo(userId=${userId})}">
+                            <input type="hidden" name="idCodigo" th:value="${codigo.id}">
                             <button type="button" class="btn btn-secondary btn-close-del" data-bs-dismiss="modal">No,
                                 cancelar
                             </button>
