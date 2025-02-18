@@ -7,11 +7,6 @@
 <body>
 <div th:replace="__header :: body"></div>
 <div th:replace="fragment_user :: user-menu"></div>
-<form th:action="@{/usuarios/{id}/userhub(id=${usuario.id})}" method="GET">
-    <div class="back-button-container">
-        <button type="submit" class="btn btn-volver">Volver</button>
-    </div>
-</form>
 <div class="carousel-container">
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
