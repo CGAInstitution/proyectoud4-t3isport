@@ -89,17 +89,17 @@ window.onload = function () {
 
     // FUNCION PARA EL FOOTER
     // document.addEventListener("DOMContentLoaded", function () {
-        console.log("DOM cargado...");
-        const footer = document.querySelector("footer");
-        console.log(window.location.pathname);
+    console.log("DOM cargado...");
+    const footer = document.querySelector("footer");
+    console.log(window.location.pathname);
 
-        if (!window.location.pathname.includes("/login")) {
-            console.log("entra")
-            footer.style.position = "relative";
-            footer.style.setProperty("margin-top", "50px", "important");
-        } else {
-            footer.style.position = "absolute";
-        }
+    if (!window.location.pathname.includes("/login")) {
+        console.log("entra")
+        footer.style.position = "relative";
+        footer.style.setProperty("margin-top", "50px", "important");
+    } else {
+        footer.style.position = "absolute";
+    }
     // });
 
 };
@@ -186,12 +186,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    document.getElementById('habilitarCampos').addEventListener('click', function() {
+    document.getElementById('habilitarCampos').addEventListener('click', function () {
         // Seleccionar todos los inputs en el contenedor
         const inputs = document.querySelectorAll('.col-md-6 input');
 
         // Habilitar todos los inputs
-        inputs.forEach(function(input) {
+        inputs.forEach(function (input) {
             input.disabled = false;
         });
 
