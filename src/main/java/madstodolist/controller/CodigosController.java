@@ -65,4 +65,44 @@ public class CodigosController {
         redirectAttributes.addFlashAttribute("success", "Código creado correctamente.");
         return "redirect:/panelAdmin/" + id + "/listaCodigos";
     }
+
+    @PostMapping("/panelAdmin/{id}/updateCodigo")
+    public String updateUser(@RequestParam("idCodigoUpdate") Long idCodigoUpdate,
+                             @RequestParam("codigo") String codigo,
+                             @RequestParam("descuento") BigDecimal descuento,
+                             @RequestParam("usuario") Long usuarioid,
+                             @PathVariable Long id,
+                             RedirectAttributes redirectAttributes, HttpSession session) {
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        if (sessionUserId == null || !sessionUserId.equals(id)) {
+            return "redirect:/login";
+        }
+
+        CodigoDescuento codigoExistente = codigoDescuentoService.buscarPorId(idCodigoUpdate);
+        codigoExistente.setCodigo(codigo);
+        codigoExistente.setDescuento(descuento);
+        codigoExistente.setUsuario(usuarioService.buscarPorId(usuarioid).get());
+        codigoDescuentoService.actualizarCodigo(codigoExistente);
+
+        redirectAttributes.addFlashAttribute("success", "Código actualizado correctamente.");
+        return "redirect:/panelAdmin/" + id + "/listaCodigos";
+    }
+
+    @PostMapping("/panelAdmin/{id}/deleteCodigo")
+    public String deleteUser(@RequestParam("idCodigo") Long idCodigo,
+                             @PathVariable Long id,
+                             RedirectAttributes redirectAttributes, HttpSession session) {
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        if (sessionUserId == null || !sessionUserId.equals(id)) {
+            return "redirect:/login";
+        }
+
+        try {
+            codigoDescuentoService.eliminarCodigo(idCodigo);
+            redirectAttributes.addFlashAttribute("success", "Código borrado correctamente.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al borrar el código.");
+        }
+        return "redirect:/panelAdmin/" + id + "/listaCodigos";
+    }
 }
