@@ -4,6 +4,13 @@
 </head>
 <body>
 <div th:replace="__header :: body"></div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+
+        <li class="breadcrumb-item active" aria-current="page"><a th:href="@{/usuarios/{id}/dashboard(id=${userId})}">Panel Usuario</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Modificar Perfil</li>
+    </ol>
+</nav>
 <div class="container mt-5 vh-100">
     <div class="row">
         <!-- Columna para la imagen -->
