@@ -23,7 +23,7 @@ public class PlanesEntrenamiento {
     @Column(name="imagen", nullable = false)
     private String imagen;
 
-    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Contenido> contenidos = new ArrayList<>();
 
     public String getImagen() {return imagen;}
@@ -62,4 +62,14 @@ public class PlanesEntrenamiento {
         this.contenidos = contenidos;
     }
 
+    @Override
+    public String toString() {
+        return "PlanesEntrenamiento{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", imagen='" + imagen + '\'' +
+                ", contenidos=" + contenidos +
+                '}';
+    }
 }

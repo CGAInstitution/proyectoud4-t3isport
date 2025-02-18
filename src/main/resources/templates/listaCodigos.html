@@ -9,8 +9,13 @@
 </head>
 <body>
 <div th:replace="__header :: body"></div>
-
-<div class="container">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page"><a th:href="@{/panelAdmin/{id}(id=${userId})}">Panel Administrador</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Códigos Promocionales</li>
+    </ol>
+</nav>
+<div class="container vh-100">
     <div th:if="${error}" class="alert alert-danger" role="alert">
         <p th:text="${error}"></p>
     </div>

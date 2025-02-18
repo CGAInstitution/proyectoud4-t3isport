@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:replace="fragments :: head (titulo='Dashboard Usuario')">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div th:replace="__header :: body"></div>
+<div th:replace="__ticket :: body"></div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page"><a th:href="@{/usuarios/{id}/userhub(id=${userId})}">Inicio</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Panel de Usuario</li>
+    </ol>
+</nav>
+<div class="container mb-4 main-container vh-100">
+    <div class="row">
+        <div class="col-lg-4 pb-5">
+            <!-- Account Sidebar-->
+            <div class="author-card pb-3">
+                <div class="author-card-cover"
+                     style="background-image: url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);"><a
+                        class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title=""
+                        data-original-title="You currently have 290 Reward points to spend"><i
+                        class="fa fa-award text-md"></i>&nbsp;290 points</a></div>
+                <div class="author-card-profile">
+                    <div class="author-card-avatar">
+                        <img th:src="@{${usuario.foto != null ? '/images/' + usuario.foto : '/images/avatar_base.jpg'}}"
+                             th:alt="${usuario.nombre}">
+                    </div>
+                    <div class="author-card-details">
+                        <h5 class="author-card-name text-lg" th:text="${usuario.nombre}"></h5>
+                        <span class="author-card-position" th:text="${usuario.bio}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="wizard">
+                <nav class="list-group list-group-flush">
+                    <a class="list-group-item active" href="#" id="dashboard-menu-perfil">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fa fa-shopping-bag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase"
+                                     onclick="
+                                     document.getElementById('dashboard-tickets-usuario').classList.toggle('d-none');
+                                     document.getElementById('dashboard-perfil-usuario').classList.toggle('d-none');
+                                     ">Perfil
+                                </div>
+                            </div>
+                            <span class="badge badge-secondary">1</span>
+                        </div>
+                    </a>
+                    <!--                    <a class="list-group-item" href="#" id="dashboard-menu-planos"-->
+                    <!--                       tagert="__blank">-->
+                    <!--                        <div class="d-flex justify-content-between align-items-center">-->
+                    <!--                            <div><i class="fa fa-heart mr-1 text-muted"></i>-->
+                    <!--                                <div class="d-inline-block font-weight-medium text-uppercase">Planos</div>-->
+                    <!--                            </div>-->
+                    <!--                            <span class="badge badge-secondary">3</span>-->
+                    <!--                        </div>-->
+                    <!--                    </a>-->
+                    <a class="list-group-item" href="#" id="dashboard-menu-tickets">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fa fa-tag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase"
+                                     onclick="
+                                     document.getElementById('dashboard-tickets-usuario').classList.toggle('d-none');
+                                     document.getElementById('dashboard-perfil-usuario').classList.toggle('d-none');
+                                     ">
+                                    Tickets
+                                </div>
+                            </div>
+                            <span class="badge badge-secondary" th:text="${#lists.size(tickets)}"></span>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- TICKET  -->
+        <div class="col-lg-8 pb-5 d-none" id="dashboard-tickets-usuario">
+            <div class="d-flex justify-content-between pb-3">
+                <button id="btnNewTicket" class="btn btn-info">Nuevo ticket</button>
+                <div class="form-inline">
+                    <!--                    <label class="text-muted mr-3" for="order-sort">Sort Orders</label>-->
+                    <!--                    <select class="form-control" id="order-sort">-->
+                    <!--                        <option>Todos</option>-->
+                    <!--                        <option>Delivered</option>-->
+                    <!--                        <option>In Progress</option>-->
+                    <!--                        <option>Delayed</option>-->
+                    <!--                        <option>Canceled</option>-->
+                    <!--                    </select>-->
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                    <tr>
+                        <th>COD</th>
+                        <th>Tema</th>
+                        <th>Creación</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ticket : ${tickets}" class="" data-toggle="modal"
+                        th:attr="data-target='#issue-' + ${ticket.id}">
+                        <td><a class="navi-link" href="#order-details" data-toggle="modal" th:text="${ticket.id}"></a>
+                        </td>
+                        <td th:text="${ticket.tema}"></td>
+                        <td th:text="${ticket.fechaCreacion}"></td>
+                        <td><span class="badge badge-danger m-0">Canceled</span></td>
+                    </tr>
+                    <!--                    <tr>-->
+                    <!--                        <td><a class="navi-link" href="#order-details" data-toggle="modal">34VB5540K83</a></td>-->
+                    <!--                        <td>July 21, 2017</td>-->
+                    <!--                        <td><span class="badge badge-info m-0">In Progress</span></td>-->
+                    <!--                        <td>$315.20</td>-->
+                    <!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                        <td><a class="navi-link" href="#order-details" data-toggle="modal">112P45A90V2</a></td>-->
+                    <!--                        <td>June 15, 2017</td>-->
+                    <!--                        <td><span class="badge badge-warning m-0">Delayed</span></td>-->
+                    <!--                        <td>$1,264.00</td>-->
+                    <!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                        <td><a class="navi-link" href="#order-details" data-toggle="modal">28BA67U0981</a></td>-->
+                    <!--                        <td>May 19, 2017</td>-->
+                    <!--                        <td><span class="badge badge-success m-0">Delivered</span></td>-->
+                    <!--                        <td>$198.35</td>-->
+                    <!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                        <td><a class="navi-link" href="#order-details" data-toggle="modal">502TR872W2</a></td>-->
+                    <!--                        <td>April 04, 2017</td>-->
+                    <!--                        <td><span class="badge badge-success m-0">Delivered</span></td>-->
+                    <!--                        <td>$2,133.90</td>-->
+                    <!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                        <td><a class="navi-link" href="#order-details" data-toggle="modal">47H76G09F33</a></td>-->
+                    <!--                        <td>March 30, 2017</td>-->
+                    <!--                        <td><span class="badge badge-success m-0">Delivered</span></td>-->
+                    <!--                        <td>$86.40</td>-->
+                    <!--                    </tr>-->
+                    </tbody>
+                </table>
+                <div th:each="ticket : ${tickets}" class="modal fade" th:id="'issue-' + ${ticket.id}"
+                     tabindex="-1" role="dialog" aria-labelledby="issue" aria-hidden="true">
+                    <div class="modal-dialog ">
+                        <div class="modal-content" style="height: 90vh">
+                            <div class="d-flex justify-content-between align-items-center bg-blue p-3">
+                                <h4 class="modal-title" th:text="${ticket.asunto}"></h4>
+
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">X
+                                </button>
+                            </div>
+                            <div class="modal-body" style="overflow-y: scroll">
+                                <div class="">
+                                    <!--<div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-10">-->
+                                    <p>Ticket: <strong th:text="'#' + ${ticket.id}"></strong></p>
+                                    <p th:text="'Fecha de creación: ' + ${ticket.fechaCreacion}"></p>
+                                    <p th:text="'Hora de contacto: ' + ${ticket.horaContacto}"></p>
+                                    <p th:text="'Descripción: ' + ${ticket.descripcion}"></p>
+                                    <div th:each="message : ${ticket.mensajes}">
+                                        <hr>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <img th:src="@{${message.getUsuario().getFoto() != null ? '/images/' + message.getUsuario().getFoto() : '/images/avatar_base.jpg'}}"
+                                                     th:alt="${message.getUsuarioNombre()}" class="img-circle mr-2"
+                                                     width="40">
+                                                <strong th:text="${message.getUsuarioNombre()}"></strong>:
+                                            </div>
+                                            <span th:text="${message.getContenido()}"></span>
+                                            </span>
+                                            <span th:text="${#temporals.format(message.getFechaEnvio(), 'dd/MM/yy HH:mm:ss')}"></span>
+                                        </div>
+                                    </div>
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <form th:action="@{/usuarios/{userId}/dashboard/addTicketRespuestaUsuario(userId=${userId})}"
+                                      method="post"
+                                      class="d-flex justify-content-between align-items-center w-100">
+                                    <input type="hidden" name="ticketId" th:value="${ticket.id}"/>
+                                    <input type="hidden" name="userId" th:value="${userId}"/>
+                                    <textarea name="content" class="form-control mr-3"
+                                              placeholder="Escribe un mensaje..."></textarea>
+                                    <div class="">
+                                        <button type="submit" class="btn btn-primary pull-right">
+                                            <i class="fa fa-pencil"></i> Enviar
+                                        </button>
+                                        <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">
+                                            <i class="fa fa-times"></i> Close
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  PERFIL  -->
+        <div class="col-lg-8 pb-5" id="dashboard-perfil-usuario">
+            <div class="d-flex justify-content-between flex-column pb-3">
+                <div class="d-flex justify-content-between align-items-center pb-2">
+                    <h4 class="text-uppercase mb-0">Perfil</h4>
+                    <a th:href="@{/usuarios/{id}/perfil(id=${usuario.id})}" class="btn btn-primary">Editar</a>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Nombre</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <!--                                <p class="text-muted mb-0" th:text="${usuario.nombre} + ' ' + ${usuario.apellidos}"></p>-->
+                                <p class="text-muted mb-0" th:text="${usuario.nombre}"></p>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Apellidos</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"
+                                   th:text="${usuario.apellidos != null and !#strings.isEmpty(usuario.apellidos) ? usuario.apellidos : 'No has proporcionado tus apellidos'}"></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Correo</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0" th:text="${usuario.email}"></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Biografia</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0"
+                                   th:text="${usuario.bio != null and !#strings.isEmpty(usuario.bio) ? usuario.bio : 'No has proporcionado una biografía'}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="__footer :: body"></div>
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>

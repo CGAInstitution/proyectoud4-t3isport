@@ -3,8 +3,7 @@
 <head th:replace="fragments :: head (titulo='Mis planes')">
 </head>
 <body>
-<div th:replace="__header :: body"></div>
-<div th:replace="__ticket :: body"></div>
+<div th:replace="__header :: body" th:with="usuario=${usuario}"></div>
 <div th:replace="fragment_user :: user-menu"></div>
 
 <div id="accordion" class="accordion-container">

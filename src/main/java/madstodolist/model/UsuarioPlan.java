@@ -77,4 +77,14 @@ public class UsuarioPlan {
         this.estado = estado;
     }
 
+    @Override
+    public String toString() {
+        return "UsuarioPlan{" +
+                "id=" + id +
+                ", usuario=" + usuario +
+                ", plan=" + plan +
+                ", fechaInicio=" + fechaInicio +
+                ", estado='" + estado + '\'' +
+                '}';
+    }
 }
