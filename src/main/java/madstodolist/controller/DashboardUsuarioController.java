@@ -33,41 +33,38 @@ public class DashboardUsuarioController {
     private TicketService ticketService;
 
     //email:joel@joel   contra:123
-    @GetMapping("/usuarios/{id}/dashboard")
-    public String dashboardUsuario(@PathVariable Long id, Model model, HttpSession session,
-                          RedirectAttributes redirectAttributes) {
+    @GetMapping("/usuarios/{userId}/dashboard")
+    public String userDashboard(@PathVariable Long userId, Model model, HttpSession session) {
         Long sessionUserId = (Long) session.getAttribute("userId");
 
-        if (sessionUserId == null || !sessionUserId.equals(id)) {
+        // Verificar si el usuario está autenticado y si coincide con el id del path
+        if (sessionUserId == null || !sessionUserId.equals(userId)) {
             return "redirect:/login";
         }
 
-        // Obtener usuario
-        UsuarioData usuario = usuarioService.findById(id);
-        if (usuario == null) {
-            return "redirect:/login"; // Redirige si el usuario no existe
-        }
+        // Recuperar los tickets del usuario desde la base de datos
+        List<Ticket> tickets = ticketService.findTicketsByUserId(userId);
+        UsuarioData usuarioData = usuarioService.findById(sessionUserId);
+        model.addAttribute("usuario", usuarioData);
 
-        List<Ticket> tickets = ticketService.findTicketsByUserId(id);
+        // Verificar si la lista de tickets está vacía
         if (tickets.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "No existen tickets.");
-            return "redirect:/usuarios/" + sessionUserId + "/dashboard";
+            model.addAttribute("message", "No tienes tickets asociados.");
+        } else {
+            // Ordenar los mensajes de cada ticket por fecha de envío
+            for (Ticket ticket : tickets) {
+                List<MensajeTicket> mensajesOrdenados = ticketService.getMensajesByTicketId(ticket.getId());
+                ticket.setMensajes(mensajesOrdenados);
+            }
+            model.addAttribute("tickets", tickets);
         }
 
-        System.out.println(usuario);
-        model.addAttribute("userId", sessionUserId);
-        model.addAttribute("usuario", usuario); // Ahora Thymeleaf recibe directamente el objeto
-        model.addAttribute("tickets", tickets); // Añadir la lista de tickets al modelo
-        System.out.println(tickets);
-        // Obtener la lista de planes del usuario
-        List<UsuarioPlan> usuarioPlanes = usuarioPlanService.obtenerPlanesUsuario(id);
-        model.addAttribute("usuarioPlanes", usuarioPlanes);
-        System.out.println(usuarioPlanes);
-        return "dashboardUsuario";
+        model.addAttribute("userId", userId);
+        return "dashboardUsuario";  // Devolver el nombre de la vista
     }
 
 
-     //VISTA USUARIO LISTAJE DE TICKETS
+    //VISTA USUARIO LISTAJE DE TICKETS
     @PostMapping("/usuarios/{id}/dashboard/addTicketRespuestaUsuario")
     public String addTicketRespuesta(@PathVariable Long id,
                                      @RequestParam("ticketId") Long ticketId,

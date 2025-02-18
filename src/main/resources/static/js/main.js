@@ -106,7 +106,8 @@ window.onload = function () {
         }
     }
 
-    if (window.location.pathname.includes("/")) {
+    console.log(window.location.pathname)
+    if (window.location.pathname === ("/")) {
          if (navbarNavOptions) {
             navbarNavOptions.classList.add("hidden");
         }
