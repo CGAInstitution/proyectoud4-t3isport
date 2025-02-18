@@ -390,6 +390,28 @@ footer {
     z-index: 500;
 }
 
+.submenu {
+    position: absolute;
+    left: -130px;  /* Posición a la izquierda del menú principal */
+    top: 0;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Opcional: Estilo adicional para los enlaces del submenú */
+.submenu button {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: #333;
+}
+
+.submenu button:hover {
+    background-color: #ddd;
+}
+
 #user-menu:hover #dropdown-menu {
     display: block;
 }

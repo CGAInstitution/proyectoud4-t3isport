@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -71,9 +72,9 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public UsuarioData findByEmail(String email) {
-        return usuarioRepository.findByEmail(email)
-                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
-                .orElse(null);  // Devolver null en lugar de lanzar una excepción
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return modelMapper.map(usuario, UsuarioData.class);// Devolver null en lugar de lanzar una excepción
     }
 
 
@@ -83,6 +84,11 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         return modelMapper.map(usuario, UsuarioData.class);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Usuario> buscarPorId(Long usuarioId) {
+        return usuarioRepository.findById(usuarioId);
     }
 
     public List<UsuarioData> findAll() {
