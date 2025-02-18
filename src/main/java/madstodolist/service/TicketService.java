@@ -46,4 +46,8 @@ public class TicketService {
     public Ticket findTicketById(Long ticketId) {
         return ticketRepository.findById(ticketId).orElse(null);
     }
+
+    public List<Ticket> findTicketsByUserId(Long userId) {
+        return ticketRepository.findByUsuario_Id(userId);
+    }
 }

@@ -42,7 +42,6 @@ window.onload = function () {
             const tema = document.getElementById("tema").value;
             const asunto = document.getElementById("asunto").value;
             const descripcion = document.getElementById("descripcion").value;
-            const archivo = document.getElementById("archivo").files[0];
 
             console.log("Hora de contacto:", horaContacto);
             console.log("Tema:", tema);
@@ -50,7 +49,7 @@ window.onload = function () {
             console.log("Descripción:", descripcion);
 
 
-            if (!horaContacto || !tema || !asunto || !descripcion || !archivo) {
+            if (!horaContacto || !tema || !asunto || !descripcion) {
                 alert("Por favor, rellena todos los campos del formulario.");
                 ticketUsuario.style.top = '15%';
                 return;
@@ -61,7 +60,6 @@ window.onload = function () {
             formData.append("tema", tema);
             formData.append("asunto", asunto);
             formData.append("descripcion", descripcion);
-            formData.append("archivo", archivo);
 
             const userIdElement = document.getElementById("userId");
             if (!userIdElement) {
@@ -185,23 +183,24 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("backgroundOverlay").classList.add('d-none');
         });
     });
+    if (document.getElementById('habilitarCampos')) {
+        document.getElementById('habilitarCampos').addEventListener('click', function () {
+            // Seleccionar todos los inputs en el contenedor
+            const inputs = document.querySelectorAll('.col-md-6 input');
 
-    document.getElementById('habilitarCampos').addEventListener('click', function () {
-        // Seleccionar todos los inputs en el contenedor
-        const inputs = document.querySelectorAll('.col-md-6 input');
+            // Habilitar todos los inputs
+            inputs.forEach(function (input) {
+                input.disabled = false;
+            });
 
-        // Habilitar todos los inputs
-        inputs.forEach(function (input) {
-            input.disabled = false;
+            // Obtener el elemento por su ID
+            const elemento = document.getElementById("confirmarEdit");
+
+            // Cambiar el estilo para hacerlo visible
+            elemento.style.display = "block";
+
         });
-
-        // Obtener el elemento por su ID
-        const elemento = document.getElementById("confirmarEdit");
-
-        // Cambiar el estilo para hacerlo visible
-        elemento.style.display = "block";
-
-    });
+    }
 
 });
 

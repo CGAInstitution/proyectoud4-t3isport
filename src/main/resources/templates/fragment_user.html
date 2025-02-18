@@ -14,9 +14,12 @@
         <!-- Opción de perfil -->
         <a th:href="@{/usuarios/{id}/perfil(id=${usuario.id})}">Mi perfil</a>
 
-        <button id="btnTicketDesplegable" onclick="document.getElementById('submenuTicket').classList.toggle('d-none');">Tickets</button>
-        <div class="submenu d-none" id="submenuTicket" >
-            <button id="btnNewTicket">Nuevo ticket</button>
+        <button id="btnTicketDesplegable"
+                onclick="document.getElementById('submenuTicket').classList.toggle('d-none');">Tickets
+        </button>
+        <div class="submenu d-none" id="submenuTicket">
+            <a th:href="@{'/usuarios/' + ${usuario.id} + '/dashboard'}">Panel</a>
+<!--            <button id="btnNewTicket">Nuevo ticket</button>-->
             <button id="btnListTicket">Listar tickets</button>
         </div>
         <!-- Opción de cerrar sesión -->
