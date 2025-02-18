@@ -638,9 +638,9 @@ public class Respuesta {
 
 # Manual de Usuario
 
-Os dejamos un pequeño video tutorial del funcionamiento de la aplicación tanto desde la parte de usuarios como administradores.
+Os dejamos un pequeño [Video Tutorial](https://drive.google.com/file/d/1Dm9WC8-frjga82XsIiElB2t3aNHSjoc7/view?usp=drive_link) del funcionamiento de la aplicación tanto desde la parte de usuarios como administradores.
 
-![Tutorial_Usuarios](enlace video)
+
 
 # GitProject e Issues
 
