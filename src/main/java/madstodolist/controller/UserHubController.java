@@ -44,18 +44,16 @@ public class UserHubController {
         List<PlanesEntrenamiento> planesPremium = new ArrayList<>();
         PlanesEntrenamiento plan1= planService.findById(29L);
         planesPremium.add(plan1);
-        PlanesEntrenamiento plan2= planService.findById(29L);
+        PlanesEntrenamiento plan2= planService.findById(30L);
         planesPremium.add(plan2);
-        PlanesEntrenamiento plan3= planService.findById(29L);
+        PlanesEntrenamiento plan3= planService.findById(31L);
         planesPremium.add(plan3);
 
         List<PlanesEntrenamiento> planesGold = new ArrayList<>();
-        PlanesEntrenamiento plan4= planService.findById(29L);
+        PlanesEntrenamiento plan4= planService.findById(32L);
         planesGold.add(plan4);
-        PlanesEntrenamiento plan5= planService.findById(29L);
+        PlanesEntrenamiento plan5= planService.findById(33L);
         planesGold.add(plan5);
-        PlanesEntrenamiento plan6= planService.findById(29L);
-        planesGold.add(plan6);
         model.addAttribute("planesPremium", planesPremium);
         model.addAttribute("planesGold", planesGold);
         model.addAttribute("userId", sessionUserId);
