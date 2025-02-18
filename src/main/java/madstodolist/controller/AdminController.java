@@ -2,6 +2,7 @@ package madstodolist.controller;
 
 import madstodolist.dto.UsuarioData;
 import madstodolist.model.PlanesEntrenamiento;
+import madstodolist.model.TipoPlan;
 import madstodolist.model.UsuarioPlan;
 import madstodolist.service.PlanesEntrenamientoService;
 import madstodolist.service.UsuarioPlanService;
@@ -61,23 +62,33 @@ public class AdminController {
                           @PathVariable Long id,
                           RedirectAttributes redirectAttributes, HttpSession session) {
         Long sessionUserId = (Long) session.getAttribute("userId");
+
         if (sessionUserId == null || !sessionUserId.equals(id)) {
             return "redirect:/login";
         }
 
-        try {
-            usuarioService.findByEmail(correo);
+        // Comprobar si el usuario ya existe
+        UsuarioData usuarioExistente = usuarioService.findByEmail(correo);
+        if (usuarioExistente != null) {
             redirectAttributes.addFlashAttribute("error", "El correo ya está en uso.");
             return "redirect:/panelAdmin/" + id + "/listaUsuarios";
-        } catch (RuntimeException e) {
-            // Usuario no encontrado, podemos crearlo
         }
 
-        UsuarioData nuevoUsuario = new UsuarioData(null, correo, nombre, contrasena, "user", null, null, null);
+        // Crear nuevo usuario y asignarle valores
+        UsuarioData nuevoUsuario = new UsuarioData();
+        nuevoUsuario.setEmail(correo);
+        nuevoUsuario.setNombre(nombre);
+        nuevoUsuario.setPassword(contrasena);
+        nuevoUsuario.setTipouser("user");  // Por defecto
+        nuevoUsuario.setPlan(TipoPlan.GRATUITO); // Por defecto
+
+        // Registrar usuario en la base de datos
         usuarioService.registrar(nuevoUsuario);
+
         redirectAttributes.addFlashAttribute("success", "Usuario creado correctamente.");
         return "redirect:/panelAdmin/" + id + "/listaUsuarios";
     }
+
 
     @PostMapping("/panelAdmin/{id}/updateUser")
     public String updateUser(@RequestParam("idUsuarioUpdate") Long idUsuarioUpdate,
