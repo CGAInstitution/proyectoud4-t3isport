@@ -72,9 +72,9 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public UsuarioData findByEmail(String email) {
-        return usuarioRepository.findByEmail(email)
-                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
-                .orElse(null);  // Devolver null en lugar de lanzar una excepción
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return modelMapper.map(usuario, UsuarioData.class);// Devolver null en lugar de lanzar una excepción
     }
 
 
