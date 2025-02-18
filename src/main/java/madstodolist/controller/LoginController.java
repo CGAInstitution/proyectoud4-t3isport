@@ -41,35 +41,36 @@ public class LoginController {
     // -------------------- LOGIN --------------------
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
-        UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
+        try {
+            UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
 
-        if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
-            UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
+            if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
+                UsuarioData usuario = usuarioService.findByEmail(loginData.geteMail());
 
-            if (usuario == null) {
+                if (usuario == null) {
+                    model.addAttribute("error", "No existe usuario");
+                    return "formLogin";
+                }
+
+                session.setAttribute("userId", usuario.getId());
+
+                if ("admin".equals(usuario.getTipouser())) {
+                    return "redirect:/panelAdmin/" + usuario.getId();
+                }
+
+                return "redirect:/usuarios/" + usuario.getId() + "/userhub";
+            } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
                 model.addAttribute("error", "No existe usuario");
-                return "formLogin";
+            } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
+                model.addAttribute("error", "Contraseña incorrecta");
             }
-
-            // Guardar usuario en sesión
-            session.setAttribute("userId", usuario.getId());
-
-            System.out.println(" Usuario en sesión tras login: " + usuario.getId());
-            System.out.println(" Tipo de usuario: " + usuario.getTipouser());
-
-            if ("admin".equals(usuario.getTipouser())) {
-                return "redirect:/panelAdmin/" + usuario.getId();
-            }
-
-            return "redirect:/usuarios/" + usuario.getId() + "/userhub";
-        } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
-            model.addAttribute("error", "No existe usuario");
-        } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
-            model.addAttribute("error", "Contraseña incorrecta");
+        } catch (Exception e) {
+            model.addAttribute("error", "Ocurrió un error: " + e.getMessage());
         }
 
         return "formLogin";
     }
+
 
     // INIT BINDER para convertir String a TipoPlan automáticamente
     @InitBinder
@@ -81,7 +82,6 @@ public class LoginController {
             }
         });
     }
-
 
 
     // -------------------- REGISTRO --------------------
